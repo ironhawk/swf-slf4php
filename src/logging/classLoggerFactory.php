@@ -2,7 +2,7 @@
 
 namespace cygnus\logging;
 
-use cygnus\phpbasic\lib\errors\Preconditions;
+use cygnus\errors\Preconditions;
 use Psr\Log\LoggerInterface;
 use cygnus\logging\config\LogConfig;
 

@@ -19,10 +19,8 @@
     "require-dev": {
     },
     "autoload": {
-        "classmap": [
-        	"cygnus/logging"
-        ], 
         "psr-4": {
+        	"cygnus\\" : "src/"
         }
     },
     "autoload-dev": {
