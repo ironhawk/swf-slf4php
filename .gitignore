@@ -3,3 +3,4 @@
 .project
 .buildpath
 /tests/
+/composer.lock
