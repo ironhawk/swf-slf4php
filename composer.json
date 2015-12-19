@@ -2,7 +2,7 @@
     "name": "cygnus/logging",
     "description": "Cygnus logging facility - inspired by Java slf4j library",
     "version": "1.0.0",
-    "keywords": "logging",
+    "keywords": ["logging"],
     "license": "Apache-2.0",
     "authors": [
     	{
