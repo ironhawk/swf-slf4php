@@ -1,0 +1,30 @@
+{
+    "name": "cygnus/logging",
+    "description": "Cygnus logging facility - inspired by Java slf4j library",
+    "version": "1.0.0",
+    "keywords": "logging",
+    "license": "Apache-2.0",
+    "authors": [
+    	{
+    		"name": "Attila Wind (ironhawk)",
+    		"email": "attilaw@cygnussystems.hu",
+    		"role": "Developer"
+    	}
+    ],
+    "require": {
+        "php": ">= 5.4.0",
+        "psr/log": "1.0.*",
+        "monolog/monolog" : "1.0.*"
+    },
+    "require-dev": {
+    },
+    "autoload": {
+        "classmap": [
+        	"cygnus/logging"
+        ], 
+        "psr-4": {
+        }
+    },
+    "autoload-dev": {
+	}
+}
