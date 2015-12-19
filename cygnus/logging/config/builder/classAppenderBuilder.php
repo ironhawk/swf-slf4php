@@ -1,8 +1,8 @@
 <?php
 
-namespace cygnus\phpbasic\lib\logging\config\builder;
+namespace cygnus\logging\config\builder;
 
-use cygnus\phpbasic\lib\logging\Appender;
+use cygnus\logging\Appender;
 
 abstract class AppenderBuilder {
 
@@ -10,7 +10,7 @@ abstract class AppenderBuilder {
 
 	/**
 	 *
-	 * @return \cygnus\phpbasic\lib\logging\config\builder\AppenderBuilder
+	 * @return \cygnus\logging\config\builder\AppenderBuilder
 	 */
 	public function name($name) {
 		$this->name = $name;
@@ -20,7 +20,7 @@ abstract class AppenderBuilder {
 	
 	/**
 	 *
-	 * @return \cygnus\phpbasic\lib\logging\config\builder\Appender
+	 * @return \cygnus\logging\config\builder\Appender
 	 */
 	public abstract function build();
 

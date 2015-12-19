@@ -1,8 +1,8 @@
 <?php
 
-namespace cygnus\phpbasic\lib\logging\config\builder;
+namespace cygnus\logging\config\builder;
 
-use cygnus\phpbasic\lib\logging\Logger;
+use cygnus\logging\Logger;
 
 class LoggerBuilder {
 
@@ -15,7 +15,7 @@ class LoggerBuilder {
 	
 	/**
 	 *
-	 * @return \cygnus\phpbasic\lib\logging\config\builder\LoggerBuilder
+	 * @return \cygnus\logging\config\builder\LoggerBuilder
 	 */
 	public static function create() {
 		return new LoggerBuilder();
@@ -27,7 +27,7 @@ class LoggerBuilder {
 
 	/**
 	 *
-	 * @return \cygnus\phpbasic\lib\logging\config\builder\LoggerBuilder
+	 * @return \cygnus\logging\config\builder\LoggerBuilder
 	 */
 	public function name($name) {
 		$this->name = $name;
@@ -36,7 +36,7 @@ class LoggerBuilder {
 
 	/**
 	 *
-	 * @return \cygnus\phpbasic\lib\logging\config\builder\LoggerBuilder
+	 * @return \cygnus\logging\config\builder\LoggerBuilder
 	 */
 	public function level($level) {
 		$this->level = $level;
@@ -45,7 +45,7 @@ class LoggerBuilder {
 
 	/**
 	 *
-	 * @return \cygnus\phpbasic\lib\logging\config\builder\LoggerBuilder
+	 * @return \cygnus\logging\config\builder\LoggerBuilder
 	 */
 	public function appenderName($appenderName) {
 		$this->appenderNames[] = $appenderName;

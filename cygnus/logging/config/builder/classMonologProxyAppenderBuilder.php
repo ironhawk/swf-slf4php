@@ -1,8 +1,8 @@
 <?php
 
-namespace cygnus\phpbasic\lib\logging\config\builder;
+namespace cygnus\logging\config\builder;
 
-use cygnus\phpbasic\lib\logging\config\MonologProxyAppender;
+use cygnus\logging\config\MonologProxyAppender;
 
 class MonologProxyAppenderBuilder extends AppenderBuilder {
 
@@ -10,7 +10,7 @@ class MonologProxyAppenderBuilder extends AppenderBuilder {
 
 	/**
 	 *
-	 * @return \cygnus\phpbasic\lib\logging\config\builder\MonologProxyAppenderBuilder
+	 * @return \cygnus\logging\config\builder\MonologProxyAppenderBuilder
 	 */
 	public static function create() {
 		return new MonologProxyAppenderBuilder();
@@ -23,7 +23,7 @@ class MonologProxyAppenderBuilder extends AppenderBuilder {
 	
 	/**
 	 *
-	 * @return \cygnus\phpbasic\lib\logging\config\builder\MonologProxyAppenderBuilder
+	 * @return \cygnus\logging\config\builder\MonologProxyAppenderBuilder
 	 */
 	public function name($name) {
 		parent::name($name);
@@ -33,7 +33,7 @@ class MonologProxyAppenderBuilder extends AppenderBuilder {
 	
 	/**
 	 *
-	 * @return \cygnus\phpbasic\lib\logging\config\builder\MonologProxyAppenderBuilder
+	 * @return \cygnus\logging\config\builder\MonologProxyAppenderBuilder
 	 */
 	public function handler($handlerBuilder) {
 		$this->handlerBuilders[] = $handlerBuilder;
@@ -42,7 +42,7 @@ class MonologProxyAppenderBuilder extends AppenderBuilder {
 
 	/**
 	 *
-	 * @return \cygnus\phpbasic\lib\logging\config\MonologProxyAppender
+	 * @return \cygnus\logging\config\MonologProxyAppender
 	 */
 	public function build() {
 		$handlers = [];

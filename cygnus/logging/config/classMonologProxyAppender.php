@@ -1,8 +1,8 @@
 <?php
 
-namespace cygnus\phpbasic\lib\logging\config;
+namespace cygnus\logging\config;
 
-use cygnus\phpbasic\lib\logging\Appender;
+use cygnus\logging\Appender;
 use Monolog\Logger;
 
 /**

@@ -1,6 +1,6 @@
 <?php
 
-namespace cygnus\phpbasic\lib\logging;
+namespace cygnus\logging;
 
 use Psr\Log\LoggerInterface;
 

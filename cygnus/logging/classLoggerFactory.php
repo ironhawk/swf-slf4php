@@ -1,16 +1,15 @@
 <?php
 
-namespace cygnus\phpbasic\lib\logging;
+namespace cygnus\logging;
 
 use cygnus\phpbasic\lib\errors\Preconditions;
 use Psr\Log\LoggerInterface;
-use cygnus\phpbasic\lib\logging\config\LogConfig;
+use cygnus\logging\config\LogConfig;
 
 
 /**
  * Creates Logger instances which implement Psr\Log\LoggerInterface<p>
- * Behind the scenes there are real LoggerServices which might encapsulate different reeal logger
- * implementations<p>
+ * Behind the scenes you can use real logging implementations like Monolog for instance<p>
  *
  * Logging levels came from syslog protocol defined in RFC 5424
  *

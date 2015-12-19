@@ -1,8 +1,8 @@
 <?php
 
-namespace cygnus\phpbasic\lib\logging\config\builder;
+namespace cygnus\logging\config\builder;
 
-use cygnus\phpbasic\lib\logging\config\LogConfig;
+use cygnus\logging\config\LogConfig;
 
 class LogConfigBuilder {
 
@@ -12,7 +12,7 @@ class LogConfigBuilder {
 
 	/**
 	 *
-	 * @return \cygnus\phpbasic\lib\logging\config\builder\LogConfigBuilder
+	 * @return \cygnus\logging\config\builder\LogConfigBuilder
 	 */
 	public static function create() {
 		return new LogConfigBuilder();

@@ -1,6 +1,6 @@
 <?php
 
-namespace cygnus\phpbasic\lib\logging\config;
+namespace cygnus\logging\config;
 
 class LogConfig {
 

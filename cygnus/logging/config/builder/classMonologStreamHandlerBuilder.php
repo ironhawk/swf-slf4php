@@ -1,6 +1,6 @@
 <?php
 
-namespace cygnus\phpbasic\lib\logging\config\builder;
+namespace cygnus\logging\config\builder;
 
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
@@ -15,7 +15,7 @@ class MonologStreamHandlerBuilder {
 
 	/**
 	 *
-	 * @return \cygnus\phpbasic\lib\logging\config\builder\MonologStreamHandlerBuilder
+	 * @return \cygnus\logging\config\builder\MonologStreamHandlerBuilder
 	 */
 	public static function create() {
 		return new MonologStreamHandlerBuilder();
@@ -29,7 +29,7 @@ class MonologStreamHandlerBuilder {
 	/**
 	 *
 	 * @param string $stream        	
-	 * @return \cygnus\phpbasic\lib\logging\config\builder\MonologStreamHandlerBuilder
+	 * @return \cygnus\logging\config\builder\MonologStreamHandlerBuilder
 	 */
 	public function stream($stream) {
 		$this->stream = $stream;
@@ -39,7 +39,7 @@ class MonologStreamHandlerBuilder {
 	/**
 	 *
 	 * @param int $level        	
-	 * @return \cygnus\phpbasic\lib\logging\config\builder\MonologStreamHandlerBuilder
+	 * @return \cygnus\logging\config\builder\MonologStreamHandlerBuilder
 	 */
 	public function level($level) {
 		$this->level = $level;
@@ -49,7 +49,7 @@ class MonologStreamHandlerBuilder {
 	/**
 	 *
 	 * @param boolean $bubble        	
-	 * @return \cygnus\phpbasic\lib\logging\config\builder\MonologStreamHandlerBuilder
+	 * @return \cygnus\logging\config\builder\MonologStreamHandlerBuilder
 	 */
 	public function bubble(boolean $bubble) {
 		$this->bubble = $bubble;
