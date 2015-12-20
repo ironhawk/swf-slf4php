@@ -20,9 +20,9 @@ class LogConfig {
 	 */
 	private $appendersByName;
 
-	public function __construct($loggers = [], $appendersByName = []) {
+	public function __construct(array $loggers = [], array $appendersByName = []) {
 		$this->loggers = $loggers;
-		$this->$appendersByName = $appendersByName;
+		$this->appendersByName = $appendersByName;
 	}
 
 	/**
