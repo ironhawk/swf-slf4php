@@ -102,10 +102,15 @@ class LoggerFactory {
 		if (is_null($loggerNamespacePath)) {
 			return 0;
 		}
+		$className = $namespacePath[count($namespacePath) - 1];
 		$weight = 0;
 		foreach ($loggerNamespacePath as $p) {
 			if ($namespacePath[$weight] == $p) {
 				$weight ++;
+				// name of the class should represent more weight
+				if ($namespacePath[$weight] == $className) {
+					$weight ++;
+				}
 			}
 		}
 		if ($weight == 0)
