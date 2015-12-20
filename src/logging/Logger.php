@@ -18,6 +18,8 @@ class Logger implements LoggerInterface {
 
 	private $name;
 
+	private $namespacePath;
+
 	private $logLevel;
 
 	/**
@@ -36,10 +38,28 @@ class Logger implements LoggerInterface {
 		$this->name = $name;
 		$this->appenders = $appenders;
 		$this->logLevel = $logLevel;
+		
+		if (! empty($name)) {
+			$this->namespacePath = preg_split("/[\.\\\/]/", $name);
+		} else {
+			$this->namespacePath = null;
+		}
 	}
 
+	/**
+	 *
+	 * @return string
+	 */
 	public function getName() {
 		return $this->name;
+	}
+
+	/**
+	 *
+	 * @return array
+	 */
+	public function getNamespacePath() {
+		return $this->namespacePath;
 	}
 
 	/**

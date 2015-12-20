@@ -2,6 +2,9 @@
 
 namespace cygnus\logging\config;
 
+use cygnus\logging\Logger;
+use cygnus\logging\Appender;
+
 class LogConfig {
 
 	/**
@@ -30,7 +33,7 @@ class LogConfig {
 	 * @param Logger $logger        	
 	 * @return LogConfig
 	 */
-	public function logger($logger) {
+	public function logger(Logger $logger) {
 		$this->loggers[] = $logger;
 		return $this;
 	}
@@ -40,9 +43,17 @@ class LogConfig {
 	 * @param Appender $appender        	
 	 * @return LogConfig
 	 */
-	public function appender($appender) {
-		$this->$appendersByName[$appender->getName()] = $appender;
+	public function appender(Appender $appender) {
+		$this->appendersByName[$appender->getName()] = $appender;
 		return $this;
+	}
+
+	public function getLoggers() {
+		return $this->loggers;
+	}
+
+	public function getAppendersByName() {
+		return $this->appendersByName;
 	}
 
 }
