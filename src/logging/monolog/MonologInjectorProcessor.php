@@ -2,7 +2,7 @@
 
 namespace cygnus\logging\monolog;
 
-class MonologClassNameProcessor {
+class MonologInjectorProcessor {
 
 	public static function process($record) {
 		$record['extra']['loggerName'] = $record['context']['loggerName'];

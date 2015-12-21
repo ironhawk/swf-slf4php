@@ -29,7 +29,7 @@ class MonologProxyAppender extends Appender {
 			$this->monologLogger->pushHandler($handler);
 		}
 		$this->monologLogger->pushProcessor(array(
-			'cygnus\logging\monolog\MonologClassNameProcessor',
+			'cygnus\logging\monolog\MonologInjectorProcessor',
 			'process'
 		));
 	}
