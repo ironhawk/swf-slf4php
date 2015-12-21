@@ -1,8 +1,9 @@
 <?php
 
-namespace cygnus\logging\config\builder;
+namespace cygnus\logging\config\builder\monolog;
 
-use cygnus\logging\config\MonologProxyAppender;
+use cygnus\logging\monolog\MonologProxyAppender;
+use cygnus\logging\config\builder\AppenderBuilder;
 
 class MonologProxyAppenderBuilder extends AppenderBuilder {
 

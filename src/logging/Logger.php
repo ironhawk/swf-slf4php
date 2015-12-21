@@ -40,7 +40,7 @@ class Logger implements LoggerInterface {
 		$this->logLevel = $logLevel;
 		
 		if (! empty($name)) {
-			$this->namespacePath = preg_split("/[\.\\\/]/", $name);
+			$this->namespacePath = preg_split("/[\.\\\\\\/]/", $name);
 		} else {
 			$this->namespacePath = null;
 		}
@@ -70,7 +70,7 @@ class Logger implements LoggerInterface {
 	 * @param string $withName        	
 	 * @return Logger
 	 */
-	public function getClone($withName) {
+	public function getCloneWithName($withName) {
 		return new Logger($withName, $this->logLevel, $this->appenders);
 	}
 
@@ -78,7 +78,8 @@ class Logger implements LoggerInterface {
 		// we skip the 1st 2 params - varargs begin at pos #2
 		$msg = array_shift($funcParams);
 		array_shift($funcParams);
-		return $this->name . ": " . self::parseStringWithDataArray($msg, $funcParams);
+		// return $this->name . ": " . self::parseStringWithDataArray($msg, $funcParams);
+		return self::parseStringWithDataArray($msg, $funcParams);
 	}
 
 	/**
@@ -97,19 +98,19 @@ class Logger implements LoggerInterface {
 	 *        	the data
 	 * @return string
 	 */
-	public static function parseStringWithDataArray(string $msg, array $data) {
+	public static function parseStringWithDataArray($msg, array $data) {
 		if (is_null($msg) || strlen(trim($msg)) == 0)
 			return $msg;
 		if (empty($data))
 			return $msg;
-		$replaced = new StringBuffer();
-		$pieces = explode(self::VARIABLE_PLACEHOLDER, $msg, count($data));
+		$replaced = [];
+		$pieces = explode(self::VARIABLE_PLACEHOLDER, $msg, count($data) + 1);
 		$data[] = self::EMPTY_STRING;
 		for ($idx = 0; $idx < count($pieces); $idx ++) {
-			$replaced->append($pieces[$idx]);
-			$replaced->append($data[idx]);
+			$replaced[] = $pieces[$idx];
+			$replaced[] = $data[$idx];
 		}
-		return $replaced->toString();
+		return implode("", $replaced);
 	}
 
 	
@@ -122,9 +123,10 @@ class Logger implements LoggerInterface {
 	 * @return null
 	 */
 	public function emergency($message, array $context = array()) {
-		if ($this->logLevel < LoggerFactory::EMERGENCY)
+		if ($this->logLevel > LoggerFactory::EMERGENCY)
 			return;
 		$message = $this->parseMessage(func_get_args());
+		$context['loggerName'] = $this->name;
 		foreach ($this->appenders as $appender) {
 			$appender->emergency($message, $context);
 		}
@@ -142,9 +144,10 @@ class Logger implements LoggerInterface {
 	 * @return null
 	 */
 	public function alert($message, array $context = array()) {
-		if ($this->logLevel < LoggerFactory::ALERT)
+		if ($this->logLevel > LoggerFactory::ALERT)
 			return;
 		$message = $this->parseMessage(func_get_args());
+		$context['loggerName'] = $this->name;
 		foreach ($this->appenders as $appender) {
 			$appender->alert($message, $context);
 		}
@@ -161,9 +164,10 @@ class Logger implements LoggerInterface {
 	 * @return null
 	 */
 	public function critical($message, array $context = array()) {
-		if ($this->logLevel < LoggerFactory::CRITICAL)
+		if ($this->logLevel > LoggerFactory::CRITICAL)
 			return;
 		$message = $this->parseMessage(func_get_args());
+		$context['loggerName'] = $this->name;
 		foreach ($this->appenders as $appender) {
 			$appender->critical($message, $context);
 		}
@@ -179,9 +183,10 @@ class Logger implements LoggerInterface {
 	 * @return null
 	 */
 	public function error($message, array $context = array()) {
-		if ($this->logLevel < LoggerFactory::ERROR)
+		if ($this->logLevel > LoggerFactory::ERROR)
 			return;
 		$message = $this->parseMessage(func_get_args());
+		$context['loggerName'] = $this->name;
 		foreach ($this->appenders as $appender) {
 			$appender->error($message, $context);
 		}
@@ -199,9 +204,10 @@ class Logger implements LoggerInterface {
 	 * @return null
 	 */
 	public function warning($message, array $context = array()) {
-		if ($this->logLevel < LoggerFactory::WARNING)
+		if ($this->logLevel > LoggerFactory::WARNING)
 			return;
 		$message = $this->parseMessage(func_get_args());
+		$context['loggerName'] = $this->name;
 		foreach ($this->appenders as $appender) {
 			$appender->warning($message, $context);
 		}
@@ -216,9 +222,10 @@ class Logger implements LoggerInterface {
 	 * @return null
 	 */
 	public function notice($message, array $context = array()) {
-		if ($this->logLevel < LoggerFactory::NOTICE)
+		if ($this->logLevel > LoggerFactory::NOTICE)
 			return;
 		$message = $this->parseMessage(func_get_args());
+		$context['loggerName'] = $this->name;
 		foreach ($this->appenders as $appender) {
 			$appender->notice($message, $context);
 		}
@@ -235,9 +242,10 @@ class Logger implements LoggerInterface {
 	 * @return null
 	 */
 	public function info($message, array $context = array()) {
-		if ($this->logLevel < LoggerFactory::INFO)
+		if ($this->logLevel > LoggerFactory::INFO)
 			return;
 		$message = $this->parseMessage(func_get_args());
+		$context['loggerName'] = $this->name;
 		foreach ($this->appenders as $appender) {
 			$appender->info($message, $context);
 		}
@@ -252,9 +260,10 @@ class Logger implements LoggerInterface {
 	 * @return null
 	 */
 	public function debug($message, array $context = array()) {
-		if ($this->logLevel < LoggerFactory::DEBUG)
+		if ($this->logLevel > LoggerFactory::DEBUG)
 			return;
 		$message = $this->parseMessage(func_get_args());
+		$context['loggerName'] = $this->name;
 		foreach ($this->appenders as $appender) {
 			$appender->debug($message, $context);
 		}
@@ -270,9 +279,10 @@ class Logger implements LoggerInterface {
 	 * @return null
 	 */
 	public function log($level, $message, array $context = array()) {
-		if ($this->logLevel < $level)
+		if ($this->logLevel > $level)
 			return;
 		$message = $this->parseMessage(func_get_args());
+		$context['loggerName'] = $this->name;
 		foreach ($this->appenders as $appender) {
 			$appender->log($level, $message, $context);
 		}

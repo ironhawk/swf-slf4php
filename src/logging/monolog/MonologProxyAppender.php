@@ -1,9 +1,10 @@
 <?php
 
-namespace cygnus\logging\config;
+namespace cygnus\logging\monolog;
 
 use cygnus\logging\Appender;
 use Monolog\Logger;
+use Monolog\Formatter\LineFormatter;
 
 /**
  * This class proxies Appender functionality into Monolog so we can use all features provided by Monolog
@@ -13,6 +14,10 @@ use Monolog\Logger;
  */
 class MonologProxyAppender extends Appender {
 
+	/**
+	 *
+	 * @var Logger
+	 */
 	private $monologLogger;
 
 	public function __construct($name, $handlers = []) {
@@ -23,6 +28,10 @@ class MonologProxyAppender extends Appender {
 		foreach ($handlers as $handler) {
 			$this->monologLogger->pushHandler($handler);
 		}
+		$this->monologLogger->pushProcessor(array(
+			'cygnus\logging\monolog\MonologClassNameProcessor',
+			'process'
+		));
 	}
 
 	

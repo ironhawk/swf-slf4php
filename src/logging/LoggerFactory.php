@@ -72,7 +72,7 @@ class LoggerFactory {
 			return NullLogger::getInstance();
 		}
 		// let's find the "best" matching Logger
-		$namespacePath = preg_split("/[\.\\\/]/", $fullyQualifiedClassName);
+		$namespacePath = preg_split("/[\.\\\\\\/]/", $fullyQualifiedClassName);
 		$selectedLogger = null;
 		$maxMatchWeight = - 1;
 		foreach (static::$config->getLoggers() as $logger) {
@@ -84,6 +84,9 @@ class LoggerFactory {
 		}
 		if (is_null($selectedLogger)) {
 			$selectedLogger = NullLogger::getInstance();
+		} else {
+			// we quickly clone this logger and change its name to the fully qualified class name
+			$selectedLogger = $selectedLogger->getCloneWithName($fullyQualifiedClassName);
 		}
 		return $selectedLogger;
 	}
@@ -111,6 +114,8 @@ class LoggerFactory {
 				if ($namespacePath[$weight] == $className) {
 					$weight ++;
 				}
+			} else {
+				$weight = 0;
 			}
 		}
 		if ($weight == 0)
