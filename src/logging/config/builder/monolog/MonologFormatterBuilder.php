@@ -9,11 +9,18 @@ abstract class MonologFormatterBuilder implements Builder {
 	/**
 	 * This returns \Monolog\Formatter\XXXFormatter
 	 */
-	public abstract function build();
+	public abstract function build($builderContext = null);
 
 	/**
-	 * This returns \Monolog\Formatter\XXXFormatter
+	 *
+	 * {@inheritDoc}
+	 *
+	 * @see \cygnus\logging\config\builder\Builder::initFromJson()
+	 * @return \cygnus\logging\config\builder\MonologFormatterBuilder
 	 */
-	public abstract function buildFromJson($jsonObj, $envVars);
+	public function initFromJson($jsonObj, $envVars) {
+		// we have nothing to do here - yet
+		return $this;
+	}
 
 }

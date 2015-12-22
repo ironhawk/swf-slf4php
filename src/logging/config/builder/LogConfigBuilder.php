@@ -5,7 +5,6 @@ namespace cygnus\logging\config\builder;
 use cygnus\logging\config\LogConfig;
 use cygnus\errors\Preconditions;
 use cygnus\logging\LoggerFactory;
-use cygnus\util\JsonUtil;
 
 class LogConfigBuilder implements Builder {
 
@@ -67,7 +66,7 @@ class LogConfigBuilder implements Builder {
 	 *
 	 * @return LogConfig
 	 */
-	public function build() {
+	public function build($builderContext = null) {
 		$appenders = [];
 		foreach ($this->appenderBuilders as $appenderBuilder) {
 			$appender = $appenderBuilder->build();
@@ -76,7 +75,9 @@ class LogConfigBuilder implements Builder {
 		
 		$loggers = [];
 		foreach ($this->loggerBuilders as $loggerBuilder) {
-			$logger = $loggerBuilder->build($appenders);
+			$logger = $loggerBuilder->build([
+				'appenders' => $appenders
+			]);
 			$loggers[] = $logger;
 		}
 		
@@ -85,9 +86,12 @@ class LogConfigBuilder implements Builder {
 
 	/**
 	 *
-	 * @return LogConfig
+	 * {@inheritDoc}
+	 *
+	 * @see \cygnus\logging\config\builder\Builder::initFromJson()
+	 * @return \cygnus\logging\config\builder\LogConfigBuilder
 	 */
-	public function buildFromJson($jsonObj, $envVars) {
+	public function initFromJson($jsonObj, $envVars) {
 		if (isset($jsonObj->appenders)) {
 			foreach ($jsonObj->appenders as $appenderJsonObj) {
 				Preconditions::checkArgument(isset($appenderJsonObj->type), "'type' attribute is missing from appender: {}", $appenderJsonObj);
@@ -96,12 +100,18 @@ class LogConfigBuilder implements Builder {
 					$appenderJsonObj->type,
 					'create'
 				), []);
-				$appenderBuilder->buildFromJson($appenderJsonObj, $envVars);
+				$appenderBuilder->initFromJson($appenderJsonObj, $envVars);
 				$this->appenderBuilder($appenderBuilder);
 			}
 		}
-		
-		return $this->build();
+		if (isset($jsonObj->loggers)) {
+			foreach ($jsonObj->loggers as $loggerJsonObj) {
+				$loggerBuilder = LoggerBuilder::create();
+				$loggerBuilder->initFromJson($loggerJsonObj, $envVars);
+				$this->loggerBuilder($loggerBuilder);
+			}
+		}
+		return $this;
 	}
 
 }

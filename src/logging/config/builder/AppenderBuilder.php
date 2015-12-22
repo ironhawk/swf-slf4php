@@ -20,12 +20,15 @@ abstract class AppenderBuilder implements Builder {
 	 *
 	 * @return \cygnus\logging\Appender
 	 */
-	public abstract function build();
+	public abstract function build($builderContext = null);
 
 	/**
 	 *
-	 * @return \cygnus\logging\Appender
+	 * {@inheritDoc}
+	 *
+	 * @see \cygnus\logging\config\builder\Builder::initFromJson()
+	 * @return \cygnus\logging\config\builder\AppenderBuilder
 	 */
-	public abstract function buildFromJson($jsonObj, $envVars);
+	public abstract function initFromJson($jsonObj, $envVars);
 
 }

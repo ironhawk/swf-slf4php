@@ -31,7 +31,7 @@ class MonologProxyAppenderBuilder extends AppenderBuilder {
 	 *
 	 * @return \cygnus\logging\monolog\MonologProxyAppender
 	 */
-	public function build() {
+	public function build($builderContext = null) {
 		$handlers = [];
 		foreach ($this->handlerBuilders as $handlerBuilder) {
 			$handlers[] = $handlerBuilder->build();
@@ -42,9 +42,12 @@ class MonologProxyAppenderBuilder extends AppenderBuilder {
 
 	/**
 	 *
-	 * @return \cygnus\logging\monolog\MonologProxyAppender
+	 * {@inheritDoc}
+	 *
+	 * @see \cygnus\logging\config\builder\AppenderBuilder::initFromJson()
+	 * @return \cygnus\logging\config\builder\MonologProxyAppenderBuilder
 	 */
-	public function buildFromJson($jsonObj, $envVars) {
+	public function initFromJson($jsonObj, $envVars) {
 		Preconditions::checkArgument(isset($jsonObj->name), "'name' attribute is missing from Appender json object: {}", $jsonObj);
 		$this->name($jsonObj->name);
 		if (isset($jsonObj->handlers)) {
@@ -54,11 +57,11 @@ class MonologProxyAppenderBuilder extends AppenderBuilder {
 					$handlerJsonObj->type,
 					'create'
 				), []);
-				$handlerBuilder->buildFromJson($handlerJsonObj, $envVars);
+				$handlerBuilder->initFromJson($handlerJsonObj, $envVars);
 				$this->handlerBuilder($handlerBuilder);
 			}
 		}
-		return $this->build();
+		return $this;
 	}
 
 }

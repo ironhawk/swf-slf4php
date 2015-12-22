@@ -3,6 +3,7 @@
 namespace cygnus\util;
 
 use cygnus\errors\Preconditions;
+use cygnus\errors\IllegalStateException;
 
 /**
  * Set of static helper methods to handle Json input
@@ -19,6 +20,7 @@ class JsonUtil {
 	 *
 	 * @param string $jsonFilePath        	
 	 * @return \stdClass the file content parsed into objects
+	 * @throws IllegalStateException in case parsing fails for any reason
 	 */
 	public static function getJsonObjects($jsonFilePath) {
 		$jsonString = file_get_contents($jsonFilePath);

@@ -33,18 +33,22 @@ class MonologLineFormatterBuilder extends MonologFormatterBuilder {
 	 *
 	 * @return \Monolog\Formatter\LineFormatter
 	 */
-	public function build() {
+	public function build($builderContext = null) {
 		return new LineFormatter($this->lineFormatTemplate);
 	}
 
 	/**
 	 *
-	 * @return \Monolog\Formatter\LineFormatter
+	 * {@inheritDoc}
+	 *
+	 * @see \cygnus\logging\config\builder\monolog\MonologFormatterBuilder::initFromJson()
+	 * @return \cygnus\logging\config\builder\MonologLineFormatterBuilder
 	 */
-	public function buildFromJson($jsonObj, $envVars) {
+	public function initFromJson($jsonObj, $envVars) {
+		parent::initFromJson($jsonObj, $envVars);
 		Preconditions::checkArgument(isset($jsonObj->format), "'format' mandatory attribute is not set on MonologLineFormatterBuilder type json object: {}", $jsonObj);
 		$this->format(JsonUtil::getResolvedJsonStringValue($jsonObj->format, $envVars));
-		return $this->build();
+		return $this;
 	}
 
 }

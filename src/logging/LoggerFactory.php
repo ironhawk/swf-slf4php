@@ -34,6 +34,7 @@ class LoggerFactory {
 
 	const EMERGENCY = 600;
 
+	
 	/**
 	 * Logging levels from syslog protocol defined in RFC 5424
 	 *
@@ -68,6 +69,15 @@ class LoggerFactory {
 	 */
 	private static $config;
 
+	/**
+	 * A special instance which log level is above CRITICAL so basically it will silently sidpose all incoming
+	 * log messages .
+	 * ..
+	 *
+	 * @var Logger
+	 */
+	private static $nullLogger;
+
 	public static function init(LogConfig $config) {
 		static::$config = $config;
 	}
@@ -81,9 +91,9 @@ class LoggerFactory {
 		Preconditions::checkArgument(! is_null($fullyQualifiedClassName), "fully qualified class name must be provided");
 		if (is_null(static::$config)) {
 			// no config -> NullLogger is the good decision
-			return NullLogger::getInstance();
+			return static::getNullLogger();
 		}
-		// let's find the "best" matching Logger
+		// let's find the "best" matching Logger - this is the one with highest matching weight
 		$namespacePath = preg_split("/[\.\\\\\\/]/", $fullyQualifiedClassName);
 		$selectedLogger = null;
 		$maxMatchWeight = - 1;
@@ -95,9 +105,10 @@ class LoggerFactory {
 			}
 		}
 		if (is_null($selectedLogger)) {
-			$selectedLogger = NullLogger::getInstance();
+			$selectedLogger = static::getNullLogger();
 		} else {
 			// we quickly clone this logger and change its name to the fully qualified class name
+			// by doing so the setup will remain in place
 			$selectedLogger = $selectedLogger->getCloneWithName($fullyQualifiedClassName);
 		}
 		return $selectedLogger;
@@ -115,6 +126,8 @@ class LoggerFactory {
 	 */
 	private static function matchNamespacePaths($loggerNamespacePath, $namespacePath) {
 		if (is_null($loggerNamespacePath)) {
+			// this is the Logger configured without a name so this should match with everything - with lowest
+			// weight which represents a match...
 			return 0;
 		}
 		$className = $namespacePath[count($namespacePath) - 1];
@@ -133,6 +146,18 @@ class LoggerFactory {
 		if ($weight == 0)
 			$weight = - 1;
 		return $weight;
+	}
+
+	/**
+	 * Returns the special "null" logger instance
+	 *
+	 * @return \cygnus\logging\Logger
+	 */
+	private static function getNullLogger() {
+		if (is_null(static::$nullLogger)) {
+			static::$nullLogger = new Logger("NULL", static::CRITICAL + 1, []);
+		}
+		return static::$nullLogger;
 	}
 
 }

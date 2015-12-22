@@ -66,13 +66,16 @@ abstract class MonologHandlerBuilder implements Builder {
 	 *
 	 * @return \cygnus\logging\config\builder\Appender
 	 */
-	public abstract function build();
+	public abstract function build($builderContext = null);
 
 	/**
-	 * Helper method for subclasses ment to be part of buildFromJson().
-	 * This method is initializing instance from json
+	 *
+	 * {@inheritDoc}
+	 *
+	 * @see \cygnus\logging\config\builder\Builder::initFromJson()
+	 * @return \cygnus\logging\config\builder\MonologHandlerBuilder
 	 */
-	protected function initFromJson($jsonObj, $envVars) {
+	public function initFromJson($jsonObj, $envVars) {
 		if (isset($jsonObj->bubble)) {
 			$this->bubble(JsonUtil::getAsBoolValue($jsonObj->bubble, $envVars));
 		}
@@ -87,15 +90,10 @@ abstract class MonologHandlerBuilder implements Builder {
 				$formatterJsonObj->type,
 				'create'
 			), []);
-			$formatterBuilder->buildFromJson($formatterJsonObj, $envVars);
+			$formatterBuilder->initFromJson($formatterJsonObj, $envVars);
 			$this->formatterBuilder($formatterBuilder);
 		}
+		return $this;
 	}
-
-	/**
-	 *
-	 * @return \cygnus\logging\config\builder\Appender
-	 */
-	public abstract function buildFromJson($jsonObj, $envVars);
 
 }

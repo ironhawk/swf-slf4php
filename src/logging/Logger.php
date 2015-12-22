@@ -31,7 +31,7 @@ class Logger implements LoggerInterface {
 	 *
 	 * @see \cygnus\logging\LoggerFactory
 	 */
-	public function __construct($name, $logLevel, $appenders = []) {
+	public function __construct($name, $logLevel, array $appenders) {
 		$this->name = $name;
 		$this->appenders = $appenders;
 		$this->logLevel = $logLevel;
