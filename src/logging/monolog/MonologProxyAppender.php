@@ -15,7 +15,7 @@ class MonologProxyAppender extends Appender {
 
 	/**
 	 *
-	 * @var Logger
+	 * @var \Monolog\Logger
 	 */
 	private $monologLogger;
 
@@ -28,6 +28,14 @@ class MonologProxyAppender extends Appender {
 			$this->monologLogger->pushHandler($handler);
 		}
 		$this->monologLogger->pushProcessor(MonologInjectorProcessor::getInstance());
+	}
+
+	/**
+	 *
+	 * @return \Monolog\Logger
+	 */
+	public function getMonologLogger() {
+		return $this->monologLogger;
 	}
 
 	

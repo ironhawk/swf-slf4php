@@ -21,7 +21,7 @@ appenderBuilder(
 			->stream(APP_ROOT_DIR . "/application.log")
 			->formatterBuilder(MonologLineFormatterBuilder::create()->format("[%datetime%] %extra.loggerName%.%level_name%: %message% %context% %extra%\n\n"))
 		)
-		->handler(
+		->handlerBuilder(
 			MonologStreamHandlerBuilder::create()
 			->stream(APP_ROOT_DIR . "/error.log")
 			->level(\Monolog\Logger::ERROR)

@@ -52,8 +52,22 @@ class LogConfig {
 		return $this->loggers;
 	}
 
-	public function getAppendersByName() {
+	public function getAppenders() {
 		return $this->appendersByName;
+	}
+
+	/**
+	 * Returns the Appender with the given name.
+	 * If there is no Appender with that name NULL is returned
+	 *
+	 * @param string $name
+	 *        	name of the Appender
+	 * @return Appender
+	 */
+	public function getAppender($name) {
+		if (array_key_exists($name, $this->appendersByName))
+			return $this->appendersByName[];
+		return null;
 	}
 
 }
