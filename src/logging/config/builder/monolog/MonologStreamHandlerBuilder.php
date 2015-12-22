@@ -31,9 +31,12 @@ class MonologStreamHandlerBuilder extends MonologHandlerBuilder {
 	
 	/**
 	 *
+	 * {@inheritDoc}
+	 *
+	 * @see \cygnus\logging\config\builder\monolog\MonologHandlerBuilder::build()
 	 * @return \Monolog\Handler\StreamHandler
 	 */
-	public function build($builderContext = null) {
+	public function build(array $builderContext = null) {
 		$handler = new StreamHandler($this->stream);
 		parent::injectSetup($handler);
 		return $handler;

@@ -18,9 +18,12 @@ abstract class AppenderBuilder implements Builder {
 	
 	/**
 	 *
+	 * {@inheritDoc}
+	 *
+	 * @see \cygnus\logging\config\builder\Builder::build()
 	 * @return \cygnus\logging\Appender
 	 */
-	public abstract function build($builderContext = null);
+	public abstract function build(array $builderContext = null);
 
 	/**
 	 *

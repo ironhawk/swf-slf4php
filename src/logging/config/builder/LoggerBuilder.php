@@ -57,20 +57,24 @@ class LoggerBuilder implements Builder {
 
 	/**
 	 *
+	 * {@inheritDoc}
+	 *
 	 * @param array $builderContext
 	 *        	It must has an entry named 'appenders' which is an associative array holding all available Appenders
 	 *        	in an assoc array in format
 	 *        	appenderName => Appender
 	 * @return Logger
 	 */
-	public function build($builderContext = null) {
+	public function build(array $builderContext = null) {
 		Preconditions::checkArgument(! empty($builderContext) && isset($builderContext['appenders']), "missing 'appenders' entry from builderContext which should contain all available Appender object instances in array appenderName=>Appender format");
 		$availableAppenders = $builderContext['appenders'];
 		$appenders = [];
 		foreach ($this->appenderNames as $appenderName) {
-			if (array_key_exists($appenderName, $availableAppenders))
-				$appenders[] = $availableAppenders[$appenderName];
+			Preconditions::checkArgument(array_key_exists($appenderName, $availableAppenders), "config error! Appender '{}' referenced but there is no Appender found with this name in Logger: {}", $appenderName, $this);
+			$appenders[] = $availableAppenders[$appenderName];
 		}
+		Preconditions::checkState(! empty($appenders), "config error! There are no Appenders at all configured in LoggerBuilder: {}", $this);
+		
 		$logger = new Logger($this->name, $this->level, $appenders);
 		return $logger;
 	}

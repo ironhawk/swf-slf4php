@@ -4,6 +4,7 @@ namespace cygnus\logging;
 
 use Psr\Log\LoggerInterface;
 use cygnus\util\TextUtil;
+use cygnus\errors\Preconditions;
 
 /**
  * You should instantiate Logger classes with LoggerFactory.

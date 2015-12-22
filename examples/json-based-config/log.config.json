@@ -3,13 +3,13 @@
 	"appenders" : [
 	
 		{
-			"name" : "files",
+			"name" : "MainLogFiles",
 			"type" : "cygnus\\logging\\config\\builder\\monolog\\MonologProxyAppenderBuilder",
 			"handlers" : [
 				{
 					"bubble" : true,
 					"type" : "cygnus\\logging\\config\\builder\\monolog\\MonologStreamHandlerBuilder",
-					"stream" : "${APP_ROOT_DIR}/logs/application.log",
+					"stream" : "${APP_ROOT_DIR}/application.log",
 					"formatter": {
 						"type" : "cygnus\\logging\\config\\builder\\monolog\\MonologLineFormatterBuilder",
 						"format" : "[%datetime%] %extra.loggerName%.%level_name%: %message% %context% %extra%\n\n"
@@ -19,7 +19,7 @@
 					"bubble" : true,
 					"level" : "ERROR",
 					"type" : "cygnus\\logging\\config\\builder\\monolog\\MonologStreamHandlerBuilder",
-					"stream" : "${APP_ROOT_DIR}/logs/error.log",
+					"stream" : "${APP_ROOT_DIR}/error.log",
 					"formatter": {
 						"type" : "cygnus\\logging\\config\\builder\\monolog\\MonologLineFormatterBuilder",
 						"format" : "[%datetime%] %extra.loggerName%.%level_name%: %message% %context% %extra%\n\n"
@@ -32,14 +32,13 @@
 
 	"loggers" : [
 		{
-			"name" : "cygnus.phpbasic.lib.util",
+			"name" : "cygnus.phpbasic",
 			"level" : "WARNING",
-			"appenders" : "files"
+			"appenders" : "MainLogFiles"
 		},
 		{
-			"name" : "cygnus.phpbasic.lib.zip",
 			"level" : "INFO",
-			"appenders" : ["files", "files"]
+			"appenders" : ["MainLogFiles"]
 		}
 	]
 }

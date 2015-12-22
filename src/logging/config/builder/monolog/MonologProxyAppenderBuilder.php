@@ -31,7 +31,7 @@ class MonologProxyAppenderBuilder extends AppenderBuilder {
 	 *
 	 * @return \cygnus\logging\monolog\MonologProxyAppender
 	 */
-	public function build($builderContext = null) {
+	public function build(array $builderContext = null) {
 		$handlers = [];
 		foreach ($this->handlerBuilders as $handlerBuilder) {
 			$handlers[] = $handlerBuilder->build();

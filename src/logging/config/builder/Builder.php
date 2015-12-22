@@ -12,8 +12,12 @@ interface Builder {
 
 	/**
 	 * Build and return the appropriate object instance
+	 *
+	 * @param array $builderContext
+	 *        	To pass around necessary info for building objects. (At the moment it is not really used except one
+	 *        	case which is the LoggerBuilder)
 	 */
-	public function build($builderContext = null);
+	public function build(array $builderContext = null);
 
 	/**
 	 * Initialize the builder object from a json object and return the builder

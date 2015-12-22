@@ -64,9 +64,12 @@ abstract class MonologHandlerBuilder implements Builder {
 	
 	/**
 	 *
+	 * {@inheritDoc}
+	 *
+	 * @see \cygnus\logging\config\builder\Builder::build()
 	 * @return \cygnus\logging\config\builder\Appender
 	 */
-	public abstract function build($builderContext = null);
+	public abstract function build(array $builderContext = null);
 
 	/**
 	 *

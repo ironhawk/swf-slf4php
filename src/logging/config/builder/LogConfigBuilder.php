@@ -64,14 +64,19 @@ class LogConfigBuilder implements Builder {
 	
 	/**
 	 *
+	 * {@inheritDoc}
+	 *
+	 * @see \cygnus\logging\config\builder\Builder::build()
 	 * @return LogConfig
 	 */
-	public function build($builderContext = null) {
+	public function build(array $builderContext = null) {
 		$appenders = [];
 		foreach ($this->appenderBuilders as $appenderBuilder) {
 			$appender = $appenderBuilder->build();
 			$appenders[$appender->getName()] = $appender;
 		}
+		
+		Preconditions::checkState(! empty($appenders), "config error! There are no configured Appenders at all!");
 		
 		$loggers = [];
 		foreach ($this->loggerBuilders as $loggerBuilder) {

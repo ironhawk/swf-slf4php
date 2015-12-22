@@ -31,9 +31,12 @@ class MonologLineFormatterBuilder extends MonologFormatterBuilder {
 
 	/**
 	 *
+	 * {@inheritDoc}
+	 *
+	 * @see \cygnus\logging\config\builder\monolog\MonologFormatterBuilder::build()
 	 * @return \Monolog\Formatter\LineFormatter
 	 */
-	public function build($builderContext = null) {
+	public function build(array $builderContext = null) {
 		return new LineFormatter($this->lineFormatTemplate);
 	}
 

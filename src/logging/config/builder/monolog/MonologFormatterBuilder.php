@@ -7,9 +7,13 @@ use cygnus\logging\config\builder\Builder;
 abstract class MonologFormatterBuilder implements Builder {
 
 	/**
-	 * This returns \Monolog\Formatter\XXXFormatter
+	 * This returns \Monolog\Formatter\XXXFormatter<p>
+	 *
+	 * {@inheritDoc}
+	 *
+	 * @see \cygnus\logging\config\builder\Builder::build()
 	 */
-	public abstract function build($builderContext = null);
+	public abstract function build(array $builderContext = null);
 
 	/**
 	 *
