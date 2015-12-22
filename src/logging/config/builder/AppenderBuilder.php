@@ -2,9 +2,7 @@
 
 namespace cygnus\logging\config\builder;
 
-use cygnus\logging\Appender;
-
-abstract class AppenderBuilder {
+abstract class AppenderBuilder implements Builder {
 
 	protected $name;
 
@@ -20,8 +18,14 @@ abstract class AppenderBuilder {
 	
 	/**
 	 *
-	 * @return \cygnus\logging\config\builder\Appender
+	 * @return \cygnus\logging\Appender
 	 */
 	public abstract function build();
+
+	/**
+	 *
+	 * @return \cygnus\logging\Appender
+	 */
+	public abstract function buildFromJson($jsonObj, $envVars);
 
 }

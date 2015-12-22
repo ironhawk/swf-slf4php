@@ -4,13 +4,13 @@ namespace cygnus\logging\config\builder;
 
 use cygnus\logging\Logger;
 
-class LoggerBuilder {
+class LoggerBuilder implements Builder {
 
-	private $name;
+	protected $name;
 
-	private $level;
+	protected $level;
 
-	private $appenderNames;
+	protected $appenderNames;
 
 	
 	/**
@@ -66,6 +66,16 @@ class LoggerBuilder {
 		}
 		$logger = new Logger($this->name, $this->level, $appenders);
 		return $logger;
+	}
+
+	/**
+	 *
+	 * {@inheritDoc}
+	 *
+	 * @see \cygnus\logging\config\builder\Builder::buildFromJson()
+	 */
+	public function buildFromJson($jsonObj, $envVars) {
+		// TODO: Auto-generated method stub
 	}
 
 }

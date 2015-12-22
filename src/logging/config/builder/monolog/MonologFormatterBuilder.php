@@ -2,6 +2,18 @@
 
 namespace cygnus\logging\config\builder\monolog;
 
-interface MonologFormatterBuilder {
+use cygnus\logging\config\builder\Builder;
+
+abstract class MonologFormatterBuilder implements Builder {
+
+	/**
+	 * This returns \Monolog\Formatter\XXXFormatter
+	 */
+	public abstract function build();
+
+	/**
+	 * This returns \Monolog\Formatter\XXXFormatter
+	 */
+	public abstract function buildFromJson($jsonObj, $envVars);
 
 }

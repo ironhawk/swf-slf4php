@@ -3,6 +3,7 @@
 namespace cygnus\logging;
 
 use Psr\Log\LoggerInterface;
+use cygnus\util\TextUtil;
 
 /**
  * You should instantiate Logger classes with LoggerFactory.
@@ -11,10 +12,6 @@ use Psr\Log\LoggerInterface;
  * @see \cygnus\logging\LoggerFactory
  */
 class Logger implements LoggerInterface {
-
-	const EMPTY_STRING = "";
-
-	const VARIABLE_PLACEHOLDER = "{}";
 
 	private $name;
 
@@ -78,39 +75,7 @@ class Logger implements LoggerInterface {
 		// we skip the 1st 2 params - varargs begin at pos #2
 		$msg = array_shift($funcParams);
 		array_shift($funcParams);
-		// return $this->name . ": " . self::parseStringWithDataArray($msg, $funcParams);
-		return self::parseStringWithDataArray($msg, $funcParams);
-	}
-
-	/**
-	 * The given string might contain placeholders "{}" which will be replaced by
-	 * string representation of data provided in the given array<p>
-	 * Number of placeholders in the string should match with the number of elements provided in the
-	 * data array<p>
-	 * Example:<br/>
-	 * parseStringWithDataArray("Hello {}! Sorry but we found an error: {}", ["User", "File not found"])<br/>
-	 * will output:<br/>
-	 * "Hello User! Sorry but we found an error: File not found"
-	 *
-	 * @param string $msg
-	 *        	with placeholders VARIABLE_PLACEHOLDER ("{}" by default)
-	 * @param array $data
-	 *        	the data
-	 * @return string
-	 */
-	public static function parseStringWithDataArray($msg, array $data) {
-		if (is_null($msg) || strlen(trim($msg)) == 0)
-			return $msg;
-		if (empty($data))
-			return $msg;
-		$replaced = [];
-		$pieces = explode(self::VARIABLE_PLACEHOLDER, $msg, count($data) + 1);
-		$data[] = self::EMPTY_STRING;
-		for ($idx = 0; $idx < count($pieces); $idx ++) {
-			$replaced[] = $pieces[$idx];
-			$replaced[] = $data[$idx];
-		}
-		return implode("", $replaced);
+		return TextUtil::resolveStringWithDataArray($msg, $funcParams);
 	}
 
 	

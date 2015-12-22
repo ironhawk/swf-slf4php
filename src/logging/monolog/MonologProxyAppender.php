@@ -4,7 +4,6 @@ namespace cygnus\logging\monolog;
 
 use cygnus\logging\Appender;
 use Monolog\Logger;
-use Monolog\Formatter\LineFormatter;
 
 /**
  * This class proxies Appender functionality into Monolog so we can use all features provided by Monolog
@@ -28,10 +27,7 @@ class MonologProxyAppender extends Appender {
 		foreach ($handlers as $handler) {
 			$this->monologLogger->pushHandler($handler);
 		}
-		$this->monologLogger->pushProcessor(array(
-			'cygnus\logging\monolog\MonologInjectorProcessor',
-			'process'
-		));
+		$this->monologLogger->pushProcessor(MonologInjectorProcessor::getInstance());
 	}
 
 	

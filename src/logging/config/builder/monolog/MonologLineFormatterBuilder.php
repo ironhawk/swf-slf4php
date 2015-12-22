@@ -3,10 +3,12 @@
 namespace cygnus\logging\config\builder\monolog;
 
 use Monolog\Formatter\LineFormatter;
+use cygnus\errors\Preconditions;
+use cygnus\util\JsonUtil;
 
-class MonologLineFormatterBuilder implements MonologFormatterBuilder {
+class MonologLineFormatterBuilder extends MonologFormatterBuilder {
 
-	private $lineFormatTemplate;
+	protected $lineFormatTemplate;
 
 	/**
 	 *
@@ -19,11 +21,11 @@ class MonologLineFormatterBuilder implements MonologFormatterBuilder {
 
 	/**
 	 *
-	 * @param string $lineFormateTemplate        	
+	 * @param string $lineFormatTemplate        	
 	 * @return \cygnus\logging\config\builder\monolog\MonologLineFormatterBuilder
 	 */
-	public function format($lineFormateTemplate) {
-		$this->lineFormatTemplate = $lineFormateTemplate;
+	public function format($lineFormatTemplate) {
+		$this->lineFormatTemplate = $lineFormatTemplate;
 		return $this;
 	}
 
@@ -33,6 +35,16 @@ class MonologLineFormatterBuilder implements MonologFormatterBuilder {
 	 */
 	public function build() {
 		return new LineFormatter($this->lineFormatTemplate);
+	}
+
+	/**
+	 *
+	 * @return \Monolog\Formatter\LineFormatter
+	 */
+	public function buildFromJson($jsonObj, $envVars) {
+		Preconditions::checkArgument(isset($jsonObj->format), "'format' mandatory attribute is not set on MonologLineFormatterBuilder type json object: {}", $jsonObj);
+		$this->format(JsonUtil::getResolvedJsonStringValue($jsonObj->format, $envVars));
+		return $this->build();
 	}
 
 }

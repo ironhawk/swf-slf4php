@@ -39,7 +39,7 @@ class LoggerFactory {
 	 *
 	 * @var array $levels Logging levels
 	 */
-	protected static $levels = array(
+	public static $levels2names = array(
 		self::DEBUG => 'DEBUG',
 		self::INFO => 'INFO',
 		self::NOTICE => 'NOTICE',
@@ -50,6 +50,18 @@ class LoggerFactory {
 		self::EMERGENCY => 'EMERGENCY'
 	);
 
+	public static $names2levels = array(
+		'DEBUG' => self::DEBUG,
+		'INFO' => self::INFO,
+		'NOTICE' => self::NOTICE,
+		'WARNING' => self::WARNING,
+		'ERROR' => self::ERROR,
+		'CRITICAL' => self::CRITICAL,
+		'ALERT' => self::ALERT,
+		'EMERGENCY' => self::EMERGENCY
+	);
+
+	
 	/**
 	 *
 	 * @var LogConfig
