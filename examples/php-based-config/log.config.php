@@ -18,12 +18,12 @@ appenderBuilder(
 
 		->handlerBuilder(
 			MonologStreamHandlerBuilder::create()
-			->stream(APP_ROOT_DIR . "/application.log")
+			->stream(LOG_DIR . "/application.log")
 			->formatterBuilder(MonologLineFormatterBuilder::create()->format("[%datetime%] %extra.loggerName%.%level_name%: %message% %context% %extra%\n\n"))
 		)
 		->handlerBuilder(
 			MonologStreamHandlerBuilder::create()
-			->stream(APP_ROOT_DIR . "/error.log")
+			->stream(LOG_DIR . "/error.log")
 			->level(\Monolog\Logger::ERROR)
 			->formatterBuilder(MonologLineFormatterBuilder::create()->format("[%datetime%] %extra.loggerName%.%level_name%: %message% %context% %extra%\n\n"))
 		)
@@ -32,13 +32,13 @@ appenderBuilder(
 // adding namespace based loggers with different level(s) and routed to appenders
 ->loggerBuilder(
 	LoggerBuilder::create()
-	->name("wwwind.phpbasic")
-	->level(LoggerFactory::INFO)
+	->name("wwwind.logging.examples.namespaceA")
+	->level(LoggerFactory::DEBUG)
 	->appenderName("MainLogFiles")
 )
 ->loggerBuilder(
 	LoggerBuilder::create()
-	->level(LoggerFactory::DEBUG)
+	->level(LoggerFactory::ERROR)
 	->appenderName("MainLogFiles")
 )
 

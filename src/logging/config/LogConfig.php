@@ -66,7 +66,7 @@ class LogConfig {
 	 */
 	public function getAppender($name) {
 		if (array_key_exists($name, $this->appendersByName))
-			return $this->appendersByName[];
+			return $this->appendersByName;
 		return null;
 	}
 

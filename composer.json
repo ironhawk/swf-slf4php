@@ -3,6 +3,7 @@
     "description": "WWWind logging facility - inspired by Java slf4j library",
     "version": "1.0.0",
     "keywords": ["logging"],
+    "homepage": "http://gitlab.wwwind.hu:2443/public-projects/logging",
     "license": "Apache-2.0",
     "authors": [
     	{
@@ -21,7 +22,10 @@
     "autoload": {
         "psr-4": {
         	"wwwind\\" : "src/"
-        }
+        },
+        "classmap": [
+        	"examples"
+        ]
     },
     "autoload-dev": {
 	}

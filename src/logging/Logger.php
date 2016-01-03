@@ -4,7 +4,6 @@ namespace wwwind\logging;
 
 use Psr\Log\LoggerInterface;
 use wwwind\util\TextUtil;
-use wwwind\errors\Preconditions;
 
 /**
  * You should instantiate Logger classes with LoggerFactory.

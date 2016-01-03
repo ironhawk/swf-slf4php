@@ -32,16 +32,6 @@
 
 	"loggers" : [
 		{
-			"name" : "wwwind.logging.examples.namespaceA",
-			"level" : "DEBUG",
-			"appenders" : "MainLogFiles"
-		},
-		{
-			"name" : "wwwind.logging.examples.namespaceB",
-			"level" : "ERROR",
-			"appenders" : "MainLogFiles"
-		},
-		{
 			"level" : "INFO",
 			"appenders" : ["MainLogFiles"]
 		}

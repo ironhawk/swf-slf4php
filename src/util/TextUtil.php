@@ -119,7 +119,7 @@ class TextUtil {
 		if (is_array($var)) {
 			return print_r($var, true);
 		}
-		if (is_object($var) && ! $var->__toString) {
+		if (is_object($var) && ! method_exists($var, "__toString")) {
 			return print_r($var, true);
 		}
 		return $var;

@@ -72,6 +72,12 @@ class LoggerFactory {
 	/**
 	 * A special instance which log level is above CRITICAL so basically it will silently sidpose all incoming
 	 * log messages .
+	 *
+	 *
+	 *
+	 *
+	 *
+	 *
 	 * ..
 	 *
 	 * @var Logger
@@ -84,13 +90,13 @@ class LoggerFactory {
 
 	/**
 	 *
-	 * @param string $fullyQualifiedClassName        	
+	 * @param string $fullyQualifiedClassName
+	 *        	If you omit this parameter then only the default Logger can match
 	 * @return Psr\Log\LoggerInterface
 	 */
-	public static function getLogger($fullyQualifiedClassName) {
-		Preconditions::checkArgument(! is_null($fullyQualifiedClassName), "fully qualified class name must be provided");
+	public static function getLogger($fullyQualifiedClassName = '_default_') {
 		if (is_null(static::$config)) {
-			// no config -> NullLogger is the good decision
+			// no config -> our special 'NullLogger' is the good decision
 			return static::getNullLogger();
 		}
 		// let's find the "best" matching Logger - this is the one with highest matching weight
@@ -134,11 +140,11 @@ class LoggerFactory {
 		$weight = 0;
 		foreach ($loggerNamespacePath as $p) {
 			if ($namespacePath[$weight] == $p) {
-				$weight ++;
 				// name of the class should represent more weight
 				if ($namespacePath[$weight] == $className) {
 					$weight ++;
 				}
+				$weight ++;
 			} else {
 				$weight = 0;
 			}
@@ -155,6 +161,8 @@ class LoggerFactory {
 	 */
 	private static function getNullLogger() {
 		if (is_null(static::$nullLogger)) {
+			// the level will be special: 1 above the highest CRITICAL level so everything will be dropped immediatelly
+			// ...
 			static::$nullLogger = new Logger("NULL", static::CRITICAL + 1, []);
 		}
 		return static::$nullLogger;
