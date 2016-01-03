@@ -1,10 +1,10 @@
 <?php
 
-namespace cygnus\logging\config\builder;
+namespace wwwind\logging\config\builder;
 
-use cygnus\logging\config\LogConfig;
-use cygnus\errors\Preconditions;
-use cygnus\logging\LoggerFactory;
+use wwwind\logging\config\LogConfig;
+use wwwind\errors\Preconditions;
+use wwwind\logging\LoggerFactory;
 
 class LogConfigBuilder implements Builder {
 
@@ -14,7 +14,7 @@ class LogConfigBuilder implements Builder {
 
 	/**
 	 *
-	 * @return \cygnus\logging\config\builder\LogConfigBuilder
+	 * @return \wwwind\logging\config\builder\LogConfigBuilder
 	 */
 	public static function create() {
 		return new LogConfigBuilder();
@@ -66,7 +66,7 @@ class LogConfigBuilder implements Builder {
 	 *
 	 * {@inheritDoc}
 	 *
-	 * @see \cygnus\logging\config\builder\Builder::build()
+	 * @see \wwwind\logging\config\builder\Builder::build()
 	 * @return LogConfig
 	 */
 	public function build(array $builderContext = null) {
@@ -93,8 +93,8 @@ class LogConfigBuilder implements Builder {
 	 *
 	 * {@inheritDoc}
 	 *
-	 * @see \cygnus\logging\config\builder\Builder::initFromJson()
-	 * @return \cygnus\logging\config\builder\LogConfigBuilder
+	 * @see \wwwind\logging\config\builder\Builder::initFromJson()
+	 * @return \wwwind\logging\config\builder\LogConfigBuilder
 	 */
 	public function initFromJson($jsonObj, $envVars) {
 		if (isset($jsonObj->appenders)) {

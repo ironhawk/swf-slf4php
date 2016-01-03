@@ -1,6 +1,6 @@
 <?php
 
-namespace cygnus\logging\config\builder;
+namespace wwwind\logging\config\builder;
 
 abstract class AppenderBuilder implements Builder {
 
@@ -8,7 +8,7 @@ abstract class AppenderBuilder implements Builder {
 
 	/**
 	 *
-	 * @return \cygnus\logging\config\builder\AppenderBuilder
+	 * @return \wwwind\logging\config\builder\AppenderBuilder
 	 */
 	public function name($name) {
 		$this->name = $name;
@@ -20,8 +20,8 @@ abstract class AppenderBuilder implements Builder {
 	 *
 	 * {@inheritDoc}
 	 *
-	 * @see \cygnus\logging\config\builder\Builder::build()
-	 * @return \cygnus\logging\Appender
+	 * @see \wwwind\logging\config\builder\Builder::build()
+	 * @return \wwwind\logging\Appender
 	 */
 	public abstract function build(array $builderContext = null);
 
@@ -29,8 +29,8 @@ abstract class AppenderBuilder implements Builder {
 	 *
 	 * {@inheritDoc}
 	 *
-	 * @see \cygnus\logging\config\builder\Builder::initFromJson()
-	 * @return \cygnus\logging\config\builder\AppenderBuilder
+	 * @see \wwwind\logging\config\builder\Builder::initFromJson()
+	 * @return \wwwind\logging\config\builder\AppenderBuilder
 	 */
 	public abstract function initFromJson($jsonObj, $envVars);
 

@@ -1,11 +1,11 @@
 <?php
 
-namespace cygnus\test;
+namespace wwwind\test;
 
-use cygnus\logging\LoggerFactory;
-use cygnus\logging\Logger;
-use cygnus\logging\config\builder\LogConfigBuilder;
-use cygnus\util\JsonUtil;
+use wwwind\logging\LoggerFactory;
+use wwwind\logging\Logger;
+use wwwind\logging\config\builder\LogConfigBuilder;
+use wwwind\util\JsonUtil;
 if (! defined('APP_ROOT_DIR'))
 	define('APP_ROOT_DIR', str_replace('\\', '/', realpath("../..")));
 

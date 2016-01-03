@@ -1,11 +1,11 @@
 <?php
 
-namespace cygnus\logging\config\builder;
+namespace wwwind\logging\config\builder;
 
-use cygnus\logging\Logger;
-use cygnus\util\JsonUtil;
-use cygnus\logging\LoggerFactory;
-use cygnus\errors\Preconditions;
+use wwwind\logging\Logger;
+use wwwind\util\JsonUtil;
+use wwwind\logging\LoggerFactory;
+use wwwind\errors\Preconditions;
 
 class LoggerBuilder implements Builder {
 
@@ -18,7 +18,7 @@ class LoggerBuilder implements Builder {
 	
 	/**
 	 *
-	 * @return \cygnus\logging\config\builder\LoggerBuilder
+	 * @return \wwwind\logging\config\builder\LoggerBuilder
 	 */
 	public static function create() {
 		return new LoggerBuilder();
@@ -30,7 +30,7 @@ class LoggerBuilder implements Builder {
 
 	/**
 	 *
-	 * @return \cygnus\logging\config\builder\LoggerBuilder
+	 * @return \wwwind\logging\config\builder\LoggerBuilder
 	 */
 	public function name($name) {
 		$this->name = $name;
@@ -39,7 +39,7 @@ class LoggerBuilder implements Builder {
 
 	/**
 	 *
-	 * @return \cygnus\logging\config\builder\LoggerBuilder
+	 * @return \wwwind\logging\config\builder\LoggerBuilder
 	 */
 	public function level($level) {
 		$this->level = $level;
@@ -48,7 +48,7 @@ class LoggerBuilder implements Builder {
 
 	/**
 	 *
-	 * @return \cygnus\logging\config\builder\LoggerBuilder
+	 * @return \wwwind\logging\config\builder\LoggerBuilder
 	 */
 	public function appenderName($appenderName) {
 		$this->appenderNames[] = $appenderName;
@@ -83,8 +83,8 @@ class LoggerBuilder implements Builder {
 	 *
 	 * {@inheritDoc}
 	 *
-	 * @see \cygnus\logging\config\builder\Builder::initFromJson()
-	 * @return \cygnus\logging\config\builder\LoggerBuilder
+	 * @see \wwwind\logging\config\builder\Builder::initFromJson()
+	 * @return \wwwind\logging\config\builder\LoggerBuilder
 	 */
 	public function initFromJson($jsonObj, $envVars) {
 		if (isset($jsonObj->name)) {

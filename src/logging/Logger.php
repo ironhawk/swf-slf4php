@@ -1,16 +1,16 @@
 <?php
 
-namespace cygnus\logging;
+namespace wwwind\logging;
 
 use Psr\Log\LoggerInterface;
-use cygnus\util\TextUtil;
-use cygnus\errors\Preconditions;
+use wwwind\util\TextUtil;
+use wwwind\errors\Preconditions;
 
 /**
  * You should instantiate Logger classes with LoggerFactory.
  *
  * @author ironhawk
- * @see \cygnus\logging\LoggerFactory
+ * @see \wwwind\logging\LoggerFactory
  */
 class Logger implements LoggerInterface {
 
@@ -30,7 +30,7 @@ class Logger implements LoggerInterface {
 	/**
 	 * You shouldn't instantiate this class directly! Use LoggerFactory instead!
 	 *
-	 * @see \cygnus\logging\LoggerFactory
+	 * @see \wwwind\logging\LoggerFactory
 	 */
 	public function __construct($name, $logLevel, array $appenders) {
 		$this->name = $name;

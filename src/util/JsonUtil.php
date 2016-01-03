@@ -1,9 +1,9 @@
 <?php
 
-namespace cygnus\util;
+namespace wwwind\util;
 
-use cygnus\errors\Preconditions;
-use cygnus\errors\IllegalStateException;
+use wwwind\errors\Preconditions;
+use wwwind\errors\IllegalStateException;
 
 /**
  * Set of static helper methods to handle Json input

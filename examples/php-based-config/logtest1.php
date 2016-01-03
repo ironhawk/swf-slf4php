@@ -1,9 +1,9 @@
 <?php
 
-namespace cygnus\test;
+namespace wwwind\test;
 
-use cygnus\logging\LoggerFactory;
-use cygnus\logging\Logger;
+use wwwind\logging\LoggerFactory;
+use wwwind\logging\Logger;
 if (! defined('APP_ROOT_DIR'))
 	define('APP_ROOT_DIR', str_replace('\\', '/', realpath("../..")));
 

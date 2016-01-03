@@ -1,10 +1,10 @@
 <?php
 
-namespace cygnus\logging;
+namespace wwwind\logging;
 
-use cygnus\errors\Preconditions;
+use wwwind\errors\Preconditions;
 use Psr\Log\LoggerInterface;
-use cygnus\logging\config\LogConfig;
+use wwwind\logging\config\LogConfig;
 
 
 /**
@@ -151,7 +151,7 @@ class LoggerFactory {
 	/**
 	 * Returns the special "null" logger instance
 	 *
-	 * @return \cygnus\logging\Logger
+	 * @return \wwwind\logging\Logger
 	 */
 	private static function getNullLogger() {
 		if (is_null(static::$nullLogger)) {

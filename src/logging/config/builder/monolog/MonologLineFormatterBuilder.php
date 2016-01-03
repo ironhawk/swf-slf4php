@@ -1,10 +1,10 @@
 <?php
 
-namespace cygnus\logging\config\builder\monolog;
+namespace wwwind\logging\config\builder\monolog;
 
 use Monolog\Formatter\LineFormatter;
-use cygnus\errors\Preconditions;
-use cygnus\util\JsonUtil;
+use wwwind\errors\Preconditions;
+use wwwind\util\JsonUtil;
 
 class MonologLineFormatterBuilder extends MonologFormatterBuilder {
 
@@ -12,7 +12,7 @@ class MonologLineFormatterBuilder extends MonologFormatterBuilder {
 
 	/**
 	 *
-	 * @return \cygnus\logging\config\builder\monolog\MonologLineFormatterBuilder
+	 * @return \wwwind\logging\config\builder\monolog\MonologLineFormatterBuilder
 	 *
 	 */
 	public static function create() {
@@ -22,7 +22,7 @@ class MonologLineFormatterBuilder extends MonologFormatterBuilder {
 	/**
 	 *
 	 * @param string $lineFormatTemplate        	
-	 * @return \cygnus\logging\config\builder\monolog\MonologLineFormatterBuilder
+	 * @return \wwwind\logging\config\builder\monolog\MonologLineFormatterBuilder
 	 */
 	public function format($lineFormatTemplate) {
 		$this->lineFormatTemplate = $lineFormatTemplate;
@@ -33,7 +33,7 @@ class MonologLineFormatterBuilder extends MonologFormatterBuilder {
 	 *
 	 * {@inheritDoc}
 	 *
-	 * @see \cygnus\logging\config\builder\monolog\MonologFormatterBuilder::build()
+	 * @see \wwwind\logging\config\builder\monolog\MonologFormatterBuilder::build()
 	 * @return \Monolog\Formatter\LineFormatter
 	 */
 	public function build(array $builderContext = null) {
@@ -44,8 +44,8 @@ class MonologLineFormatterBuilder extends MonologFormatterBuilder {
 	 *
 	 * {@inheritDoc}
 	 *
-	 * @see \cygnus\logging\config\builder\monolog\MonologFormatterBuilder::initFromJson()
-	 * @return \cygnus\logging\config\builder\MonologLineFormatterBuilder
+	 * @see \wwwind\logging\config\builder\monolog\MonologFormatterBuilder::initFromJson()
+	 * @return \wwwind\logging\config\builder\MonologLineFormatterBuilder
 	 */
 	public function initFromJson($jsonObj, $envVars) {
 		parent::initFromJson($jsonObj, $envVars);

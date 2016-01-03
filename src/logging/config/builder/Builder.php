@@ -1,6 +1,6 @@
 <?php
 
-namespace cygnus\logging\config\builder;
+namespace wwwind\logging\config\builder;
 
 /**
  * Interface definition for builders we use to build up configuration

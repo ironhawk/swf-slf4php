@@ -1,10 +1,10 @@
 <?php
 
-namespace cygnus\logging\config\builder\monolog;
+namespace wwwind\logging\config\builder\monolog;
 
-use cygnus\logging\monolog\MonologProxyAppender;
-use cygnus\logging\config\builder\AppenderBuilder;
-use cygnus\errors\Preconditions;
+use wwwind\logging\monolog\MonologProxyAppender;
+use wwwind\logging\config\builder\AppenderBuilder;
+use wwwind\errors\Preconditions;
 
 class MonologProxyAppenderBuilder extends AppenderBuilder {
 
@@ -12,7 +12,7 @@ class MonologProxyAppenderBuilder extends AppenderBuilder {
 
 	/**
 	 *
-	 * @return \cygnus\logging\config\builder\monolog\MonologProxyAppenderBuilder
+	 * @return \wwwind\logging\config\builder\monolog\MonologProxyAppenderBuilder
 	 */
 	public static function create() {
 		return new MonologProxyAppenderBuilder();
@@ -20,7 +20,7 @@ class MonologProxyAppenderBuilder extends AppenderBuilder {
 
 	/**
 	 *
-	 * @return \cygnus\logging\config\builder\monolog\MonologProxyAppenderBuilder
+	 * @return \wwwind\logging\config\builder\monolog\MonologProxyAppenderBuilder
 	 */
 	public function handlerBuilder($handlerBuilder) {
 		$this->handlerBuilders[] = $handlerBuilder;
@@ -29,7 +29,7 @@ class MonologProxyAppenderBuilder extends AppenderBuilder {
 
 	/**
 	 *
-	 * @return \cygnus\logging\monolog\MonologProxyAppender
+	 * @return \wwwind\logging\monolog\MonologProxyAppender
 	 */
 	public function build(array $builderContext = null) {
 		$handlers = [];
@@ -44,8 +44,8 @@ class MonologProxyAppenderBuilder extends AppenderBuilder {
 	 *
 	 * {@inheritDoc}
 	 *
-	 * @see \cygnus\logging\config\builder\AppenderBuilder::initFromJson()
-	 * @return \cygnus\logging\config\builder\MonologProxyAppenderBuilder
+	 * @see \wwwind\logging\config\builder\AppenderBuilder::initFromJson()
+	 * @return \wwwind\logging\config\builder\MonologProxyAppenderBuilder
 	 */
 	public function initFromJson($jsonObj, $envVars) {
 		Preconditions::checkArgument(isset($jsonObj->name), "'name' attribute is missing from Appender json object: {}", $jsonObj);

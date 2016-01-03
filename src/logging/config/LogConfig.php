@@ -1,9 +1,9 @@
 <?php
 
-namespace cygnus\logging\config;
+namespace wwwind\logging\config;
 
-use cygnus\logging\Logger;
-use cygnus\logging\Appender;
+use wwwind\logging\Logger;
+use wwwind\logging\Appender;
 
 class LogConfig {
 

@@ -1,10 +1,10 @@
 <?php
 
-namespace cygnus\logging\config\builder\monolog;
+namespace wwwind\logging\config\builder\monolog;
 
 use Monolog\Handler\StreamHandler;
-use cygnus\errors\Preconditions;
-use cygnus\util\JsonUtil;
+use wwwind\errors\Preconditions;
+use wwwind\util\JsonUtil;
 
 class MonologStreamHandlerBuilder extends MonologHandlerBuilder {
 
@@ -12,7 +12,7 @@ class MonologStreamHandlerBuilder extends MonologHandlerBuilder {
 
 	/**
 	 *
-	 * @return \cygnus\logging\config\builder\MonologStreamHandlerBuilder
+	 * @return \wwwind\logging\config\builder\MonologStreamHandlerBuilder
 	 */
 	public static function create() {
 		return new MonologStreamHandlerBuilder();
@@ -21,7 +21,7 @@ class MonologStreamHandlerBuilder extends MonologHandlerBuilder {
 	/**
 	 *
 	 * @param string $stream        	
-	 * @return \cygnus\logging\config\builder\MonologStreamHandlerBuilder
+	 * @return \wwwind\logging\config\builder\MonologStreamHandlerBuilder
 	 */
 	public function stream($stream) {
 		$this->stream = $stream;
@@ -33,7 +33,7 @@ class MonologStreamHandlerBuilder extends MonologHandlerBuilder {
 	 *
 	 * {@inheritDoc}
 	 *
-	 * @see \cygnus\logging\config\builder\monolog\MonologHandlerBuilder::build()
+	 * @see \wwwind\logging\config\builder\monolog\MonologHandlerBuilder::build()
 	 * @return \Monolog\Handler\StreamHandler
 	 */
 	public function build(array $builderContext = null) {
@@ -46,8 +46,8 @@ class MonologStreamHandlerBuilder extends MonologHandlerBuilder {
 	 *
 	 * {@inheritDoc}
 	 *
-	 * @see \cygnus\logging\config\builder\monolog\MonologHandlerBuilder::initFromJson()
-	 * @return \cygnus\logging\config\builder\MonologStreamHandlerBuilder
+	 * @see \wwwind\logging\config\builder\monolog\MonologHandlerBuilder::initFromJson()
+	 * @return \wwwind\logging\config\builder\MonologStreamHandlerBuilder
 	 */
 	public function initFromJson($jsonObj, $envVars) {
 		// let our parent init this instance from the json

@@ -1,6 +1,6 @@
 <?php
 
-namespace cygnus\logging\monolog;
+namespace wwwind\logging\monolog;
 
 /**
  * This simple processor is created for Monolog based Appenders.<p>

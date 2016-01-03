@@ -1,6 +1,6 @@
 <?php
 
-namespace cygnus\util;
+namespace wwwind\util;
 
 class TextUtil {
 

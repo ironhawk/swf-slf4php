@@ -1,8 +1,8 @@
 <?php
 
-namespace cygnus\errors;
+namespace wwwind\errors;
 
-use cygnus\util\TextUtil;
+use wwwind\util\TextUtil;
 
 /**
  * Handy helper class to quickly check the situation and start throwing exceptions<p>

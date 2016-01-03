@@ -1,8 +1,8 @@
 <?php
 
-namespace cygnus\logging\config\builder\monolog;
+namespace wwwind\logging\config\builder\monolog;
 
-use cygnus\logging\config\builder\Builder;
+use wwwind\logging\config\builder\Builder;
 
 abstract class MonologFormatterBuilder implements Builder {
 
@@ -11,7 +11,7 @@ abstract class MonologFormatterBuilder implements Builder {
 	 *
 	 * {@inheritDoc}
 	 *
-	 * @see \cygnus\logging\config\builder\Builder::build()
+	 * @see \wwwind\logging\config\builder\Builder::build()
 	 */
 	public abstract function build(array $builderContext = null);
 
@@ -19,8 +19,8 @@ abstract class MonologFormatterBuilder implements Builder {
 	 *
 	 * {@inheritDoc}
 	 *
-	 * @see \cygnus\logging\config\builder\Builder::initFromJson()
-	 * @return \cygnus\logging\config\builder\MonologFormatterBuilder
+	 * @see \wwwind\logging\config\builder\Builder::initFromJson()
+	 * @return \wwwind\logging\config\builder\MonologFormatterBuilder
 	 */
 	public function initFromJson($jsonObj, $envVars) {
 		// we have nothing to do here - yet

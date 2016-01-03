@@ -1,13 +1,13 @@
 <?php
 
-namespace cygnus\logging\config\builder\monolog;
+namespace wwwind\logging\config\builder\monolog;
 
 use Monolog\Handler\AbstractProcessingHandler;
 use Monolog\Logger;
-use cygnus\logging\config\builder\Builder;
-use cygnus\util\JsonUtil;
-use cygnus\logging\config\builder\LogConfigBuilder;
-use cygnus\errors\Preconditions;
+use wwwind\logging\config\builder\Builder;
+use wwwind\util\JsonUtil;
+use wwwind\logging\config\builder\LogConfigBuilder;
+use wwwind\errors\Preconditions;
 
 abstract class MonologHandlerBuilder implements Builder {
 
@@ -20,7 +20,7 @@ abstract class MonologHandlerBuilder implements Builder {
 	/**
 	 *
 	 * @param MonologFormatterBuilder $builder        	
-	 * @return \cygnus\logging\config\builder\monolog\MonologHandlerBuilder
+	 * @return \wwwind\logging\config\builder\monolog\MonologHandlerBuilder
 	 */
 	public function formatterBuilder(MonologFormatterBuilder $builder) {
 		$this->formatterBuilder = $builder;
@@ -30,7 +30,7 @@ abstract class MonologHandlerBuilder implements Builder {
 	/**
 	 *
 	 * @param int $level        	
-	 * @return \cygnus\logging\config\builder\monolog\MonologHandlerBuilder
+	 * @return \wwwind\logging\config\builder\monolog\MonologHandlerBuilder
 	 */
 	public function level($level) {
 		$this->level = $level;
@@ -40,7 +40,7 @@ abstract class MonologHandlerBuilder implements Builder {
 	/**
 	 *
 	 * @param boolean $bubble        	
-	 * @return \cygnus\logging\config\builder\monolog\MonologHandlerBuilder
+	 * @return \wwwind\logging\config\builder\monolog\MonologHandlerBuilder
 	 */
 	public function bubble($bubble) {
 		$this->bubble = $bubble;
@@ -66,8 +66,8 @@ abstract class MonologHandlerBuilder implements Builder {
 	 *
 	 * {@inheritDoc}
 	 *
-	 * @see \cygnus\logging\config\builder\Builder::build()
-	 * @return \cygnus\logging\config\builder\Appender
+	 * @see \wwwind\logging\config\builder\Builder::build()
+	 * @return \wwwind\logging\config\builder\Appender
 	 */
 	public abstract function build(array $builderContext = null);
 
@@ -75,8 +75,8 @@ abstract class MonologHandlerBuilder implements Builder {
 	 *
 	 * {@inheritDoc}
 	 *
-	 * @see \cygnus\logging\config\builder\Builder::initFromJson()
-	 * @return \cygnus\logging\config\builder\MonologHandlerBuilder
+	 * @see \wwwind\logging\config\builder\Builder::initFromJson()
+	 * @return \wwwind\logging\config\builder\MonologHandlerBuilder
 	 */
 	public function initFromJson($jsonObj, $envVars) {
 		if (isset($jsonObj->bubble)) {

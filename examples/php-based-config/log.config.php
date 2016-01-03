@@ -1,10 +1,10 @@
 <?php
-use cygnus\logging\config\builder\LogConfigBuilder;
-use cygnus\logging\config\builder\monolog\MonologProxyAppenderBuilder;
-use cygnus\logging\config\builder\monolog\MonologStreamHandlerBuilder;
-use cygnus\logging\config\builder\LoggerBuilder;
-use cygnus\logging\LoggerFactory;
-use cygnus\logging\config\builder\monolog\MonologLineFormatterBuilder;
+use wwwind\logging\config\builder\LogConfigBuilder;
+use wwwind\logging\config\builder\monolog\MonologProxyAppenderBuilder;
+use wwwind\logging\config\builder\monolog\MonologStreamHandlerBuilder;
+use wwwind\logging\config\builder\LoggerBuilder;
+use wwwind\logging\LoggerFactory;
+use wwwind\logging\config\builder\monolog\MonologLineFormatterBuilder;
 
 // @formatter:off
 
@@ -32,7 +32,7 @@ appenderBuilder(
 // adding namespace based loggers with different level(s) and routed to appenders
 ->loggerBuilder(
 	LoggerBuilder::create()
-	->name("cygnus.phpbasic")
+	->name("wwwind.phpbasic")
 	->level(LoggerFactory::INFO)
 	->appenderName("MainLogFiles")
 )
