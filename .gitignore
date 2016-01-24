@@ -2,6 +2,6 @@
 /.settings
 .project
 .buildpath
-/tests/
 /composer.lock
 *.log
+/bin/

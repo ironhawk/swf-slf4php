@@ -2,7 +2,6 @@
 
 namespace wwwind\logging;
 
-use wwwind\errors\Preconditions;
 use Psr\Log\LoggerInterface;
 use wwwind\logging\config\LogConfig;
 
@@ -70,15 +69,8 @@ class LoggerFactory {
 	private static $config;
 
 	/**
-	 * A special instance which log level is above CRITICAL so basically it will silently sidpose all incoming
-	 * log messages .
-	 *
-	 *
-	 *
-	 *
-	 *
-	 *
-	 * ..
+	 * A special instance which log level is above CRITICAL so basically it will silently drop all incoming
+	 * log messages...
 	 *
 	 * @var Logger
 	 */

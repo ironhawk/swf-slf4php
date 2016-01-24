@@ -8,13 +8,13 @@ use wwwind\logging\Appender;
 class LogConfig {
 
 	/**
-	 * Simple array of Logger objects<p>
+	 * This is a Map in the following format: Logger.name => Logger<p>
 	 * Name of logger objects are from the config - they are typically fully qualified class names or full or partial
 	 * namespace strings
 	 *
 	 * @var array
 	 */
-	private $loggers;
+	private $loggersByName;
 
 	/**
 	 * This is a Map in the following format: Appender.name => Appender
@@ -24,7 +24,7 @@ class LogConfig {
 	private $appendersByName;
 
 	public function __construct(array $loggers = [], array $appendersByName = []) {
-		$this->loggers = $loggers;
+		$this->loggersByName = $loggers;
 		$this->appendersByName = $appendersByName;
 	}
 
@@ -34,7 +34,7 @@ class LogConfig {
 	 * @return LogConfig
 	 */
 	public function logger(Logger $logger) {
-		$this->loggers[] = $logger;
+		$this->loggersByName[$logger->getName()] = $logger;
 		return $this;
 	}
 
@@ -49,7 +49,21 @@ class LogConfig {
 	}
 
 	public function getLoggers() {
-		return $this->loggers;
+		return $this->loggersByName;
+	}
+
+	/**
+	 * Returns the Logger with the given name.
+	 * If there is no Logger with that name NULL is returned
+	 *
+	 * @param string $name
+	 *        	name of the Logger
+	 * @return Logger
+	 */
+	public function getLogger($name) {
+		if (array_key_exists($name, $this->loggersByName))
+			return $this->loggersByName[$name];
+		return null;
 	}
 
 	public function getAppenders() {
@@ -66,7 +80,7 @@ class LogConfig {
 	 */
 	public function getAppender($name) {
 		if (array_key_exists($name, $this->appendersByName))
-			return $this->appendersByName;
+			return $this->appendersByName[$name];
 		return null;
 	}
 
