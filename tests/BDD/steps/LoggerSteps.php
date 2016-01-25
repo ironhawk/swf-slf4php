@@ -60,11 +60,11 @@ class LoggerSteps implements Context, SnippetAcceptingContext {
 	/**
 	 * @When the following log messages are sent to Logger :loggerName:
 	 */
-	public function WhenLogMessagesAreSentToLogger($loggerName, TableNode $table) {
+	public function WhenLogMessagesAreSentToLogger($loggerName, TableNode $messagesTable) {
 		$logger = $this->config->getLogger($loggerName);
 		Preconditions::checkArgument(! is_null($logger), "no Logger found with name '{}'", $loggerName);
 		
-		foreach ($table->getColumnsHash() as $row) {
+		foreach ($messagesTable->getColumnsHash() as $row) {
 			$logLevel = $row['logLevel'];
 			$message = $row['message'];
 			
@@ -91,10 +91,21 @@ class LoggerSteps implements Context, SnippetAcceptingContext {
 
 	
 	/**
-	 * @Then Appender :arg1 has received the following messages:
+	 * @Then Appender :appenderName has received the following messages:
 	 */
-	public function appenderHasPrintedTheFollowingMessages($arg1, TableNode $table) {
-		throw new PendingException();
+	public function appenderHasPrintedTheFollowingMessages($appenderName, TableNode $messagesTable) {
+		$appender = $this->config->getAppender($appenderName);
+		Preconditions::checkArgument(! is_null($appender), "no Appender found with name '{}'", $appenderName);
+		
+		// note: appender now is an AppenderMock!
+		$actualMessages = $appender->getMessages();
+		$expectedMessages = [];
+		foreach ($messagesTable->getColumnsHash() as $row) {
+			$message = $row['message'];
+			$expectedMessages[] = $message;
+		}
+		
+		\PHPUnit_Framework_TestCase::assertEquals($expectedMessages, $actualMessages, "Array of messages doesn't match with expected");
 	}
 
 }

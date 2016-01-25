@@ -34,7 +34,7 @@ class BehatPHPUnitBridge {
 		
 		$input = [
 			'--strict' => true,
-			'--stop-on-failure' => true,
+			// '--stop-on-failure' => true,
 			'--config' => $testsRootFolder . '/behat-config.yml'
 		];
 		

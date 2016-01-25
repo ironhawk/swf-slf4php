@@ -18,6 +18,10 @@ class AppenderMock extends Appender {
 		parent::__construct($name);
 	}
 
+	public function getMessages() {
+		return $this->messages;
+	}
+
 	public function debug($message, array $context = []) {
 		$this->messages[] = $message;
 	}
