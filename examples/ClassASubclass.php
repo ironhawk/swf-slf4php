@@ -19,7 +19,7 @@ use wwwind\logging\examples\namespaceA\ClassA;
  * @author ironhawk
  *        
  */
-class ClassAExtended extends ClassA {
+class ClassASubclass extends ClassA {
 
 	protected static $_LOG;
 

@@ -3,7 +3,7 @@ use wwwind\logging\LoggerFactory;
 use wwwind\logging\config\builder\LogConfigBuilder;
 use wwwind\util\JsonUtil;
 use wwwind\logging\examples\namespaceA\ClassA;
-use wwwind\logging\examples\namespaceB\ClassAExtended;
+use wwwind\logging\examples\namespaceB\ClassASubclass;
 
 // let's fire the composer autoload stuff
 require_once '../../vendor/autoload.php';
@@ -22,6 +22,6 @@ $classA->testLog();
 // and now let's instatiate ClassAExtended
 // this extends ClassA but adds a __toString() function to that
 // please also note: protected static variable $_LOG is overriden ...
-$classB1 = new ClassAExtended("Inst1");
+$classB1 = new ClassASubclass("Inst1");
 $classB1->testLog();
 
