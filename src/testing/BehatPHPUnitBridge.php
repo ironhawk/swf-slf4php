@@ -1,6 +1,6 @@
 <?php
 
-namespace wwwind\logging\tests;
+namespace wwwind\testing;
 
 use Symfony\Component\Console\Input\ArrayInput;
 use Behat\Behat\ApplicationFactory;
@@ -16,8 +16,10 @@ use wwwind\errors\Preconditions;
  */
 class BehatPHPUnitBridge {
 
+	const RELATIVE_PATH_TO_TESTS_FOLDER = '../../tests';
+
 	/**
-	 * Creates and runs a Behat test from within a PHPUnit test case
+	 * Creates and runs a Behat test within a PHPUnit test case
 	 *
 	 * @param String $specificFile
 	 *        	Relative path of specific .feature file - if want to run just one
@@ -30,7 +32,7 @@ class BehatPHPUnitBridge {
 		$behatApp->setCatchExceptions(false);
 		$behatApp->setAutoExit(false);
 		
-		$testsRootFolder = dirname(__FILE__);
+		$testsRootFolder = dirname(__FILE__) . '/' . self::RELATIVE_PATH_TO_TESTS_FOLDER;
 		
 		$input = [
 			'--strict' => true,
@@ -45,6 +47,12 @@ class BehatPHPUnitBridge {
 		return $behatApp->run(new ArrayInput($input));
 	}
 
+	/**
+	 * It runs the runBehat() method and also does the assertion on the return value to check if everything went fine
+	 *
+	 * @param String $specificFile
+	 *        	see description at runBehat() method
+	 */
 	public static function testWithBehat($specificFile = null) {
 		$behatResult = self::runBehat($specificFile);
 		if (! empty($specificFile)) {
