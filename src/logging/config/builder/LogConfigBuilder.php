@@ -99,10 +99,10 @@ class LogConfigBuilder implements Builder {
 	public function initFromJson($jsonObj, $envVars) {
 		if (isset($jsonObj->appenders)) {
 			foreach ($jsonObj->appenders as $appenderJsonObj) {
-				Preconditions::checkArgument(isset($appenderJsonObj->type), "'type' attribute is missing from appender: {}", $appenderJsonObj);
+				Preconditions::checkArgument(isset($appenderJsonObj->builderClass), "'builderClass' attribute is missing from appender: {}", $appenderJsonObj);
 				// let's call the static create method which all builders have
 				$appenderBuilder = call_user_func_array(array(
-					$appenderJsonObj->type,
+					$appenderJsonObj->builderClass,
 					'create'
 				), []);
 				$appenderBuilder->initFromJson($appenderJsonObj, $envVars);

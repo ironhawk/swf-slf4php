@@ -87,10 +87,10 @@ abstract class MonologHandlerBuilder implements Builder {
 		}
 		if (isset($jsonObj->formatter)) {
 			$formatterJsonObj = $jsonObj->formatter;
-			Preconditions::checkArgument(isset($formatterJsonObj->type), "'type' attribute is missing from Monolog Formatter json object: {}", $formatterJsonObj);
+			Preconditions::checkArgument(isset($formatterJsonObj->builderClass), "'builderClass' attribute is missing from Monolog Formatter json object: {}", $formatterJsonObj);
 			// let's call the static create method which all builders have
 			$formatterBuilder = call_user_func_array(array(
-				$formatterJsonObj->type,
+				$formatterJsonObj->builderClass,
 				'create'
 			), []);
 			$formatterBuilder->initFromJson($formatterJsonObj, $envVars);

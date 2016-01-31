@@ -54,7 +54,7 @@ class MonologProxyAppenderBuilder extends AppenderBuilder {
 			foreach ($jsonObj->handlers as $handlerJsonObj) {
 				// let's call the static create method which all builders have
 				$handlerBuilder = call_user_func_array(array(
-					$handlerJsonObj->type,
+					$handlerJsonObj->builderClass,
 					'create'
 				), []);
 				$handlerBuilder->initFromJson($handlerJsonObj, $envVars);
