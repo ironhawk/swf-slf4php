@@ -37,7 +37,7 @@ class Logger implements LoggerInterface {
 		$this->logLevel = $logLevel;
 		
 		if (! empty($name)) {
-			$this->namespacePath = preg_split("/[\.\\\\\\/]/", $name);
+			$this->namespacePath = preg_split("/[\.\\\\\\/]/", $name, null, PREG_SPLIT_NO_EMPTY);
 		} else {
 			$this->namespacePath = null;
 		}
@@ -60,6 +60,23 @@ class Logger implements LoggerInterface {
 	}
 
 	/**
+	 *
+	 * @return int
+	 */
+	public function getLogLevel() {
+		return $this->logLevel;
+	}
+
+	
+	/**
+	 *
+	 * @return array
+	 */
+	public function getAppenders() {
+		return $this->appenders;
+	}
+
+	/**
 	 * Returns a clone but with a different name.<p>
 	 * Used by LoggerFactory to quickly create a new instance of pre-configured Logger instance but with
 	 * a different name.
@@ -71,7 +88,7 @@ class Logger implements LoggerInterface {
 		return new Logger($withName, $this->logLevel, $this->appenders);
 	}
 
-	protected function parseMessage(array $funcParams) {
+	private function parseMessage(array $funcParams) {
 		// we skip the 1st 2 params - varargs begin at pos #2
 		$msg = array_shift($funcParams);
 		array_shift($funcParams);

@@ -92,7 +92,7 @@ class LoggerFactory {
 			return static::getNullLogger();
 		}
 		// let's find the "best" matching Logger - this is the one with highest matching weight
-		$namespacePath = preg_split("/[\.\\\\\\/]/", $fullyQualifiedClassName);
+		$namespacePath = preg_split("/[\.\\\\\\/]/", $fullyQualifiedClassName, null, PREG_SPLIT_NO_EMPTY);
 		$selectedLogger = null;
 		$maxMatchWeight = - 1;
 		foreach (static::$config->getLoggers() as $logger) {
@@ -128,21 +128,15 @@ class LoggerFactory {
 			// weight which represents a match...
 			return 0;
 		}
-		$className = $namespacePath[count($namespacePath) - 1];
+		
 		$weight = 0;
-		foreach ($loggerNamespacePath as $p) {
-			if ($namespacePath[$weight] == $p) {
-				// name of the class should represent more weight
-				if ($namespacePath[$weight] == $className) {
-					$weight ++;
-				}
-				$weight ++;
-			} else {
-				$weight = 0;
+		$len = min(count($loggerNamespacePath), count($namespacePath));
+		for ($weight = 0; $weight < $len; $weight ++) {
+			if ($namespacePath[$weight] != $loggerNamespacePath[$weight]) {
+				$weight = - 1;
+				break;
 			}
 		}
-		if ($weight == 0)
-			$weight = - 1;
 		return $weight;
 	}
 

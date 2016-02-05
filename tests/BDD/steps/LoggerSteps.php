@@ -11,6 +11,7 @@ use wwwind\logging\config\builder\LogConfigBuilder;
 use wwwind\logging\tests\mocks\AppenderMock;
 use wwwind\errors\Preconditions;
 use wwwind\testing\BDDUtil;
+use wwwind\logging\LoggerFactory;
 
 /**
  * Defines steps for building up logging setup and test Loggers
@@ -23,6 +24,13 @@ class LoggerSteps implements Context, SnippetAcceptingContext {
 	 * @var LogConfig
 	 */
 	private $config;
+
+	/**
+	 * Temporary storage of returned Logger instance for checking it
+	 *
+	 * @var Logger
+	 */
+	private $lastReturnedLoggerInstance;
 
 	public function __construct() {
 		$this->config = new LogConfig();
@@ -40,6 +48,18 @@ class LoggerSteps implements Context, SnippetAcceptingContext {
 	 * @Given a Logger with name :name, log level :levelStr and appenders :appenderNames
 	 */
 	public function GivenLoggerWithNameAndLogLevelAndAppenders($name, $levelStr, $appenderNames) {
+		$this->createLoggerWithNameAndLogLevelAndAppenders($name, $levelStr, $appenderNames);
+	}
+
+	
+	/**
+	 * @Given a Logger without name, log level :levelStr and appenders :appenderNames
+	 */
+	public function GivenLoggerWithNameNotSetAndLogLevelAndAppenders($levelStr, $appenderNames) {
+		$this->createLoggerWithNameAndLogLevelAndAppenders(null, $levelStr, $appenderNames);
+	}
+
+	private function createLoggerWithNameAndLogLevelAndAppenders($name, $levelStr, $appenderNames) {
 		$logLevel = LogConfigBuilder::getAsLogLevel($levelStr);
 		$appenders = [];
 		$appenderNames = explode(', ', $appenderNames);
@@ -136,6 +156,54 @@ class LoggerSteps implements Context, SnippetAcceptingContext {
 		}
 		
 		\PHPUnit_Framework_TestCase::assertEquals($expectedMessages, $actualMessages, "Array of messages doesn't match with expected");
+	}
+
+	
+	/**
+	 * @When matching Logger asked from LoggerFactory for class name :className
+	 */
+	public function WhenMatchingLoggerAskedFromLoggerFactoryForClassName($className) {
+		LoggerFactory::init($this->config);
+		$this->lastReturnedLoggerInstance = LoggerFactory::getLogger($className);
+	}
+
+	/**
+	 * @Then the returned Logger instance was created by cloning configured Logger instance with name :loggerName
+	 */
+	public function ThenLoggerWithNameIsReturned($loggerName) {
+		Preconditions::checkState(! is_null($this->lastReturnedLoggerInstance), "You can use this step only after using a @When step which picks up a Logger instance from the LoggerFactory!");
+		$actualInstance = $this->lastReturnedLoggerInstance;
+		
+		$expectedInstance = $this->config->getLogger($loggerName);
+		Preconditions::checkArgument(! is_null($expectedInstance), "there is no configured Logger found with name '{}'! check your @Given steps or the given loggerName parameter!", $loggerName);
+		
+		\PHPUnit_Framework_TestCase::assertEquals($expectedInstance->getLogLevel(), $actualInstance->getLogLevel(), "logLevel does not match");
+		\PHPUnit_Framework_TestCase::assertEquals($expectedInstance->getAppenders(), $actualInstance->getAppenders(), "Appenders does not match");
+	}
+
+	
+	/**
+	 * @Then the returned Logger instance name is :loggerName
+	 */
+	public function ThenTheReturnedLoggerInstanceNameIs($loggerName) {
+		Preconditions::checkState(! is_null($this->lastReturnedLoggerInstance), "You can use this step only after using a @When step which picks up a Logger instance from the LoggerFactory!");
+		
+		\PHPUnit_Framework_TestCase::assertEquals($loggerName, $this->lastReturnedLoggerInstance->getName(), "Name of Logger does not match with expected name!");
+	}
+
+	
+	/**
+	 * @Then the returned Logger instance is the special NullLogger
+	 */
+	public function ThenTheReturnedLoggerInstanceIsTheSpecialNulllogger() {
+		Preconditions::checkState(! is_null($this->lastReturnedLoggerInstance), "You can use this step only after using a @When step which picks up a Logger instance from the LoggerFactory!");
+		$actualLogger = $this->lastReturnedLoggerInstance;
+		
+		$loggerFactoryReflectionProp = new \ReflectionProperty("wwwind\\logging\\LoggerFactory", "nullLogger");
+		$loggerFactoryReflectionProp->setAccessible(true);
+		$expectedLogger = $loggerFactoryReflectionProp->getValue();
+		
+		\PHPUnit_Framework_TestCase::assertEquals($expectedLogger, $actualLogger, "The returned Logger is not the special NullLogger instance");
 	}
 
 }
