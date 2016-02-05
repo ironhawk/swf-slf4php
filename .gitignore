@@ -5,3 +5,4 @@
 /composer.lock
 *.log
 /bin/
+/tests/coverage-report/
