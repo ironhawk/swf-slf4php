@@ -3,7 +3,7 @@
     "description": "SWF logging facade for php - inspired by slf4j / logback / log4j java projects",
     "version": "1.0.0",
     "keywords": ["logging"],
-    "homepage": "http://gitlab.swf.hu:2443/public-projects/logging",
+    "homepage": "http://gitlab.swf.technology:2443/public-projects/lf4php",
     "license": "Apache-2.0",
     "authors": [
     	{
