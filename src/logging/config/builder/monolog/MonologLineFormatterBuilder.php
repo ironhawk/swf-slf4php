@@ -12,6 +12,8 @@ class MonologLineFormatterBuilder extends MonologFormatterBuilder {
 
 	/**
 	 *
+	 * {@inheritDoc}
+	 *
 	 * @return \wwwind\logging\config\builder\monolog\MonologLineFormatterBuilder
 	 *
 	 */
@@ -36,7 +38,7 @@ class MonologLineFormatterBuilder extends MonologFormatterBuilder {
 	 * @see \wwwind\logging\config\builder\monolog\MonologFormatterBuilder::build()
 	 * @return \Monolog\Formatter\LineFormatter
 	 */
-	public function build(array $builderContext = null) {
+	public function build() {
 		return new LineFormatter($this->lineFormatTemplate);
 	}
 

@@ -8,10 +8,15 @@ use wwwind\logging\config\builder\Builder;
 use wwwind\util\JsonUtil;
 use wwwind\logging\config\builder\LogConfigBuilder;
 use wwwind\errors\Preconditions;
+use Monolog\Formatter\FormatterInterface;
 
 abstract class MonologHandlerBuilder implements Builder {
 
-	protected $formatterBuilder;
+	/**
+	 *
+	 * @var FormatterInterface
+	 */
+	protected $formatter;
 
 	protected $bubble = true;
 
@@ -19,11 +24,11 @@ abstract class MonologHandlerBuilder implements Builder {
 
 	/**
 	 *
-	 * @param MonologFormatterBuilder $builder        	
+	 * @param FormatterInterface $builder        	
 	 * @return \wwwind\logging\config\builder\monolog\MonologHandlerBuilder
 	 */
-	public function formatterBuilder(MonologFormatterBuilder $builder) {
-		$this->formatterBuilder = $builder;
+	public function formatter(FormatterInterface $formatter) {
+		$this->formatter = $formatter;
 		return $this;
 	}
 
@@ -56,8 +61,8 @@ abstract class MonologHandlerBuilder implements Builder {
 	protected function injectSetup(AbstractProcessingHandler $handler) {
 		$handler->setBubble($this->bubble);
 		$handler->setLevel($this->level);
-		if (! is_null($this->formatterBuilder)) {
-			$handler->setFormatter($this->formatterBuilder->build());
+		if (! is_null($this->formatter)) {
+			$handler->setFormatter($this->formatter);
 		}
 	}
 
@@ -69,7 +74,7 @@ abstract class MonologHandlerBuilder implements Builder {
 	 * @see \wwwind\logging\config\builder\Builder::build()
 	 * @return \wwwind\logging\config\builder\Appender
 	 */
-	public abstract function build(array $builderContext = null);
+	public abstract function build();
 
 	/**
 	 *
@@ -88,13 +93,12 @@ abstract class MonologHandlerBuilder implements Builder {
 		if (isset($jsonObj->formatter)) {
 			$formatterJsonObj = $jsonObj->formatter;
 			Preconditions::checkArgument(isset($formatterJsonObj->builderClass), "'builderClass' attribute is missing from Monolog Formatter json object: {}", $formatterJsonObj);
-			// let's call the static create method which all builders have
-			$formatterBuilder = call_user_func_array(array(
-				$formatterJsonObj->builderClass,
-				'create'
-			), []);
+			
+			$reflection = new \ReflectionClass($formatterJsonObj->builderClass);
+			Preconditions::checkArgument($reflection->implementsInterface("\wwwind\logging\config\builder\Builder"), "'builderClass' {} doesn't implement \\wwwind\\logging\\config\\builder\\Builder interface in appender def: {}", $formatterJsonObj->builderClass, $formatterJsonObj);
+			$formatterBuilder = $reflection->newInstance();
 			$formatterBuilder->initFromJson($formatterJsonObj, $envVars);
-			$this->formatterBuilder($formatterBuilder);
+			$this->formatter($formatterBuilder->build());
 		}
 		return $this;
 	}

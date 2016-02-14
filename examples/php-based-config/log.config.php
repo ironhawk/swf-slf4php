@@ -5,41 +5,51 @@ use wwwind\logging\config\builder\monolog\MonologStreamHandlerBuilder;
 use wwwind\logging\config\builder\LoggerBuilder;
 use wwwind\logging\LoggerFactory;
 use wwwind\logging\config\builder\monolog\MonologLineFormatterBuilder;
+use wwwind\logging\config\builder\LoggerTemplateBuilder;
 
 // @formatter:off
 
 return LogConfigBuilder::create()->
 
 // adding appenders
-appenderBuilder(
+appender(
 
 	// Monolog based file appenders
 	MonologProxyAppenderBuilder::create()->name("MainLogFiles")
 
-		->handlerBuilder(
+		->handler(
 			MonologStreamHandlerBuilder::create()
 			->stream(LOG_DIR . "/application.log")
-			->formatterBuilder(MonologLineFormatterBuilder::create()->format("[%datetime%] %extra.loggerName%.%level_name%: %message% %context% %extra%\n\n"))
+			->formatter(MonologLineFormatterBuilder::create()->format("[%datetime%] %extra.loggerName%.%level_name%: %message% %context% %extra%\n\n")->build())->build()
 		)
-		->handlerBuilder(
+		->handler(
 			MonologStreamHandlerBuilder::create()
 			->stream(LOG_DIR . "/error.log")
 			->level(\Monolog\Logger::ERROR)
-			->formatterBuilder(MonologLineFormatterBuilder::create()->format("[%datetime%] %extra.loggerName%.%level_name%: %message% %context% %extra%\n\n"))
-		)
+			->formatter(MonologLineFormatterBuilder::create()->format("[%datetime%] %extra.loggerName%.%level_name%: %message% %context% %extra%\n\n")->build())->build()
+		)->build()
 )
 
 // adding namespace based loggers with different level(s) and routed to appenders
-->loggerBuilder(
-	LoggerBuilder::create()
+->logger(
+	LoggerTemplateBuilder::create()
 	->name("wwwind.logging.examples.namespaceA")
 	->level(LoggerFactory::DEBUG)
 	->appenderName("MainLogFiles")
+	->build()
 )
-->loggerBuilder(
-	LoggerBuilder::create()
+->logger(
+	LoggerTemplateBuilder::create()
+	->name("wwwind.logging.examples.namespaceB")
 	->level(LoggerFactory::ERROR)
 	->appenderName("MainLogFiles")
+	->build()
+)
+->logger(
+	LoggerTemplateBuilder::create()
+	->level(LoggerFactory::INFO)
+	->appenderName("MainLogFiles")
+	->build()
 )
 
 // and now build it into a config!

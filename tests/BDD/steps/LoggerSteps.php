@@ -5,26 +5,19 @@ namespace wwwind\logging\tests\BDD\steps;
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Gherkin\Node\TableNode;
-use wwwind\logging\config\LogConfig;
 use wwwind\logging\Logger;
-use wwwind\logging\config\builder\LogConfigBuilder;
 use wwwind\logging\tests\mocks\AppenderMock;
 use wwwind\errors\Preconditions;
 use wwwind\testing\BDDUtil;
-use wwwind\logging\LoggerFactory;
+use wwwind\logging\Appender;
+use wwwind\logging\config\builder\LogConfigBuilder;
 
 /**
- * Defines steps for building up logging setup and test Loggers
+ * Defines steps for testing Loggers - Appenders interactions
  */
 class LoggerSteps implements Context, SnippetAcceptingContext {
 
-	/**
-	 * To store what @Given steps did
-	 *
-	 * @var LogConfig
-	 */
-	private $config;
-
+	
 	/**
 	 * Temporary storage of returned Logger instance for checking it
 	 *
@@ -32,50 +25,49 @@ class LoggerSteps implements Context, SnippetAcceptingContext {
 	 */
 	private $lastReturnedLoggerInstance;
 
-	public function __construct() {
-		$this->config = new LogConfig();
+	/**
+	 *
+	 * @return Logger
+	 */
+	private function getLastCreatedLogger() {
+		Preconditions::checkArgument(! is_null($this->lastReturnedLoggerInstance), "you haven't created a Logger instance yet with one of the @given steps!");
+		return $this->lastReturnedLoggerInstance;
 	}
 
 	/**
-	 * @Given a mocked Appender with name :name
+	 * Gets the Appender of the Logger which name is the given name.
+	 *
+	 * @param Logger $logger        	
+	 * @param string $appenderName        	
+	 * @return Appender if no Appender found in Logger with that name NULL is returned
 	 */
-	public function GivenMockedAppenderWithName($name) {
-		$appenderMock = new AppenderMock($name);
-		$this->config->appender($appenderMock);
-	}
-
-	/**
-	 * @Given a Logger with name :name, log level :levelStr and appenders :appenderNames
-	 */
-	public function GivenLoggerWithNameAndLogLevelAndAppenders($name, $levelStr, $appenderNames) {
-		$this->createLoggerWithNameAndLogLevelAndAppenders($name, $levelStr, $appenderNames);
+	private function getAppenderOfLogger($logger, $appenderName) {
+		foreach ($logger->getAppenders() as $appender) {
+			if ($appender->getName() == $appenderName)
+				return $appender;
+		}
+		return null;
 	}
 
 	
 	/**
-	 * @Given a Logger without name, log level :levelStr and appenders :appenderNames
+	 * @Given a Logger with log level :logLevel and appenders :appenderNames
 	 */
-	public function GivenLoggerWithNameNotSetAndLogLevelAndAppenders($levelStr, $appenderNames) {
-		$this->createLoggerWithNameAndLogLevelAndAppenders(null, $levelStr, $appenderNames);
-	}
-
-	private function createLoggerWithNameAndLogLevelAndAppenders($name, $levelStr, $appenderNames) {
-		$logLevel = LogConfigBuilder::getAsLogLevel($levelStr);
+	public function givenALoggerWithLogLevelAndAppenders($logLevel, $appenderNames) {
+		$logLevel = LogConfigBuilder::getAsLogLevel($logLevel);
 		$appenders = [];
-		$appenderNames = explode(', ', $appenderNames);
-		foreach ($appenderNames as $appenderName) {
-			$appenders[] = $this->config->getAppender($appenderName);
+		foreach (BDDUtil::getListFromString($appenderNames) as $appenderName) {
+			$appenders[] = new AppenderMock($appenderName);
 		}
-		$logger = new Logger($name, $logLevel, $appenders);
-		$this->config->logger($logger);
+		$this->lastReturnedLoggerInstance = new Logger("testLogger", $logLevel, $appenders);
 	}
 
+	
 	/**
-	 * @When the following log messages are sent to Logger :loggerName:
+	 * @When the following log messages are sent to the Logger:
 	 */
-	public function WhenLogMessagesAreSentToLogger($loggerName, TableNode $messagesTable) {
-		$logger = $this->config->getLogger($loggerName);
-		Preconditions::checkArgument(! is_null($logger), "no Logger found with name '{}'", $loggerName);
+	public function whenLogMessagesAreSentToLogger(TableNode $messagesTable) {
+		$logger = $this->getLastCreatedLogger();
 		
 		foreach ($messagesTable->getColumnsHash() as $row) {
 			
@@ -143,8 +135,9 @@ class LoggerSteps implements Context, SnippetAcceptingContext {
 	/**
 	 * @Then Appender :appenderName has received the following messages in this order:
 	 */
-	public function ThenAppenderHasPrintedTheFollowingMessages($appenderName, TableNode $messagesTable) {
-		$appender = $this->config->getAppender($appenderName);
+	public function thenAppenderHasPrintedTheFollowingMessages($appenderName, TableNode $messagesTable) {
+		$logger = $this->getLastCreatedLogger();
+		$appender = $this->getAppenderOfLogger($logger, $appenderName);
 		Preconditions::checkArgument(! is_null($appender), "no Appender found with name '{}'", $appenderName);
 		
 		// note: appender now is an AppenderMock!
@@ -156,54 +149,6 @@ class LoggerSteps implements Context, SnippetAcceptingContext {
 		}
 		
 		\PHPUnit_Framework_TestCase::assertEquals($expectedMessages, $actualMessages, "Array of messages doesn't match with expected");
-	}
-
-	
-	/**
-	 * @When matching Logger asked from LoggerFactory for class name :className
-	 */
-	public function WhenMatchingLoggerAskedFromLoggerFactoryForClassName($className) {
-		LoggerFactory::init($this->config);
-		$this->lastReturnedLoggerInstance = LoggerFactory::getLogger($className);
-	}
-
-	/**
-	 * @Then the returned Logger instance was created by cloning configured Logger instance with name :loggerName
-	 */
-	public function ThenLoggerWithNameIsReturned($loggerName) {
-		Preconditions::checkState(! is_null($this->lastReturnedLoggerInstance), "You can use this step only after using a @When step which picks up a Logger instance from the LoggerFactory!");
-		$actualInstance = $this->lastReturnedLoggerInstance;
-		
-		$expectedInstance = $this->config->getLogger($loggerName);
-		Preconditions::checkArgument(! is_null($expectedInstance), "there is no configured Logger found with name '{}'! check your @Given steps or the given loggerName parameter!", $loggerName);
-		
-		\PHPUnit_Framework_TestCase::assertEquals($expectedInstance->getLogLevel(), $actualInstance->getLogLevel(), "logLevel does not match");
-		\PHPUnit_Framework_TestCase::assertEquals($expectedInstance->getAppenders(), $actualInstance->getAppenders(), "Appenders does not match");
-	}
-
-	
-	/**
-	 * @Then the returned Logger instance name is :loggerName
-	 */
-	public function ThenTheReturnedLoggerInstanceNameIs($loggerName) {
-		Preconditions::checkState(! is_null($this->lastReturnedLoggerInstance), "You can use this step only after using a @When step which picks up a Logger instance from the LoggerFactory!");
-		
-		\PHPUnit_Framework_TestCase::assertEquals($loggerName, $this->lastReturnedLoggerInstance->getName(), "Name of Logger does not match with expected name!");
-	}
-
-	
-	/**
-	 * @Then the returned Logger instance is the special NullLogger
-	 */
-	public function ThenTheReturnedLoggerInstanceIsTheSpecialNulllogger() {
-		Preconditions::checkState(! is_null($this->lastReturnedLoggerInstance), "You can use this step only after using a @When step which picks up a Logger instance from the LoggerFactory!");
-		$actualLogger = $this->lastReturnedLoggerInstance;
-		
-		$loggerFactoryReflectionProp = new \ReflectionProperty("wwwind\\logging\\LoggerFactory", "nullLogger");
-		$loggerFactoryReflectionProp->setAccessible(true);
-		$expectedLogger = $loggerFactoryReflectionProp->getValue();
-		
-		\PHPUnit_Framework_TestCase::assertEquals($expectedLogger, $actualLogger, "The returned Logger is not the special NullLogger instance");
 	}
 
 }

@@ -4,6 +4,7 @@ namespace wwwind\logging;
 
 use Psr\Log\LoggerInterface;
 use wwwind\logging\config\LogConfig;
+use wwwind\logging\config\LoggerTemplate;
 
 
 /**
@@ -92,24 +93,28 @@ class LoggerFactory {
 			return static::getNullLogger();
 		}
 		// let's find the "best" matching Logger - this is the one with highest matching weight
-		$namespacePath = preg_split("/[\.\\\\\\/]/", $fullyQualifiedClassName, null, PREG_SPLIT_NO_EMPTY);
-		$selectedLogger = null;
+		$namespacePath = LoggerTemplate::splitNamespacePath($fullyQualifiedClassName);
+		$selectedLoggerTemplate = null;
 		$maxMatchWeight = - 1;
-		foreach (static::$config->getLoggers() as $logger) {
-			$matchWeight = static::matchNamespacePaths($logger->getNamespacePath(), $namespacePath);
+		foreach (static::$config->getLoggerTemplates() as $loggerTemplate) {
+			$matchWeight = static::matchNamespacePaths($loggerTemplate->getNamespacePath(), $namespacePath);
 			if ($matchWeight > $maxMatchWeight) {
-				$selectedLogger = $logger;
+				$selectedLoggerTemplate = $loggerTemplate;
 				$maxMatchWeight = $matchWeight;
 			}
 		}
-		if (is_null($selectedLogger)) {
-			$selectedLogger = static::getNullLogger();
+		if (is_null($selectedLoggerTemplate)) {
+			return static::getNullLogger();
 		} else {
-			// we quickly clone this logger and change its name to the fully qualified class name
-			// by doing so the setup will remain in place
-			$selectedLogger = $selectedLogger->getCloneWithName($fullyQualifiedClassName);
+			// let's create the logger instance based on selected template
+			$appenders = $selectedLoggerTemplate->getAppenders();
+			if (is_null($appenders)) {
+				// let's build up the appender list!
+				$selectedLoggerTemplate->buildAndCacheAppenders(static::$config->getAppenders());
+				$appenders = $selectedLoggerTemplate->getAppenders();
+			}
+			return new Logger($fullyQualifiedClassName, $selectedLoggerTemplate->getLogLevel(), $appenders);
 		}
-		return $selectedLogger;
 	}
 
 	/**

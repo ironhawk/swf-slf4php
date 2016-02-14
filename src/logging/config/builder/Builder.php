@@ -6,24 +6,28 @@ namespace wwwind\logging\config\builder;
  * Interface definition for builders we use to build up configuration
  *
  * @author ironhawk
- *
+ *        
  */
 interface Builder {
 
 	/**
-	 * Build and return the appropriate object instance
+	 * You just need to create and return a new instance of your builder class<p>
+	 * This is a Helper method for native PHP based config building - see example: php-based-config !
 	 *
-	 * @param array $builderContext
-	 *        	To pass around necessary info for building objects. (At the moment it is not really used except one
-	 *        	case which is the LoggerBuilder)
+	 * @return Builder
 	 */
-	public function build(array $builderContext = null);
+	public static function create();
+
+	/**
+	 * Build and return the appropriate object instance
+	 */
+	public function build();
 
 	/**
 	 * Initialize the builder object from a json object and return the builder
 	 *
-	 * @param \stdClass $jsonObj
-	 * @param array $envVars
+	 * @param \stdClass $jsonObj        	
+	 * @param array $envVars        	
 	 * @return Builder
 	 */
 	public function initFromJson($jsonObj, $envVars);

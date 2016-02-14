@@ -10,14 +10,19 @@ class MonologStreamHandlerBuilder extends MonologHandlerBuilder {
 
 	protected $stream;
 
+	
 	/**
 	 *
-	 * @return \wwwind\logging\config\builder\MonologStreamHandlerBuilder
+	 * {@inheritDoc}
+	 *
+	 * @return \wwwind\logging\config\builder\monolog\MonologStreamHandlerBuilder
+	 *
 	 */
 	public static function create() {
 		return new MonologStreamHandlerBuilder();
 	}
 
+	
 	/**
 	 *
 	 * @param string $stream        	
@@ -36,7 +41,7 @@ class MonologStreamHandlerBuilder extends MonologHandlerBuilder {
 	 * @see \wwwind\logging\config\builder\monolog\MonologHandlerBuilder::build()
 	 * @return \Monolog\Handler\StreamHandler
 	 */
-	public function build(array $builderContext = null) {
+	public function build() {
 		$handler = new StreamHandler($this->stream);
 		parent::injectSetup($handler);
 		return $handler;

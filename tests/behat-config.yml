@@ -3,4 +3,5 @@ default:
         default:
             contexts: 
                 - wwwind\logging\tests\BDD\steps\LoggerSteps
+                - wwwind\logging\tests\BDD\steps\LoggerFactorySteps
             paths: [%paths.base%/BDD]

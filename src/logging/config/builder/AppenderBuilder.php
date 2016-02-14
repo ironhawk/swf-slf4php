@@ -23,7 +23,7 @@ abstract class AppenderBuilder implements Builder {
 	 * @see \wwwind\logging\config\builder\Builder::build()
 	 * @return \wwwind\logging\Appender
 	 */
-	public abstract function build(array $builderContext = null);
+	public abstract function build();
 
 	/**
 	 *

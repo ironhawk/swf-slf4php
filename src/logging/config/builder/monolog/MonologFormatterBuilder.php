@@ -3,6 +3,7 @@
 namespace wwwind\logging\config\builder\monolog;
 
 use wwwind\logging\config\builder\Builder;
+use Monolog\Formatter\FormatterInterface;
 
 abstract class MonologFormatterBuilder implements Builder {
 
@@ -12,8 +13,9 @@ abstract class MonologFormatterBuilder implements Builder {
 	 * {@inheritDoc}
 	 *
 	 * @see \wwwind\logging\config\builder\Builder::build()
+	 * @return \Monolog\Formatter\FormatterInterface
 	 */
-	public abstract function build(array $builderContext = null);
+	public abstract function build();
 
 	/**
 	 *

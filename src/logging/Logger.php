@@ -6,7 +6,7 @@ use Psr\Log\LoggerInterface;
 use wwwind\util\TextUtil;
 
 /**
- * You should instantiate Logger classes with LoggerFactory.
+ * You should instantiate Logger classes with LoggerFactory only...
  *
  * @author ironhawk
  * @see \wwwind\logging\LoggerFactory
@@ -14,8 +14,6 @@ use wwwind\util\TextUtil;
 class Logger implements LoggerInterface {
 
 	private $name;
-
-	private $namespacePath;
 
 	private $logLevel;
 
@@ -35,12 +33,6 @@ class Logger implements LoggerInterface {
 		$this->name = $name;
 		$this->appenders = $appenders;
 		$this->logLevel = $logLevel;
-		
-		if (! empty($name)) {
-			$this->namespacePath = preg_split("/[\.\\\\\\/]/", $name, null, PREG_SPLIT_NO_EMPTY);
-		} else {
-			$this->namespacePath = null;
-		}
 	}
 
 	/**
@@ -49,14 +41,6 @@ class Logger implements LoggerInterface {
 	 */
 	public function getName() {
 		return $this->name;
-	}
-
-	/**
-	 *
-	 * @return array
-	 */
-	public function getNamespacePath() {
-		return $this->namespacePath;
 	}
 
 	/**
@@ -74,18 +58,6 @@ class Logger implements LoggerInterface {
 	 */
 	public function getAppenders() {
 		return $this->appenders;
-	}
-
-	/**
-	 * Returns a clone but with a different name.<p>
-	 * Used by LoggerFactory to quickly create a new instance of pre-configured Logger instance but with
-	 * a different name.
-	 *
-	 * @param string $withName        	
-	 * @return Logger
-	 */
-	public function getCloneWithName($withName) {
-		return new Logger($withName, $this->logLevel, $this->appenders);
 	}
 
 	private function parseMessage(array $funcParams) {

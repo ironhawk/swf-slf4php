@@ -5,12 +5,16 @@ namespace wwwind\logging\config\builder\monolog;
 use wwwind\logging\monolog\MonologProxyAppender;
 use wwwind\logging\config\builder\AppenderBuilder;
 use wwwind\errors\Preconditions;
+use Monolog\Handler\AbstractProcessingHandler;
+use wwwind\logging\config\builder\Builder;
 
 class MonologProxyAppenderBuilder extends AppenderBuilder {
 
-	protected $handlerBuilders = [];
+	protected $handlers = [];
 
 	/**
+	 *
+	 * {@inheritDoc}
 	 *
 	 * @return \wwwind\logging\config\builder\monolog\MonologProxyAppenderBuilder
 	 */
@@ -20,10 +24,11 @@ class MonologProxyAppenderBuilder extends AppenderBuilder {
 
 	/**
 	 *
+	 * @param AbstractProcessingHandler $handler        	
 	 * @return \wwwind\logging\config\builder\monolog\MonologProxyAppenderBuilder
 	 */
-	public function handlerBuilder($handlerBuilder) {
-		$this->handlerBuilders[] = $handlerBuilder;
+	public function handler($handler) {
+		$this->handlers[] = $handler;
 		return $this;
 	}
 
@@ -31,12 +36,8 @@ class MonologProxyAppenderBuilder extends AppenderBuilder {
 	 *
 	 * @return \wwwind\logging\monolog\MonologProxyAppender
 	 */
-	public function build(array $builderContext = null) {
-		$handlers = [];
-		foreach ($this->handlerBuilders as $handlerBuilder) {
-			$handlers[] = $handlerBuilder->build();
-		}
-		$appender = new MonologProxyAppender($this->name, $handlers);
+	public function build() {
+		$appender = new MonologProxyAppender($this->name, $this->handlers);
 		return $appender;
 	}
 
@@ -52,13 +53,12 @@ class MonologProxyAppenderBuilder extends AppenderBuilder {
 		$this->name($jsonObj->name);
 		if (isset($jsonObj->handlers)) {
 			foreach ($jsonObj->handlers as $handlerJsonObj) {
-				// let's call the static create method which all builders have
-				$handlerBuilder = call_user_func_array(array(
-					$handlerJsonObj->builderClass,
-					'create'
-				), []);
+				
+				$reflection = new \ReflectionClass($handlerJsonObj->builderClass);
+				Preconditions::checkArgument($reflection->implementsInterface("\wwwind\logging\config\builder\Builder"), "'builderClass' {} doesn't implement \\wwwind\\logging\\config\\builder\\Builder interface in appender def: {}", $handlerJsonObj->builderClass, $handlerJsonObj);
+				$handlerBuilder = $reflection->newInstance();
 				$handlerBuilder->initFromJson($handlerJsonObj, $envVars);
-				$this->handlerBuilder($handlerBuilder);
+				$this->handler($handlerBuilder->build());
 			}
 		}
 		return $this;

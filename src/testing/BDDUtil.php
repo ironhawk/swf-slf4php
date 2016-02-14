@@ -35,6 +35,24 @@ class BDDUtil {
 		return $value;
 	}
 
+	
+	/**
+	 * Splits up content of given string used given separator then returns a list.
+	 * Elements are trimmed!
+	 * If value is NULL or empty then an empty list is returned
+	 *
+	 * @param string $listStr;
+	 *        	the string
+	 * @return array list of elements found in string
+	 */
+	public static function getListFromString($listStr, $separator = ',') {
+		if (is_null($listStr))
+			return [];
+		$list = explode($separator, $listStr);
+		$list = static::arrayTrim($list);
+		return $list;
+	}
+
 	/**
 	 * Splits up content of given column used given separator then returns a list.
 	 * If column does not exist
@@ -50,9 +68,7 @@ class BDDUtil {
 		$value = static::getStringFromColumn($row, $columnName);
 		if (is_null($value))
 			return [];
-		$list = explode($separator, $value);
-		$list = static::arrayTrim($list);
-		return $list;
+		return static::getListFromString($value, $separator);
 	}
 
 	/**

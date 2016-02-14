@@ -5,14 +5,18 @@ namespace wwwind\logging\config\builder;
 use wwwind\logging\config\LogConfig;
 use wwwind\errors\Preconditions;
 use wwwind\logging\LoggerFactory;
+use wwwind\logging\config\LoggerTemplate;
 
 class LogConfigBuilder implements Builder {
 
-	private $loggerBuilders;
+	private $loggers = [];
 
-	private $appenderBuilders;
+	private $appenders = [];
 
+	
 	/**
+	 *
+	 * {@inheritDoc}
 	 *
 	 * @return \wwwind\logging\config\builder\LogConfigBuilder
 	 */
@@ -36,32 +40,28 @@ class LogConfigBuilder implements Builder {
 		return LoggerFactory::$names2levels[$key];
 	}
 
-	public function __construct() {
-		$this->loggerBuilders = [];
-		$this->appenderBuilders = [];
-	}
-
 	/**
+	 * Adding a LoggerTemplate
 	 *
-	 * @param LoggerBuilder $loggerBuilder        	
+	 * @param LoggerTemplate $loggerTemplate        	
 	 * @return LogConfigBuilder
 	 */
-	public function loggerBuilder($loggerBuilder) {
-		$this->loggerBuilders[] = $loggerBuilder;
+	public function logger($loggerTemplate) {
+		$this->loggers[] = $loggerTemplate;
 		return $this;
 	}
 
 	/**
+	 * Adding an Appender
 	 *
-	 * @param AppenderBuilder $appenderBuilder        	
+	 * @param Appender $appender        	
 	 * @return LogConfigBuilder
 	 */
-	public function appenderBuilder($appenderBuilder) {
-		$this->appenderBuilders[] = $appenderBuilder;
+	public function appender($appender) {
+		$this->appenders[] = $appender;
 		return $this;
 	}
 
-	
 	/**
 	 *
 	 * {@inheritDoc}
@@ -69,24 +69,10 @@ class LogConfigBuilder implements Builder {
 	 * @see \wwwind\logging\config\builder\Builder::build()
 	 * @return LogConfig
 	 */
-	public function build(array $builderContext = null) {
-		$appenders = [];
-		foreach ($this->appenderBuilders as $appenderBuilder) {
-			$appender = $appenderBuilder->build();
-			$appenders[$appender->getName()] = $appender;
-		}
+	public function build() {
+		Preconditions::checkState(! empty($this->appenders), "config error! There are no configured Appenders at all!");
 		
-		Preconditions::checkState(! empty($appenders), "config error! There are no configured Appenders at all!");
-		
-		$loggers = [];
-		foreach ($this->loggerBuilders as $loggerBuilder) {
-			$logger = $loggerBuilder->build([
-				'appenders' => $appenders
-			]);
-			$loggers[] = $logger;
-		}
-		
-		return new LogConfig($loggers, $appenders);
+		return new LogConfig($this->loggers, $this->appenders);
 	}
 
 	/**
@@ -100,20 +86,19 @@ class LogConfigBuilder implements Builder {
 		if (isset($jsonObj->appenders)) {
 			foreach ($jsonObj->appenders as $appenderJsonObj) {
 				Preconditions::checkArgument(isset($appenderJsonObj->builderClass), "'builderClass' attribute is missing from appender: {}", $appenderJsonObj);
-				// let's call the static create method which all builders have
-				$appenderBuilder = call_user_func_array(array(
-					$appenderJsonObj->builderClass,
-					'create'
-				), []);
+				// let's create builder instance
+				$reflection = new \ReflectionClass($appenderJsonObj->builderClass);
+				Preconditions::checkArgument($reflection->implementsInterface("\wwwind\logging\config\builder\Builder"), "'builderClass' {} doesn't implement \\wwwind\\logging\\config\\builder\\Builder interface in appender def: {}", $appenderJsonObj->builderClass, $appenderJsonObj);
+				$appenderBuilder = $reflection->newInstance();
 				$appenderBuilder->initFromJson($appenderJsonObj, $envVars);
-				$this->appenderBuilder($appenderBuilder);
+				$this->appender($appenderBuilder->build());
 			}
 		}
 		if (isset($jsonObj->loggers)) {
 			foreach ($jsonObj->loggers as $loggerJsonObj) {
-				$loggerBuilder = LoggerBuilder::create();
-				$loggerBuilder->initFromJson($loggerJsonObj, $envVars);
-				$this->loggerBuilder($loggerBuilder);
+				$loggerTemplateBuilder = new LoggerTemplateBuilder();
+				$loggerTemplateBuilder->initFromJson($loggerJsonObj, $envVars);
+				$this->logger($loggerTemplateBuilder->build());
 			}
 		}
 		return $this;

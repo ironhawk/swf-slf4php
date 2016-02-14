@@ -4,7 +4,18 @@ namespace wwwind\logging\config;
 
 use wwwind\logging\Logger;
 use wwwind\logging\Appender;
+use wwwind\logging\config\builder\LogConfigBuilder;
 
+/**
+ * An immutable object holding the log configuration<p>
+ * To build up a LogConfig in more convinient way you might use LogConfigBuilder.
+ *
+ * @immutable
+ *
+ * @author ironhawk
+ * @see LogConfigBuilder
+ *
+ */
 class LogConfig {
 
 	/**
@@ -14,55 +25,50 @@ class LogConfig {
 	 *
 	 * @var array
 	 */
-	private $loggersByName;
+	private $loggerTemplatesByNamespacePath;
 
 	/**
 	 * This is a Map in the following format: Appender.name => Appender
 	 *
-	 * @var array $appendersByName
+	 * @param array $appenders
+	 *        	list of Appenders should be added to this config
+	 * @param array $logg        	
 	 */
 	private $appendersByName;
 
-	public function __construct(array $loggers = [], array $appendersByName = []) {
-		$this->loggersByName = $loggers;
-		$this->appendersByName = $appendersByName;
+	public function __construct(array $loggerTemplates = [], array $appenders = []) {
+		$this->loggerTemplatesByNamespacePath = [];
+		$this->appendersByName = [];
+		foreach ($loggerTemplates as $loggerTemplate) {
+			$namespacePath = $loggerTemplate->getNamespacePath();
+			if (empty($namespacePath))
+				$namespacePath = 'null';
+			else
+				$namespacePath = implode('.', $loggerTemplate->getNamespacePath());
+			$this->loggerTemplatesByNamespacePath[$namespacePath] = $loggerTemplate;
+		}
+		foreach ($appenders as $appender) {
+			$this->appendersByName[$appender->getName()] = $appender;
+		}
+	}
+
+	public function getLoggerTemplates() {
+		return $this->loggerTemplatesByNamespacePath;
 	}
 
 	/**
+	 * Returns the LoggerTemplate with the given namespacePath.
+	 * If there is no LoggerTemplate with that name NULL is returned
 	 *
-	 * @param Logger $logger        	
-	 * @return LogConfig
+	 * @param string $namespacePath
+	 *        	name of the LoggerTemplate
+	 * @return LoggerTemplate
 	 */
-	public function logger(Logger $logger) {
-		$this->loggersByName[$logger->getName()] = $logger;
-		return $this;
-	}
-
-	/**
-	 *
-	 * @param Appender $appender        	
-	 * @return LogConfig
-	 */
-	public function appender(Appender $appender) {
-		$this->appendersByName[$appender->getName()] = $appender;
-		return $this;
-	}
-
-	public function getLoggers() {
-		return $this->loggersByName;
-	}
-
-	/**
-	 * Returns the Logger with the given name.
-	 * If there is no Logger with that name NULL is returned
-	 *
-	 * @param string $name
-	 *        	name of the Logger
-	 * @return Logger
-	 */
-	public function getLogger($name) {
-		if (array_key_exists($name, $this->loggersByName))
-			return $this->loggersByName[$name];
+	public function getLoggerTemplate($namespacePath) {
+		$namespacePath = LoggerTemplate::splitNamespacePath($namespacePath);
+		$namespacePath = empty($namespacePath) ? 'null' : implode('.', $namespacePath);
+		if (array_key_exists($namespacePath, $this->loggerTemplatesByNamespacePath))
+			return $this->loggerTemplatesByNamespacePath[$namespacePath];
 		return null;
 	}
 
