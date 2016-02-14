@@ -1,14 +1,14 @@
 {
-    "name": "wwwind/logging",
-    "description": "WWWind logging facility - inspired by Java slf4j library",
+    "name": "swf/lf4php",
+    "description": "SWF logging facade for php - inspired by slf4j / logback / log4j java projects",
     "version": "1.0.0",
     "keywords": ["logging"],
-    "homepage": "http://gitlab.wwwind.hu:2443/public-projects/logging",
+    "homepage": "http://gitlab.swf.hu:2443/public-projects/logging",
     "license": "Apache-2.0",
     "authors": [
     	{
     		"name": "Attila Wind (ironhawk)",
-    		"email": "attilaw@wwwind.hu",
+    		"email": "attilaw@swf.technology",
     		"role": "Developer"
     	}
     ],
@@ -19,12 +19,11 @@
     },
     "require-dev": {
     	"behat/behat" : "3.0.*",
-    	"mockery/mockery": "0.9.*",
     	"phpunit/phpunit": "~4.8"
     },
     "autoload": {
         "psr-4": {
-        	"wwwind\\" : "src/"
+        	"swf\\" : "src/"
         }
     },
     "autoload-dev": {

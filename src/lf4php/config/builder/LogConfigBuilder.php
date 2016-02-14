@@ -1,11 +1,11 @@
 <?php
 
-namespace wwwind\logging\config\builder;
+namespace swf\lf4php\config\builder;
 
-use wwwind\logging\config\LogConfig;
-use wwwind\errors\Preconditions;
-use wwwind\logging\LoggerFactory;
-use wwwind\logging\config\LoggerTemplate;
+use swf\lf4php\config\LogConfig;
+use swf\errors\Preconditions;
+use swf\lf4php\LoggerFactory;
+use swf\lf4php\config\LoggerTemplate;
 
 class LogConfigBuilder implements Builder {
 
@@ -18,7 +18,7 @@ class LogConfigBuilder implements Builder {
 	 *
 	 * {@inheritDoc}
 	 *
-	 * @return \wwwind\logging\config\builder\LogConfigBuilder
+	 * @return \swf\lf4php\config\builder\LogConfigBuilder
 	 */
 	public static function create() {
 		return new LogConfigBuilder();
@@ -66,7 +66,7 @@ class LogConfigBuilder implements Builder {
 	 *
 	 * {@inheritDoc}
 	 *
-	 * @see \wwwind\logging\config\builder\Builder::build()
+	 * @see \swf\lf4php\config\builder\Builder::build()
 	 * @return LogConfig
 	 */
 	public function build() {
@@ -79,8 +79,8 @@ class LogConfigBuilder implements Builder {
 	 *
 	 * {@inheritDoc}
 	 *
-	 * @see \wwwind\logging\config\builder\Builder::initFromJson()
-	 * @return \wwwind\logging\config\builder\LogConfigBuilder
+	 * @see \swf\lf4php\config\builder\Builder::initFromJson()
+	 * @return \swf\lf4php\config\builder\LogConfigBuilder
 	 */
 	public function initFromJson($jsonObj, $envVars) {
 		if (isset($jsonObj->appenders)) {
@@ -88,7 +88,7 @@ class LogConfigBuilder implements Builder {
 				Preconditions::checkArgument(isset($appenderJsonObj->builderClass), "'builderClass' attribute is missing from appender: {}", $appenderJsonObj);
 				// let's create builder instance
 				$reflection = new \ReflectionClass($appenderJsonObj->builderClass);
-				Preconditions::checkArgument($reflection->implementsInterface("\wwwind\logging\config\builder\Builder"), "'builderClass' {} doesn't implement \\wwwind\\logging\\config\\builder\\Builder interface in appender def: {}", $appenderJsonObj->builderClass, $appenderJsonObj);
+				Preconditions::checkArgument($reflection->implementsInterface("\swf\lf4php\config\builder\Builder"), "'builderClass' {} doesn't implement \\swf\\logging\\config\\builder\\Builder interface in appender def: {}", $appenderJsonObj->builderClass, $appenderJsonObj);
 				$appenderBuilder = $reflection->newInstance();
 				$appenderBuilder->initFromJson($appenderJsonObj, $envVars);
 				$this->appender($appenderBuilder->build());

@@ -1,17 +1,17 @@
 <?php
 
-namespace wwwind\logging\tests\BDD\steps;
+namespace swf\lf4php\tests\BDD\steps;
 
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
-use wwwind\logging\config\LogConfig;
-use wwwind\logging\Logger;
-use wwwind\logging\config\builder\LogConfigBuilder;
-use wwwind\logging\tests\mocks\AppenderMock;
-use wwwind\errors\Preconditions;
-use wwwind\logging\LoggerFactory;
-use wwwind\logging\config\LoggerTemplate;
-use wwwind\testing\BDDUtil;
+use swf\lf4php\config\LogConfig;
+use swf\lf4php\Logger;
+use swf\lf4php\config\builder\LogConfigBuilder;
+use swf\lf4php\tests\mocks\AppenderMock;
+use swf\errors\Preconditions;
+use swf\lf4php\LoggerFactory;
+use swf\lf4php\config\LoggerTemplate;
+use swf\testing\BDDUtil;
 
 /**
  * Defines steps for building up logging setup and test Loggers
@@ -41,7 +41,7 @@ class LoggerFactorySteps implements Context, SnippetAcceptingContext {
 	/**
 	 * Builds and stores the LogConfig object based on the current state of the configBuilder
 	 *
-	 * @return \wwwind\logging\config\LogConfig
+	 * @return \swf\lf4php\config\LogConfig
 	 */
 	private function getConfig() {
 		return $this->configBuilder->build();
@@ -128,7 +128,7 @@ class LoggerFactorySteps implements Context, SnippetAcceptingContext {
 		Preconditions::checkState(! is_null($this->lastReturnedLoggerInstance), "You can use this step only after using a @When step which picks up a Logger instance from the LoggerFactory!");
 		$actualLogger = $this->lastReturnedLoggerInstance;
 		
-		$loggerFactoryReflectionProp = new \ReflectionProperty("wwwind\\logging\\LoggerFactory", "nullLogger");
+		$loggerFactoryReflectionProp = new \ReflectionProperty("swf\\lf4php\\LoggerFactory", "nullLogger");
 		$loggerFactoryReflectionProp->setAccessible(true);
 		$expectedLogger = $loggerFactoryReflectionProp->getValue();
 		

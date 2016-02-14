@@ -1,6 +1,6 @@
 <?php
 
-namespace wwwind\logging\config\builder;
+namespace swf\lf4php\config\builder;
 
 abstract class AppenderBuilder implements Builder {
 
@@ -8,7 +8,7 @@ abstract class AppenderBuilder implements Builder {
 
 	/**
 	 *
-	 * @return \wwwind\logging\config\builder\AppenderBuilder
+	 * @return \swf\lf4php\config\builder\AppenderBuilder
 	 */
 	public function name($name) {
 		$this->name = $name;
@@ -20,8 +20,8 @@ abstract class AppenderBuilder implements Builder {
 	 *
 	 * {@inheritDoc}
 	 *
-	 * @see \wwwind\logging\config\builder\Builder::build()
-	 * @return \wwwind\logging\Appender
+	 * @see \swf\lf4php\config\builder\Builder::build()
+	 * @return \swf\lf4php\Appender
 	 */
 	public abstract function build();
 
@@ -29,8 +29,8 @@ abstract class AppenderBuilder implements Builder {
 	 *
 	 * {@inheritDoc}
 	 *
-	 * @see \wwwind\logging\config\builder\Builder::initFromJson()
-	 * @return \wwwind\logging\config\builder\AppenderBuilder
+	 * @see \swf\lf4php\config\builder\Builder::initFromJson()
+	 * @return \swf\lf4php\config\builder\AppenderBuilder
 	 */
 	public abstract function initFromJson($jsonObj, $envVars);
 

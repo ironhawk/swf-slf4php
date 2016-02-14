@@ -1,6 +1,6 @@
 <?php
 
-namespace wwwind\logging\monolog;
+namespace swf\lf4php\monolog;
 
 /**
  * This simple processor is created for Monolog based Appenders.<p>

@@ -1,8 +1,8 @@
 <?php
 
-namespace wwwind\logging\examples\namespaceA;
+namespace swf\lf4php\examples\namespaceA;
 
-use wwwind\logging\LoggerFactory;
+use swf\lf4php\LoggerFactory;
 
 class ClassA {
 
@@ -12,7 +12,7 @@ class ClassA {
 
 	/**
 	 *
-	 * @return \wwwind\logging\Logger
+	 * @return \swf\lf4php\Logger
 	 */
 	protected static function logger() {
 		if (is_null(static::$_LOG))

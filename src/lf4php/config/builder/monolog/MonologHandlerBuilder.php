@@ -1,13 +1,13 @@
 <?php
 
-namespace wwwind\logging\config\builder\monolog;
+namespace swf\lf4php\config\builder\monolog;
 
 use Monolog\Handler\AbstractProcessingHandler;
 use Monolog\Logger;
-use wwwind\logging\config\builder\Builder;
-use wwwind\util\JsonUtil;
-use wwwind\logging\config\builder\LogConfigBuilder;
-use wwwind\errors\Preconditions;
+use swf\lf4php\config\builder\Builder;
+use swf\util\JsonUtil;
+use swf\lf4php\config\builder\LogConfigBuilder;
+use swf\errors\Preconditions;
 use Monolog\Formatter\FormatterInterface;
 
 abstract class MonologHandlerBuilder implements Builder {
@@ -25,7 +25,7 @@ abstract class MonologHandlerBuilder implements Builder {
 	/**
 	 *
 	 * @param FormatterInterface $builder        	
-	 * @return \wwwind\logging\config\builder\monolog\MonologHandlerBuilder
+	 * @return \swf\lf4php\config\builder\monolog\MonologHandlerBuilder
 	 */
 	public function formatter(FormatterInterface $formatter) {
 		$this->formatter = $formatter;
@@ -35,7 +35,7 @@ abstract class MonologHandlerBuilder implements Builder {
 	/**
 	 *
 	 * @param int $level        	
-	 * @return \wwwind\logging\config\builder\monolog\MonologHandlerBuilder
+	 * @return \swf\lf4php\config\builder\monolog\MonologHandlerBuilder
 	 */
 	public function level($level) {
 		$this->level = $level;
@@ -45,7 +45,7 @@ abstract class MonologHandlerBuilder implements Builder {
 	/**
 	 *
 	 * @param boolean $bubble        	
-	 * @return \wwwind\logging\config\builder\monolog\MonologHandlerBuilder
+	 * @return \swf\lf4php\config\builder\monolog\MonologHandlerBuilder
 	 */
 	public function bubble($bubble) {
 		$this->bubble = $bubble;
@@ -71,8 +71,8 @@ abstract class MonologHandlerBuilder implements Builder {
 	 *
 	 * {@inheritDoc}
 	 *
-	 * @see \wwwind\logging\config\builder\Builder::build()
-	 * @return \wwwind\logging\config\builder\Appender
+	 * @see \swf\lf4php\config\builder\Builder::build()
+	 * @return \swf\lf4php\config\builder\Appender
 	 */
 	public abstract function build();
 
@@ -80,8 +80,8 @@ abstract class MonologHandlerBuilder implements Builder {
 	 *
 	 * {@inheritDoc}
 	 *
-	 * @see \wwwind\logging\config\builder\Builder::initFromJson()
-	 * @return \wwwind\logging\config\builder\MonologHandlerBuilder
+	 * @see \swf\lf4php\config\builder\Builder::initFromJson()
+	 * @return \swf\lf4php\config\builder\MonologHandlerBuilder
 	 */
 	public function initFromJson($jsonObj, $envVars) {
 		if (isset($jsonObj->bubble)) {
@@ -95,7 +95,7 @@ abstract class MonologHandlerBuilder implements Builder {
 			Preconditions::checkArgument(isset($formatterJsonObj->builderClass), "'builderClass' attribute is missing from Monolog Formatter json object: {}", $formatterJsonObj);
 			
 			$reflection = new \ReflectionClass($formatterJsonObj->builderClass);
-			Preconditions::checkArgument($reflection->implementsInterface("\wwwind\logging\config\builder\Builder"), "'builderClass' {} doesn't implement \\wwwind\\logging\\config\\builder\\Builder interface in appender def: {}", $formatterJsonObj->builderClass, $formatterJsonObj);
+			Preconditions::checkArgument($reflection->implementsInterface("\swf\lf4php\config\builder\Builder"), "'builderClass' {} doesn't implement \\swf\\logging\\config\\builder\\Builder interface in appender def: {}", $formatterJsonObj->builderClass, $formatterJsonObj);
 			$formatterBuilder = $reflection->newInstance();
 			$formatterBuilder->initFromJson($formatterJsonObj, $envVars);
 			$this->formatter($formatterBuilder->build());

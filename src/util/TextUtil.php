@@ -1,6 +1,6 @@
 <?php
 
-namespace wwwind\util;
+namespace swf\util;
 
 class TextUtil {
 

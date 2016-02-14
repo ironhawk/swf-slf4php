@@ -1,6 +1,6 @@
 <?php
-use wwwind\testing\BehatPHPUnitBridge;
-use wwwind\logging\LoggerFactory;
+use swf\testing\BehatPHPUnitBridge;
+use swf\lf4php\LoggerFactory;
 
 class LoggerFactoryTest extends PHPUnit_Framework_TestCase {
 
@@ -11,7 +11,7 @@ class LoggerFactoryTest extends PHPUnit_Framework_TestCase {
 	public function testNotConfiguredLoggerFactoryShouldAlwaysReturnNullLogger() {
 		$actualLogger = LoggerFactory::getLogger("MyClass");
 		
-		$loggerFactoryReflectionProp = new \ReflectionProperty("wwwind\\logging\\LoggerFactory", "nullLogger");
+		$loggerFactoryReflectionProp = new \ReflectionProperty("swf\\lf4php\\LoggerFactory", "nullLogger");
 		$loggerFactoryReflectionProp->setAccessible(true);
 		$expectedLogger = $loggerFactoryReflectionProp->getValue();
 		

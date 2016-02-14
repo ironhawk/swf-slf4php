@@ -1,11 +1,11 @@
 <?php
-use wwwind\logging\config\builder\LogConfigBuilder;
-use wwwind\logging\config\builder\monolog\MonologProxyAppenderBuilder;
-use wwwind\logging\config\builder\monolog\MonologStreamHandlerBuilder;
-use wwwind\logging\config\builder\LoggerBuilder;
-use wwwind\logging\LoggerFactory;
-use wwwind\logging\config\builder\monolog\MonologLineFormatterBuilder;
-use wwwind\logging\config\builder\LoggerTemplateBuilder;
+use swf\lf4php\config\builder\LogConfigBuilder;
+use swf\lf4php\config\builder\monolog\MonologProxyAppenderBuilder;
+use swf\lf4php\config\builder\monolog\MonologStreamHandlerBuilder;
+use swf\lf4php\config\builder\LoggerBuilder;
+use swf\lf4php\LoggerFactory;
+use swf\lf4php\config\builder\monolog\MonologLineFormatterBuilder;
+use swf\lf4php\config\builder\LoggerTemplateBuilder;
 
 // @formatter:off
 
@@ -33,14 +33,14 @@ appender(
 // adding namespace based loggers with different level(s) and routed to appenders
 ->logger(
 	LoggerTemplateBuilder::create()
-	->name("wwwind.logging.examples.namespaceA")
+	->name("swf.logging.examples.namespaceA")
 	->level(LoggerFactory::DEBUG)
 	->appenderName("MainLogFiles")
 	->build()
 )
 ->logger(
 	LoggerTemplateBuilder::create()
-	->name("wwwind.logging.examples.namespaceB")
+	->name("swf.logging.examples.namespaceB")
 	->level(LoggerFactory::ERROR)
 	->appenderName("MainLogFiles")
 	->build()

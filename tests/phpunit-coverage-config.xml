@@ -29,7 +29,7 @@
          
 	<filter>
 	  <whitelist processUncoveredFilesFromWhitelist="true">
-	    <directory suffix=".php">../src/logging</directory>
+	    <directory suffix=".php">../src/lf4php</directory>
 	    <directory suffix=".php">../src/util</directory>
 	  </whitelist>
 	</filter>

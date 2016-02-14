@@ -1,6 +1,6 @@
 <?php
 
-namespace wwwind\testing;
+namespace swf\testing;
 
 /**
  * Some helper utility methods used in BDD Steps (officially called XXXContext) files

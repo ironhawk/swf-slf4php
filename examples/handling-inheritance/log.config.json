@@ -4,24 +4,24 @@
 	
 		{
 			"name" : "MainLogFiles",
-			"builderClass" : "wwwind\\logging\\config\\builder\\monolog\\MonologProxyAppenderBuilder",
+			"builderClass" : "swf\\lf4php\\config\\builder\\monolog\\MonologProxyAppenderBuilder",
 			"handlers" : [
 				{
 					"bubble" : true,
-					"builderClass" : "wwwind\\logging\\config\\builder\\monolog\\MonologStreamHandlerBuilder",
+					"builderClass" : "swf\\lf4php\\config\\builder\\monolog\\MonologStreamHandlerBuilder",
 					"stream" : "${LOG_DIR}/application.log",
 					"formatter": {
-						"builderClass" : "wwwind\\logging\\config\\builder\\monolog\\MonologLineFormatterBuilder",
+						"builderClass" : "swf\\lf4php\\config\\builder\\monolog\\MonologLineFormatterBuilder",
 						"format" : "[%datetime%] %extra.loggerName%.%level_name%: %message% %context% %extra%\n\n"
 					}
 				},
 				{
 					"bubble" : true,
 					"level" : "ERROR",
-					"builderClass" : "wwwind\\logging\\config\\builder\\monolog\\MonologStreamHandlerBuilder",
+					"builderClass" : "swf\\lf4php\\config\\builder\\monolog\\MonologStreamHandlerBuilder",
 					"stream" : "${LOG_DIR}/error.log",
 					"formatter": {
-						"builderClass" : "wwwind\\logging\\config\\builder\\monolog\\MonologLineFormatterBuilder",
+						"builderClass" : "swf\\lf4php\\config\\builder\\monolog\\MonologLineFormatterBuilder",
 						"format" : "[%datetime%] %extra.loggerName%.%level_name%: %message% %context% %extra%\n\n"
 					}
 					

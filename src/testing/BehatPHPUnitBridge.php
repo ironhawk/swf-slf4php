@@ -1,10 +1,10 @@
 <?php
 
-namespace wwwind\testing;
+namespace swf\testing;
 
 use Symfony\Component\Console\Input\ArrayInput;
 use Behat\Behat\ApplicationFactory;
-use wwwind\errors\Preconditions;
+use swf\errors\Preconditions;
 
 /**
  * I want to be able to run Behaviour driven tests within PHPUnit.

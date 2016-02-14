@@ -1,8 +1,8 @@
 <?php
 
-namespace wwwind\logging\examples\namespaceB;
+namespace swf\lf4php\examples\namespaceB;
 
-use wwwind\logging\examples\namespaceA\ClassA;
+use swf\lf4php\examples\namespaceA\ClassA;
 
 /**
  * This class extends ClassA - which means it would inherit both:

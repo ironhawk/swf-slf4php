@@ -1,10 +1,10 @@
 <?php
 
-namespace wwwind\logging\config;
+namespace swf\lf4php\config;
 
-use wwwind\logging\Logger;
-use wwwind\logging\Appender;
-use wwwind\logging\config\builder\LogConfigBuilder;
+use swf\lf4php\Logger;
+use swf\lf4php\Appender;
+use swf\lf4php\config\builder\LogConfigBuilder;
 
 /**
  * An immutable object holding the log configuration<p>

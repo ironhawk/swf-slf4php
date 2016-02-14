@@ -2,6 +2,6 @@ default:
     suites:
         default:
             contexts: 
-                - wwwind\logging\tests\BDD\steps\LoggerSteps
-                - wwwind\logging\tests\BDD\steps\LoggerFactorySteps
+                - swf\lf4php\tests\BDD\steps\LoggerSteps
+                - swf\lf4php\tests\BDD\steps\LoggerFactorySteps
             paths: [%paths.base%/BDD]

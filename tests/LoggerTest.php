@@ -1,5 +1,5 @@
 <?php
-use wwwind\testing\BehatPHPUnitBridge;
+use swf\testing\BehatPHPUnitBridge;
 
 class LoggerTest extends PHPUnit_Framework_TestCase {
 

@@ -1,10 +1,10 @@
 <?php
 
-namespace wwwind\logging\config\builder\monolog;
+namespace swf\lf4php\config\builder\monolog;
 
 use Monolog\Formatter\LineFormatter;
-use wwwind\errors\Preconditions;
-use wwwind\util\JsonUtil;
+use swf\errors\Preconditions;
+use swf\util\JsonUtil;
 
 class MonologLineFormatterBuilder extends MonologFormatterBuilder {
 
@@ -14,7 +14,7 @@ class MonologLineFormatterBuilder extends MonologFormatterBuilder {
 	 *
 	 * {@inheritDoc}
 	 *
-	 * @return \wwwind\logging\config\builder\monolog\MonologLineFormatterBuilder
+	 * @return \swf\lf4php\config\builder\monolog\MonologLineFormatterBuilder
 	 *
 	 */
 	public static function create() {
@@ -24,7 +24,7 @@ class MonologLineFormatterBuilder extends MonologFormatterBuilder {
 	/**
 	 *
 	 * @param string $lineFormatTemplate        	
-	 * @return \wwwind\logging\config\builder\monolog\MonologLineFormatterBuilder
+	 * @return \swf\lf4php\config\builder\monolog\MonologLineFormatterBuilder
 	 */
 	public function format($lineFormatTemplate) {
 		$this->lineFormatTemplate = $lineFormatTemplate;
@@ -35,7 +35,7 @@ class MonologLineFormatterBuilder extends MonologFormatterBuilder {
 	 *
 	 * {@inheritDoc}
 	 *
-	 * @see \wwwind\logging\config\builder\monolog\MonologFormatterBuilder::build()
+	 * @see \swf\lf4php\config\builder\monolog\MonologFormatterBuilder::build()
 	 * @return \Monolog\Formatter\LineFormatter
 	 */
 	public function build() {
@@ -46,8 +46,8 @@ class MonologLineFormatterBuilder extends MonologFormatterBuilder {
 	 *
 	 * {@inheritDoc}
 	 *
-	 * @see \wwwind\logging\config\builder\monolog\MonologFormatterBuilder::initFromJson()
-	 * @return \wwwind\logging\config\builder\MonologLineFormatterBuilder
+	 * @see \swf\lf4php\config\builder\monolog\MonologFormatterBuilder::initFromJson()
+	 * @return \swf\lf4php\config\builder\MonologLineFormatterBuilder
 	 */
 	public function initFromJson($jsonObj, $envVars) {
 		parent::initFromJson($jsonObj, $envVars);

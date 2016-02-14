@@ -1,8 +1,8 @@
 <?php
 
-namespace wwwind\logging\monolog;
+namespace swf\lf4php\monolog;
 
-use wwwind\logging\Appender;
+use swf\lf4php\Appender;
 use Monolog\Logger;
 
 /**

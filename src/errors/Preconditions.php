@@ -1,8 +1,8 @@
 <?php
 
-namespace wwwind\errors;
+namespace swf\errors;
 
-use wwwind\util\TextUtil;
+use swf\util\TextUtil;
 
 /**
  * Handy helper class to quickly check the situation and start throwing exceptions<p>

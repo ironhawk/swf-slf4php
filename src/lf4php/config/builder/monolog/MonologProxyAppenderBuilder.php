@@ -1,12 +1,12 @@
 <?php
 
-namespace wwwind\logging\config\builder\monolog;
+namespace swf\lf4php\config\builder\monolog;
 
-use wwwind\logging\monolog\MonologProxyAppender;
-use wwwind\logging\config\builder\AppenderBuilder;
-use wwwind\errors\Preconditions;
+use swf\lf4php\monolog\MonologProxyAppender;
+use swf\lf4php\config\builder\AppenderBuilder;
+use swf\errors\Preconditions;
 use Monolog\Handler\AbstractProcessingHandler;
-use wwwind\logging\config\builder\Builder;
+use swf\lf4php\config\builder\Builder;
 
 class MonologProxyAppenderBuilder extends AppenderBuilder {
 
@@ -16,7 +16,7 @@ class MonologProxyAppenderBuilder extends AppenderBuilder {
 	 *
 	 * {@inheritDoc}
 	 *
-	 * @return \wwwind\logging\config\builder\monolog\MonologProxyAppenderBuilder
+	 * @return \swf\lf4php\config\builder\monolog\MonologProxyAppenderBuilder
 	 */
 	public static function create() {
 		return new MonologProxyAppenderBuilder();
@@ -25,7 +25,7 @@ class MonologProxyAppenderBuilder extends AppenderBuilder {
 	/**
 	 *
 	 * @param AbstractProcessingHandler $handler        	
-	 * @return \wwwind\logging\config\builder\monolog\MonologProxyAppenderBuilder
+	 * @return \swf\lf4php\config\builder\monolog\MonologProxyAppenderBuilder
 	 */
 	public function handler($handler) {
 		$this->handlers[] = $handler;
@@ -34,7 +34,7 @@ class MonologProxyAppenderBuilder extends AppenderBuilder {
 
 	/**
 	 *
-	 * @return \wwwind\logging\monolog\MonologProxyAppender
+	 * @return \swf\lf4php\monolog\MonologProxyAppender
 	 */
 	public function build() {
 		$appender = new MonologProxyAppender($this->name, $this->handlers);
@@ -45,8 +45,8 @@ class MonologProxyAppenderBuilder extends AppenderBuilder {
 	 *
 	 * {@inheritDoc}
 	 *
-	 * @see \wwwind\logging\config\builder\AppenderBuilder::initFromJson()
-	 * @return \wwwind\logging\config\builder\MonologProxyAppenderBuilder
+	 * @see \swf\lf4php\config\builder\AppenderBuilder::initFromJson()
+	 * @return \swf\lf4php\config\builder\MonologProxyAppenderBuilder
 	 */
 	public function initFromJson($jsonObj, $envVars) {
 		Preconditions::checkArgument(isset($jsonObj->name), "'name' attribute is missing from Appender json object: {}", $jsonObj);
@@ -55,7 +55,7 @@ class MonologProxyAppenderBuilder extends AppenderBuilder {
 			foreach ($jsonObj->handlers as $handlerJsonObj) {
 				
 				$reflection = new \ReflectionClass($handlerJsonObj->builderClass);
-				Preconditions::checkArgument($reflection->implementsInterface("\wwwind\logging\config\builder\Builder"), "'builderClass' {} doesn't implement \\wwwind\\logging\\config\\builder\\Builder interface in appender def: {}", $handlerJsonObj->builderClass, $handlerJsonObj);
+				Preconditions::checkArgument($reflection->implementsInterface("\swf\lf4php\config\builder\Builder"), "'builderClass' {} doesn't implement \\swf\\logging\\config\\builder\\Builder interface in appender def: {}", $handlerJsonObj->builderClass, $handlerJsonObj);
 				$handlerBuilder = $reflection->newInstance();
 				$handlerBuilder->initFromJson($handlerJsonObj, $envVars);
 				$this->handler($handlerBuilder->build());

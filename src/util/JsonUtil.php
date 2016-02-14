@@ -1,9 +1,9 @@
 <?php
 
-namespace wwwind\util;
+namespace swf\util;
 
-use wwwind\errors\Preconditions;
-use wwwind\errors\IllegalStateException;
+use swf\errors\Preconditions;
+use swf\errors\IllegalStateException;
 
 /**
  * Set of static helper methods to handle Json input

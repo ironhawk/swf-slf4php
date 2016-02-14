@@ -1,6 +1,6 @@
 <?php
 
-namespace wwwind\errors;
+namespace swf\errors;
 
 class IllegalStateException extends \Exception {
 

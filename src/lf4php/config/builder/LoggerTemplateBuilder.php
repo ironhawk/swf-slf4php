@@ -1,12 +1,12 @@
 <?php
 
-namespace wwwind\logging\config\builder;
+namespace swf\lf4php\config\builder;
 
-use wwwind\logging\Logger;
-use wwwind\util\JsonUtil;
-use wwwind\logging\LoggerFactory;
-use wwwind\errors\Preconditions;
-use wwwind\logging\config\LoggerTemplate;
+use swf\lf4php\Logger;
+use swf\util\JsonUtil;
+use swf\lf4php\LoggerFactory;
+use swf\errors\Preconditions;
+use swf\lf4php\config\LoggerTemplate;
 
 class LoggerTemplateBuilder implements Builder {
 
@@ -21,7 +21,7 @@ class LoggerTemplateBuilder implements Builder {
 	 *
 	 * {@inheritDoc}
 	 *
-	 * @return \wwwind\logging\config\builder\LoggerTemplateBuilder
+	 * @return \swf\lf4php\config\builder\LoggerTemplateBuilder
 	 */
 	public static function create() {
 		return new LoggerTemplateBuilder();
@@ -29,7 +29,7 @@ class LoggerTemplateBuilder implements Builder {
 
 	/**
 	 *
-	 * @return \wwwind\logging\config\builder\LoggerTemplateBuilder
+	 * @return \swf\lf4php\config\builder\LoggerTemplateBuilder
 	 */
 	public function name($name) {
 		$this->name = $name;
@@ -38,7 +38,7 @@ class LoggerTemplateBuilder implements Builder {
 
 	/**
 	 *
-	 * @return \wwwind\logging\config\builder\LoggerTemplateBuilder
+	 * @return \swf\lf4php\config\builder\LoggerTemplateBuilder
 	 */
 	public function level($level) {
 		$this->level = $level;
@@ -47,7 +47,7 @@ class LoggerTemplateBuilder implements Builder {
 
 	/**
 	 *
-	 * @return \wwwind\logging\config\builder\LoggerTemplateBuilder
+	 * @return \swf\lf4php\config\builder\LoggerTemplateBuilder
 	 */
 	public function appenderName($appenderName) {
 		$this->appenderNames[] = $appenderName;
@@ -71,8 +71,8 @@ class LoggerTemplateBuilder implements Builder {
 	 *
 	 * {@inheritDoc}
 	 *
-	 * @see \wwwind\logging\config\builder\Builder::initFromJson()
-	 * @return \wwwind\logging\config\builder\LoggerTemplateBuilder
+	 * @see \swf\lf4php\config\builder\Builder::initFromJson()
+	 * @return \swf\lf4php\config\builder\LoggerTemplateBuilder
 	 */
 	public function initFromJson($jsonObj, $envVars) {
 		if (isset($jsonObj->name)) {
