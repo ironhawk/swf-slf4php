@@ -4,24 +4,24 @@
 	
 		{
 			"name" : "MainLogFiles",
-			"type" : "wwwind\\logging\\config\\builder\\monolog\\MonologProxyAppenderBuilder",
+			"builderClass" : "wwwind\\logging\\config\\builder\\monolog\\MonologProxyAppenderBuilder",
 			"handlers" : [
 				{
 					"bubble" : true,
-					"type" : "wwwind\\logging\\config\\builder\\monolog\\MonologStreamHandlerBuilder",
+					"builderClass" : "wwwind\\logging\\config\\builder\\monolog\\MonologStreamHandlerBuilder",
 					"stream" : "${LOG_DIR}/application.log",
 					"formatter": {
-						"type" : "wwwind\\logging\\config\\builder\\monolog\\MonologLineFormatterBuilder",
+						"builderClass" : "wwwind\\logging\\config\\builder\\monolog\\MonologLineFormatterBuilder",
 						"format" : "[%datetime%] %extra.loggerName%.%level_name%: %message% %context% %extra%\n\n"
 					}
 				},
 				{
 					"bubble" : true,
 					"level" : "ERROR",
-					"type" : "wwwind\\logging\\config\\builder\\monolog\\MonologStreamHandlerBuilder",
+					"builderClass" : "wwwind\\logging\\config\\builder\\monolog\\MonologStreamHandlerBuilder",
 					"stream" : "${LOG_DIR}/error.log",
 					"formatter": {
-						"type" : "wwwind\\logging\\config\\builder\\monolog\\MonologLineFormatterBuilder",
+						"builderClass" : "wwwind\\logging\\config\\builder\\monolog\\MonologLineFormatterBuilder",
 						"format" : "[%datetime%] %extra.loggerName%.%level_name%: %message% %context% %extra%\n\n"
 					}
 					
