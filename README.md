@@ -1,8 +1,10 @@
 # What is this project?
 
-**lf4php** is similar to the [slf4j](http://www.slf4j.org/) (The Simple Logging Facade for Java) project.
+**lf4php** is **similar** to the [slf4j](http://www.slf4j.org/) (The Simple Logging Facade for Java) project.
 
-**lf4php** is not a logging implementation! This is more like an abstraction layer on the top of existing logging frameworks like [Monolog](https://github.com/Seldaek/monolog) - just like [slf4j](http://www.slf4j.org/) 
+**lf4php** is not a logging implementation! **This is** more like **an abstraction layer** on the top of existing logging frameworks like [Monolog](https://github.com/Seldaek/monolog) - just like [slf4j](http://www.slf4j.org/)
+
+If you are not adding (configuring) any logging implementation no problem! **lf4php** will default itself to the "no operation" mechanism. In terms of using the facade in your code nothing will change. And you can configure the logging any time later!
 
 # The concept - in a nut shell
 
@@ -82,7 +84,11 @@ With the above simple config we have:
    * Created a DEBUG level Logger for "your.namespace.A" which is using both the log file Appender and the console Appender
    * Created an INFO level Logger for "your.namespace.B" which is using the log file Appender only
    * And created a WARNING level Logger using the log file Appender too. AND... You can notice that this one has no namespace definition... Which means that this is the *default* logger setup
-   
+
+
+**NOTE:** for more info about configuring the logging please visit the [Wiki page](http://gitlab.swf.technology:2443/public-projects/lf4php/wikis/home)! 
+
+
 # Basic usage  
   
 Assuming you have the above config saved in file named **log.config.json** you can configure the `LoggerFactory` like this:
@@ -125,6 +131,66 @@ While in this case:
 $logger = LoggerFactory::getLogger('JustAClass');
 ```
 it will be the *default* logger which is matching so you will get back a WARNING level Logger instance with the logFile Appender behind this.
+
+
+# Dumping out variables in log messages
+
+One of the ideas I like most in the [slf4j](http://www.slf4j.org/) Java framework is this part.
+
+Imagine we have complex objects. In DEBUG level we often want to dump those objects into log streams. But as soon as we change the log level to something more restrictive if we still keep dumping those objects into Strings (the log message) and then just throw them away because of the log level... Well this is a waste of CPU power and additional job to the Garbage Collector... So we shouldn't do that!
+
+What I am talking about? 
+
+Here is a **bad example**:
+
+```php
+// this might be a huge object:
+$jsonObj = json_decode($jsonString);
+...
+// and this is a bad idea...:
+$myLogger->debug("Parsed json object is: " . print_r($jsonObj, true), []);
+```
+
+Why is it a bad idea to do this this way? Because the String parameter is constructed anyways - using up memory and CPU power. And if the logLevel is not DEBUG then it was for nothing...
+
+[slf4j](http://www.slf4j.org/) has an elegant solution for this - it is using "varargs" in Java. This means that a method can get any number of additional parameters. And actually PHP also supports this so we can use it here as well!
+
+Keeping the example above here is the *recommended* way to do this:
+
+```php
+// this might be a huge object:
+$jsonObj = json_decode($jsonString);
+...
+// do it this way instead:
+$myLogger->debug("Parsed json object is: {}", [], $jsonObj);
+```
+
+You can define placeholders in you log message with adding `{}` into the log message. And then you simply pass over the variables to the log method invocation.
+
+You can use as many placeholders as you would like to. The number of variables you pass to the method should match with the number of placeholders you used in the message! (If you pass less or more variables it is not a tragedy of course but your log message can look "strange" then)
+
+**IMPORTANT!** You shouldn't do ANY transformations on the objects you pass over! You should pass over the variable as it is and leave it up to **lf4php** to do the string transformation - if needed!
+
+DO NOT DO THIS:
+
+```php
+$jsonObj = json_decode($jsonString);
+...
+// you shouldn't do string transformations like this
+$myLogger->debug("Parsed json object is: {}", [], print_r($jsonObj, true));
+```
+
+If you pass over not only simple types (like boolean, int, string, etc) but objects and/or arrays **lf4php** will transform them into strings (when needed only) this way:
+   * NULL variable will be "NULL" as string
+   * if variable is an array then it will be converted to string with the `print_r()` method
+   * if variable is an object then
+      * if it has a `__toString()` method then that will be used
+      * if not then the object will be converted to string with the `print_r()` method
+      
+     
+
+Here is another example 
+
 
 # Recommended usage in your class definitions
 
@@ -191,7 +257,7 @@ And in definition of subclasses of **ClassA**:
 ```php
 <?php
 
-// note: this is on different namespace as well!
+// this can be on different namespace of course.. but this doesn't matter
 namespace different\namespace;
 
 use swf\lf4php\LoggerFactory;
@@ -209,18 +275,10 @@ class ClassASubclass extends ClassA {
 }
 ```
 
-This will work as expected! `ClassASubclass` inherits the protected static method named `logger()`. But since it is overriding the `protected static $_LOG` field and the inherited `logger()` method is using late static binding the `$_LOG` variable will be initialized the first time the `logger()` method is used in `ClassASubclass`.
+**Explanation:**  
+This will work as expected! `ClassASubclass` inherits the protected static method named `logger()`. But since we are overriding the `protected static $_LOG` field AND the inherited `logger()` method is using "late static binding" the `$_LOG` variable will be initialized the first time the `logger()` method is used in `ClassASubclass`.
 
 
-# Features
+# Visit out Wiki page
 
-   * implements psr/log interface
-   * we have Loggers and Appenders (output channel) - a Logger can be configured to use multiple Appenders at the same time
-   * you can create your own Appenders easily by implementing the interface
-   * framework has `MonologProxyAppender` out of the box so you can use [Monolog](https://github.com/Seldaek/monolog) as an implementation right now
-   * you can configure your Loggers on a namespace (aka package) basis which allows you to use different log levels / output channels (Appenders) at different packages (just like we regularly do in Java!)
-   * if you are not configuring up logging then `LoggerFactory` will default to returning 'no operation' Loggers - you can configure logging later anytime
-   * builder based architecture - for building up configuration easily
-   * all config builder classes support JSON format so you can define your config in JSON files quickly
-
-   
+For more info / advanced topics please visit the [Wiki page](http://gitlab.swf.technology:2443/public-projects/lf4php/wikis/home)! 
