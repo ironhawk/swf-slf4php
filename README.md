@@ -1,5 +1,18 @@
-# Quick overview
+# Concept
 
+It is similar to the concept of [slf4j](http://www.slf4j.org/) (The Simple Logging Facade for Java).
+
+## Loggers
+
+`Logger` is the object you need to have in order being able to log messages. 
+
+## LoggerFactory
+
+We have a `LoggerFactory`. You ask `Logger` instances from this factory by providing the fully qualified class name of your class you want to do logging from. You get back a `Logger` instance - matching for the logging configuration you have provided beforehand.
+
+You always get back a `Logger`! Even if you didn't configure the logging at all. In this case the returned `Logger` is a 'no operation' default implementation. But the point is that you have an instance so your code will be consistent and well functioning in runtime!
+
+"Behind" the Loggers we have Appenders. You might consider `Appender` as an output channel. Writes something out to somewhere..      
 
 # Features
 
@@ -12,21 +25,6 @@
    * builder based architecture - for building up configuration easily
    * all config builder classes support JSON format so you can define your config in JSON files quickly
 
-
-```php
-<?php
-
-use Monolog\Logger;
-use Monolog\Handler\StreamHandler;
-
-// create a log channel
-$log = new Logger('name');
-$log->pushHandler(new StreamHandler('path/to/your.log', Logger::WARNING));
-
-// add records to the log
-$log->addWarning('Foo');
-$log->addError('Bar');
-```
    
 Take a quick look on the following JSON config and you will immediatelly understand the concept:
 
