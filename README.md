@@ -150,11 +150,11 @@ Unfortunately we can not do this in PHP because
    
 The best alternative (I could find so far) is the following:  
 In your class definitions
-   1 You declare a protected static variable - to hold the reference to the Logger instance
-   1 You create a protected static method named e.g. logger() which gets and stores the Logger instance from the `LoggerFactory` - if it is not done before. But **be ware!** You need to reference the protected static variable with the `static::` keyword and _not_ the `self::` keyword! You might need the "late static binding" feature of PHP... 
-   1 When you want to log out something you get the Logger instance by invoking the static method (you defined in step 2.)
+   1. You declare a protected static variable - to hold the reference to the Logger instance
+   1. You create a protected static method named e.g. logger() which gets and stores the Logger instance from the `LoggerFactory` - if it is not done before. But **be ware!** You need to reference the protected static variable with the `static::` keyword and _not_ the `self::` keyword! You might need the "late static binding" feature of PHP... 
+   1. When you want to log out something you get the Logger instance by invoking the static method (you defined in step 2.)
 And when you are extending this class then
-   1 Make sure that in the subclass you re-define the protected static variable - using the same name. As you did in step 1.
+   1. Make sure that in the subclass you re-define the protected static variable - using the same name. As you did in step 1.
    
 The following code sample shows you this 
 
