@@ -25,12 +25,9 @@ We want to be able to easily configure all the above! To achieve this the best w
 
 Take a quick look on the following JSON config and you will immediatelly understand the concept:
 
-
 ```json
 {
-
 	"appenders" : [
-	
 		{
 			"name" : "logFile",
 			"builderClass" : "swf\\lf4php\\config\\builder\\monolog\\MonologProxyAppenderBuilder",
@@ -59,17 +56,16 @@ Take a quick look on the following JSON config and you will immediatelly underst
 				}
 			]
 		}
-		
 	],
 
 	"loggers" : [
 		{
-			"name" : "your.namespaceA",
+			"name" : "your.namespace.A",
 			"level" : "DEBUG",
 			"appenders" : "logFile"
 		},
 		{
-			"name" : "your.namespaceB",
+			"name" : "your.namespace.B",
 			"level" : "ERROR",
 			"appenders" : "logFile"
 		},
@@ -80,6 +76,46 @@ Take a quick look on the following JSON config and you will immediatelly underst
 	]
 }
 ```
+
+With the above simple config we have:
+   * Created two Appenders: a log file and a console. Using [Monolog](https://github.com/Seldaek/monolog) `StreamHandler`
+   * Created a DEBUG level Logger for "your.namespace.A" which is using the log file Appender
+   * Created an ERROR level Logger for "your.namespace.B" which is also using the log file Appender
+   * And created an INFO level Logger using both the log file Appender and the console Appender. You can notice that this one has no namespace definition
+   
+# Basic usage  
+  
+Assuming you have the above config saved in file named *log.config.json* you can configure the `LoggerFactory` like this:
+  
+```php
+<?php
+use swf\lf4php\LoggerFactory;
+use swf\lf4php\config\builder\LogConfigBuilder;
+use swf\util\JsonUtil;
+
+....
+
+// you might use variables in the json file (unix like style) and we can pass an array to the json parsing mechanism
+// to let it resolve the vars
+$envVars = [
+	'LOG_DIR' => '/var/log'
+];
+$loggerConfig = LogConfigBuilder::create()->initFromJson(JsonUtil::getJsonObjects("log.config.json"), $envVars)->build();
+// and now we can init the factory
+LoggerFactory::init($loggerConfig);
+```
+  
+Once you have configured the `LoggerFactory` you can start get `Logger` instances from the factory like this:
+
+```php
+$myLogger = LoggerFactory::getLogger(MyClass::class);
+
+...
+
+$myLogger->info("This is a log message", []);
+```
+
+
 
 # Features
 
