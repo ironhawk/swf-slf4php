@@ -31,13 +31,13 @@ class ClassA {
 		$var1 = "value1";
 		$var2 = "value2";
 		
-		static::logger()->debug("hello {}, this is a debug level log dumping some vars: var1={}, var2={}", [], $salutation, $var1, $var2);
+		self::logger()->debug("hello {}, this is a debug level log dumping some vars: var1={}, var2={}", [], $salutation, $var1, $var2);
 		
 		try {
 			throw new \Exception("A forced exception");
 		}
 		catch (\Exception $e) {
-			static::logger()->error("Ouch {}, we had an exception: {}", [], $salutation, $e);
+			self::logger()->error("Ouch {}, we had an exception: {}", [], $salutation, $e);
 		}
 	}
 

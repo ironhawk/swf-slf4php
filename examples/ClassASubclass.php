@@ -17,16 +17,18 @@ use swf\lf4php\examples\namespaceA\ClassA;
  * clearly do not want that!
  *
  * @author ironhawk
- *        
+ *
  */
 class ClassASubclass extends ClassA {
 
+	// we need to define this - again! if we would not do this then we would inherit OR hijack the Logger instance
+	// of our superclass...
 	protected static $_LOG;
 
 	public function __construct($name = null) {
 		parent::__construct($name);
 	}
-	
+
 	// let's add a __toString() method - objects with __toString() method are dumped in logs using that
 	public function __toString() {
 		return static::class . "[" . $this->name . "]";

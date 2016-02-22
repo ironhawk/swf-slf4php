@@ -108,7 +108,7 @@ LoggerFactory::init($loggerConfig);
 Once you have configured the `LoggerFactory` you can start get `Logger` instances from the factory like this:
 
 ```php
-$myLogger = LoggerFactory::getLogger(YourClass::class);
+$myLogger = LoggerFactory::getLogger(YourClass::class);   // the parameter is the fully qualified class name of YourClass
 $myLogger->info("This is a log message", []);
 ```
 
@@ -126,6 +126,90 @@ $logger = LoggerFactory::getLogger('JustAClass');
 ```
 it will be the *default* logger which is matching so you will get back a WARNING level Logger instance with the logFile Appender behind this.
 
+# Recommended usage in your class definitions
+
+When you invoke `LoggerFactory::getLogger(<fully qualified class name>)` what is happening under the hood is that the `LoggerFactory` is going through the configured Loggers and trying to find the best matching one. If you invoke this method 100 times it will be done 100 times! So you should not do that...
+
+In Java the typical usage is this code (probably you can read it)
+```java
+public class MyClass {
+	// get the Logger instance only once / class
+	private static final Logger LOG = LoggerFactory.getLogger(MyClass.class);
+	
+	...
+	
+	public void aMethod() {
+		LOG.info("a message...");
+	}
+}
+```
+ 
+Unfortunately we can not do this in PHP because
+   * PHP does not support this kind of initialization of a static class variable.. :-(
+   * and besides that in PHP static variables might trick you once you do inheritance...
+   
+The best alternative (I could find so far) is the following:  
+In your class definitions
+   1 You declare a protected static variable - to hold the reference to the Logger instance
+   1 You create a protected static method named e.g. logger() which gets and stores the Logger instance from the `LoggerFactory` - if it is not done before. But **be ware!** You need to reference the protected static variable with the `static::` keyword and _not_ the `self::` keyword! You might need the "late static binding" feature of PHP... 
+   1 When you want to log out something you get the Logger instance by invoking the static method (you defined in step 2.)
+And when you are extending this class then
+   1 Make sure that in the subclass you re-define the protected static variable - using the same name. As you did in step 1.
+   
+The following code sample shows you this 
+
+Definition of **ClassA**:
+
+```php
+<?php
+
+namespace your\namespace;
+
+use swf\lf4php\LoggerFactory;
+
+class ClassA {
+
+	protected static $_LOG;
+
+	/**
+	 * @return \swf\lf4php\Logger
+	 */
+	protected static function logger() {
+		if (is_null(static::$_LOG))
+			static::$_LOG = LoggerFactory::getLogger(static::class);
+		return static::$_LOG;
+	}
+
+	public function logSomething() {
+		self::logger()->info("a simple message...", []);
+	}
+}
+```
+
+And in definition of subclasses of **ClassA**:
+
+```php
+<?php
+
+// note: this is on different namespace as well!
+namespace different\namespace;
+
+use swf\lf4php\LoggerFactory;
+use your\namespace\ClassA;
+
+class ClassASubclass extends ClassA {
+
+	// we need to override this! if we would not do this then we would inherit OR hijack the Logger instance
+	// of our superclass...
+	protected static $_LOG;
+
+	public function anotherLog() {
+		self::logger()->info("another message...", []);
+	}
+}
+```
+
+This will work as expected! `ClassASubclass` inherits the protected static method named `logger()`. But since it is overriding the `protected static $_LOG` field and the inherited `logger()` method is using late static binding the `$_LOG` variable will be initialized the first time the `logger()` method is used in `ClassASubclass`.
 
 
 # Features
