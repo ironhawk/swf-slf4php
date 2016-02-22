@@ -1,18 +1,85 @@
-# Concept
+# What is this project?
 
-It is similar to the concept of [slf4j](http://www.slf4j.org/) (The Simple Logging Facade for Java).
+**lf4php** is similar to the [slf4j](http://www.slf4j.org/) (The Simple Logging Facade for Java) project.
 
-## Loggers
+**lf4php** is not a logging implementation! This is more like an abstraction layer on the top of existing logging frameworks like [Monolog](https://github.com/Seldaek/monolog) - just like [slf4j](http://www.slf4j.org/) 
 
-`Logger` is the object you need to have in order being able to log messages. 
+# The concept - in a nut shell
 
-## LoggerFactory
+We have the following key entities:
 
-We have a `LoggerFactory`. You ask `Logger` instances from this factory by providing the fully qualified class name of your class you want to do logging from. You get back a `Logger` instance - matching for the logging configuration you have provided beforehand.
+   * **Appenders**  
+     You might consider an `Appender` as an output channel. Writes something out to somewhere somehow... (file, database, e-mail, etc.)  
+This is the point where an existing logging framework comes to the picture! This project doesn't have own `Appender` implementations. Rather doing that it just gives you "connectors" (typically following the proxy / adapter design patterns) to let you use your favorite logging framework(s).  
 
-You always get back a `Logger`! Even if you didn't configure the logging at all. In this case the returned `Logger` is a 'no operation' default implementation. But the point is that you have an instance so your code will be consistent and well functioning in runtime!
+   * **Loggers**  
+In your code you need a `Logger` instance to log messages. You can invoke the appropriate log method (info(), debug(), warning(), etc.) on it - as defined by the `LoggerInterface` in [PSR/log](https://github.com/php-fig/log)  
+Loggers have **log level**. AND... They **have one or more Appenders** behind them! When you log something with your Logger instance this is routed to all the Appenders behind the Logger. So as a result your log message is written to a file, database or sent via e-mail. OR all together!  
 
-"Behind" the Loggers we have Appenders. You might consider `Appender` as an output channel. Writes something out to somewhere..      
+   * **LoggerFactory**  
+We have a `LoggerFactory`. You ask for the `Logger` instance from the factory - by providing the fully qualified class name of your class you want to do logging from. You get back a `Logger` instance - matching for the logging configuration you have provided to the `LoggerFactory` beforehand.
+
+# And: the configuration
+
+We want to be able to easily configure all the above! To achieve this the best way is having a simple (as possible) **configuration file**.
+
+Take a quick look on the following JSON config and you will immediatelly understand the concept:
+
+
+```json
+{
+
+	"appenders" : [
+	
+		{
+			"name" : "logFile",
+			"builderClass" : "swf\\lf4php\\config\\builder\\monolog\\MonologProxyAppenderBuilder",
+			"handlers" : [
+				{
+					"builderClass" : "swf\\lf4php\\config\\builder\\monolog\\MonologStreamHandlerBuilder",
+					"stream" : "${LOG_DIR}/application.log",
+					"formatter": {
+						"builderClass" : "swf\\lf4php\\config\\builder\\monolog\\MonologLineFormatterBuilder",
+						"format" : "[%datetime%] %extra.loggerName%.%level_name%: %message% %context% %extra%\n\n"
+					}
+				}
+			]
+		},
+		{
+			"name" : "console",
+			"builderClass" : "swf\\lf4php\\config\\builder\\monolog\\MonologProxyAppenderBuilder",
+			"handlers" : [
+				{
+					"builderClass" : "swf\\lf4php\\config\\builder\\monolog\\MonologStreamHandlerBuilder",
+					"stream" : "php://stdout",
+					"formatter": {
+						"builderClass" : "swf\\lf4php\\config\\builder\\monolog\\MonologLineFormatterBuilder",
+						"format" : "[%datetime%] %extra.loggerName%.%level_name%: %message% %context% %extra%\n\n"
+					}
+				}
+			]
+		}
+		
+	],
+
+	"loggers" : [
+		{
+			"name" : "your.namespaceA",
+			"level" : "DEBUG",
+			"appenders" : "logFile"
+		},
+		{
+			"name" : "your.namespaceB",
+			"level" : "ERROR",
+			"appenders" : "logFile"
+		},
+		{
+			"level" : "INFO",
+			"appenders" : ["logFile", "console"]
+		}
+	]
+}
+```
 
 # Features
 
@@ -26,57 +93,3 @@ You always get back a `Logger`! Even if you didn't configure the logging at all.
    * all config builder classes support JSON format so you can define your config in JSON files quickly
 
    
-Take a quick look on the following JSON config and you will immediatelly understand the concept:
-
-
-```json
-{
-
-	"appenders" : [
-	
-		{
-			"name" : "MainLogFiles",
-			"builderClass" : "swf\\lf4php\\config\\builder\\monolog\\MonologProxyAppenderBuilder",
-			"handlers" : [
-				{
-					"bubble" : true,
-					"builderClass" : "swf\\lf4php\\config\\builder\\monolog\\MonologStreamHandlerBuilder",
-					"stream" : "${LOG_DIR}/application.log",
-					"formatter": {
-						"builderClass" : "swf\\lf4php\\config\\builder\\monolog\\MonologLineFormatterBuilder",
-						"format" : "[%datetime%] %extra.loggerName%.%level_name%: %message% %context% %extra%\n\n"
-					}
-				},
-				{
-					"bubble" : true,
-					"level" : "ERROR",
-					"builderClass" : "swf\\lf4php\\config\\builder\\monolog\\MonologStreamHandlerBuilder",
-					"stream" : "${LOG_DIR}/error.log",
-					"formatter": {
-						"builderClass" : "swf\\lf4php\\config\\builder\\monolog\\MonologLineFormatterBuilder",
-						"format" : "[%datetime%] %extra.loggerName%.%level_name%: %message% %context% %extra%\n\n"
-					}
-					
-				}				
-			]
-		}
-	],
-
-	"loggers" : [
-		{
-			"name" : "swf.lf4php.examples.namespaceA",
-			"level" : "DEBUG",
-			"appenders" : "MainLogFiles"
-		},
-		{
-			"name" : "swf.lf4php.examples.namespaceB",
-			"level" : "ERROR",
-			"appenders" : "MainLogFiles"
-		},
-		{
-			"level" : "INFO",
-			"appenders" : ["MainLogFiles"]
-		}
-	]
-}
-```
