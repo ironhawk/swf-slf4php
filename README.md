@@ -62,16 +62,16 @@ Take a quick look on the following JSON config and you will immediatelly underst
 		{
 			"name" : "your.namespace.A",
 			"level" : "DEBUG",
-			"appenders" : "logFile"
+			"appenders" : ["logFile", "console"]
 		},
 		{
 			"name" : "your.namespace.B",
-			"level" : "ERROR",
+			"level" : "INFO",
 			"appenders" : "logFile"
 		},
 		{
-			"level" : "INFO",
-			"appenders" : ["logFile", "console"]
+			"level" : "WARNING",
+			"appenders" : "logFile"
 		}
 	]
 }
@@ -79,13 +79,13 @@ Take a quick look on the following JSON config and you will immediatelly underst
 
 With the above simple config we have:
    * Created two Appenders: a log file and a console. Using [Monolog](https://github.com/Seldaek/monolog) `StreamHandler`
-   * Created a DEBUG level Logger for "your.namespace.A" which is using the log file Appender
-   * Created an ERROR level Logger for "your.namespace.B" which is also using the log file Appender
-   * And created an INFO level Logger using both the log file Appender and the console Appender. You can notice that this one has no namespace definition
+   * Created a DEBUG level Logger for "your.namespace.A" which is using both the log file Appender and the console Appender
+   * Created an INFO level Logger for "your.namespace.B" which is using the log file Appender only
+   * And created a WARNING level Logger using the log file Appender too. AND... You can notice that this one has no namespace definition... Which means that this is the *default* logger setup
    
 # Basic usage  
   
-Assuming you have the above config saved in file named *log.config.json* you can configure the `LoggerFactory` like this:
+Assuming you have the above config saved in file named **log.config.json** you can configure the `LoggerFactory` like this:
   
 ```php
 <?php
@@ -108,12 +108,23 @@ LoggerFactory::init($loggerConfig);
 Once you have configured the `LoggerFactory` you can start get `Logger` instances from the factory like this:
 
 ```php
-$myLogger = LoggerFactory::getLogger(MyClass::class);
-
-...
-
+$myLogger = LoggerFactory::getLogger(YourClass::class);
 $myLogger->info("This is a log message", []);
 ```
+
+As you might have already figured this out when you get a Logger from the factory you will get back the Logger which is matching the configuration!
+
+In this case:
+```php
+$logger = LoggerFactory::getLogger('\your\namespace\A\MyClass');
+```
+you will get back a DEBUG level Logger instance with the logFile and the console Appenders behind this.
+
+While in this case:
+```php
+$logger = LoggerFactory::getLogger('JustAClass');
+```
+it will be the *default* logger which is matching so you will get back a WARNING level Logger instance with the logFile Appender behind this.
 
 
 
