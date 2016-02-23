@@ -279,7 +279,7 @@ class ClassASubclass extends ClassA {
 }
 ```
 
-**Explanation:**  
+**Explanation:**   
 This will work as expected! `ClassASubclass` inherits the protected static method named `logger()`. But since we are overriding the `protected static $_LOG` field AND the inherited `logger()` method is using "late static binding" the `$_LOG` variable will be initialized the first time the `logger()` method is used in `ClassASubclass`.
 
 
