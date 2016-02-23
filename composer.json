@@ -2,7 +2,7 @@
     "name": "swf/slf4php",
     "description": "SWF logging facade for php - inspired by slf4j / logback / log4j java projects",
     "version": "1.0.0",
-    "keywords": ["logging"],
+    "keywords": ["logging", "log", "facade"],
     "homepage": "http://gitlab.swf.technology:2443/public-projects/slf4php",
     "license": "Apache-2.0",
     "authors": [
