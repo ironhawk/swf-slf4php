@@ -86,7 +86,7 @@ With the above simple config we have:
    * And created a WARNING level Logger using the log file Appender too. AND... You can notice that this one has no namespace definition... Which means that this is the *default* logger setup
 
 
-**NOTE:** for more info about configuring the logging please visit the [Wiki page](http://gitlab.swf.technology:2443/public-projects/lf4php/wikis/home)! 
+**VISIT OUR WIKI!** For more info about configuring the logging please visit the [Wiki page](http://gitlab.swf.technology:2443/public-projects/lf4php/wikis/home)! 
 
 
 # Basic usage  
@@ -138,8 +138,6 @@ it will be the *default* logger which is matching so you will get back a WARNING
 One of the ideas I like most in the [slf4j](http://www.slf4j.org/) Java framework is this part.
 
 Imagine we have complex objects. In DEBUG level we often want to dump those objects into log streams. But as soon as we change the log level to something more restrictive if we still keep dumping those objects into Strings (the log message) and then just throw them away because of the log level... Well this is a waste of CPU power and additional job to the Garbage Collector... So we shouldn't do that!
-
-What I am talking about? 
 
 Here is a **bad example**:
 
