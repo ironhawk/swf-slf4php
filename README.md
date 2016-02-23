@@ -1,5 +1,5 @@
 
-[ ![Codeship Status for ironhawk/swf-slf4php](https://codeship.com/projects/e4bc8740-bc28-0133-16c0-72d8958adba6/status?branch=master)](https://codeship.com/projects/136107)
+CI master: [ ![Codeship Status for ironhawk/swf-slf4php](https://codeship.com/projects/e4bc8740-bc28-0133-16c0-72d8958adba6/status?branch=master)](https://codeship.com/projects/136107)
 
 # What is this project?
 
