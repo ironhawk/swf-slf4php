@@ -92,7 +92,7 @@ With the above simple config we have:
    * And created a WARNING level Logger using the log file Appender too. AND... You can notice that this one has no namespace definition... Which means that this is the *default* logger setup
 
 
-> **VISIT OUR WIKI!** For more info about configuring the logging please visit the [Wiki page](http://gitlab.swf.technology:2443/public-projects/slf4php/wikis/home)! 
+> **VISIT OUR WIKI!** For more info about configuring the logging please visit the [Wiki page](https://github.com/ironhawk/swf-slf4php/wiki)! 
 
 
 # Basic usage  
@@ -283,6 +283,6 @@ class ClassASubclass extends ClassA {
 This will work as expected! `ClassASubclass` inherits the protected static method named `logger()`. But since we are overriding the `protected static $_LOG` field AND the inherited `logger()` method is using "late static binding" the `$_LOG` variable will be initialized the first time the `logger()` method is used in `ClassASubclass`.
 
 
-# Visit out Wiki page
+# Visit our Wiki page
 
-For more info / advanced topics please visit the [Wiki page](http://gitlab.swf.technology:2443/public-projects/slf4php/wikis/home)! 
+For more info / advanced topics please visit the [Wiki page](https://github.com/ironhawk/swf-slf4php/wiki)! 
