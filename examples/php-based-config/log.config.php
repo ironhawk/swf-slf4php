@@ -1,11 +1,11 @@
 <?php
-use swf\lf4php\config\builder\LogConfigBuilder;
-use swf\lf4php\config\builder\monolog\MonologProxyAppenderBuilder;
-use swf\lf4php\config\builder\monolog\MonologStreamHandlerBuilder;
-use swf\lf4php\config\builder\LoggerBuilder;
-use swf\lf4php\LoggerFactory;
-use swf\lf4php\config\builder\monolog\MonologLineFormatterBuilder;
-use swf\lf4php\config\builder\LoggerTemplateBuilder;
+use swf\slf4php\config\builder\LogConfigBuilder;
+use swf\slf4php\config\builder\monolog\MonologProxyAppenderBuilder;
+use swf\slf4php\config\builder\monolog\MonologStreamHandlerBuilder;
+use swf\slf4php\config\builder\LoggerBuilder;
+use swf\slf4php\LoggerFactory;
+use swf\slf4php\config\builder\monolog\MonologLineFormatterBuilder;
+use swf\slf4php\config\builder\LoggerTemplateBuilder;
 
 // @formatter:off
 

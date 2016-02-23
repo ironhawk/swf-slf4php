@@ -1,9 +1,9 @@
 <?php
-use swf\lf4php\LoggerFactory;
-use swf\lf4php\config\builder\LogConfigBuilder;
+use swf\slf4php\LoggerFactory;
+use swf\slf4php\config\builder\LogConfigBuilder;
 use swf\util\JsonUtil;
-use swf\lf4php\examples\namespaceA\ClassA;
-use swf\lf4php\examples\namespaceB\ClassB;
+use swf\slf4php\examples\namespaceA\ClassA;
+use swf\slf4php\examples\namespaceB\ClassB;
 
 // let's fire the composer autoload stuff
 require_once '../../vendor/autoload.php';

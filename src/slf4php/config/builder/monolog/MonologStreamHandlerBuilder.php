@@ -1,6 +1,6 @@
 <?php
 
-namespace swf\lf4php\config\builder\monolog;
+namespace swf\slf4php\config\builder\monolog;
 
 use Monolog\Handler\StreamHandler;
 use swf\errors\Preconditions;
@@ -15,7 +15,7 @@ class MonologStreamHandlerBuilder extends MonologHandlerBuilder {
 	 *
 	 * {@inheritDoc}
 	 *
-	 * @return \swf\lf4php\config\builder\monolog\MonologStreamHandlerBuilder
+	 * @return \swf\slf4php\config\builder\monolog\MonologStreamHandlerBuilder
 	 *
 	 */
 	public static function create() {
@@ -26,7 +26,7 @@ class MonologStreamHandlerBuilder extends MonologHandlerBuilder {
 	/**
 	 *
 	 * @param string $stream        	
-	 * @return \swf\lf4php\config\builder\MonologStreamHandlerBuilder
+	 * @return \swf\slf4php\config\builder\MonologStreamHandlerBuilder
 	 */
 	public function stream($stream) {
 		$this->stream = $stream;
@@ -38,7 +38,7 @@ class MonologStreamHandlerBuilder extends MonologHandlerBuilder {
 	 *
 	 * {@inheritDoc}
 	 *
-	 * @see \swf\lf4php\config\builder\monolog\MonologHandlerBuilder::build()
+	 * @see \swf\slf4php\config\builder\monolog\MonologHandlerBuilder::build()
 	 * @return \Monolog\Handler\StreamHandler
 	 */
 	public function build() {
@@ -51,8 +51,8 @@ class MonologStreamHandlerBuilder extends MonologHandlerBuilder {
 	 *
 	 * {@inheritDoc}
 	 *
-	 * @see \swf\lf4php\config\builder\monolog\MonologHandlerBuilder::initFromJson()
-	 * @return \swf\lf4php\config\builder\MonologStreamHandlerBuilder
+	 * @see \swf\slf4php\config\builder\monolog\MonologHandlerBuilder::initFromJson()
+	 * @return \swf\slf4php\config\builder\MonologStreamHandlerBuilder
 	 */
 	public function initFromJson($jsonObj, $envVars) {
 		// let our parent init this instance from the json

@@ -1,12 +1,12 @@
 <?php
 
-namespace swf\lf4php\config\builder;
+namespace swf\slf4php\config\builder;
 
-use swf\lf4php\Logger;
+use swf\slf4php\Logger;
 use swf\util\JsonUtil;
-use swf\lf4php\LoggerFactory;
+use swf\slf4php\LoggerFactory;
 use swf\errors\Preconditions;
-use swf\lf4php\config\LoggerTemplate;
+use swf\slf4php\config\LoggerTemplate;
 
 class LoggerTemplateBuilder implements Builder {
 
@@ -21,7 +21,7 @@ class LoggerTemplateBuilder implements Builder {
 	 *
 	 * {@inheritDoc}
 	 *
-	 * @return \swf\lf4php\config\builder\LoggerTemplateBuilder
+	 * @return \swf\slf4php\config\builder\LoggerTemplateBuilder
 	 */
 	public static function create() {
 		return new LoggerTemplateBuilder();
@@ -29,7 +29,7 @@ class LoggerTemplateBuilder implements Builder {
 
 	/**
 	 *
-	 * @return \swf\lf4php\config\builder\LoggerTemplateBuilder
+	 * @return \swf\slf4php\config\builder\LoggerTemplateBuilder
 	 */
 	public function name($name) {
 		$this->name = $name;
@@ -38,7 +38,7 @@ class LoggerTemplateBuilder implements Builder {
 
 	/**
 	 *
-	 * @return \swf\lf4php\config\builder\LoggerTemplateBuilder
+	 * @return \swf\slf4php\config\builder\LoggerTemplateBuilder
 	 */
 	public function level($level) {
 		$this->level = $level;
@@ -47,7 +47,7 @@ class LoggerTemplateBuilder implements Builder {
 
 	/**
 	 *
-	 * @return \swf\lf4php\config\builder\LoggerTemplateBuilder
+	 * @return \swf\slf4php\config\builder\LoggerTemplateBuilder
 	 */
 	public function appenderName($appenderName) {
 		$this->appenderNames[] = $appenderName;
@@ -71,8 +71,8 @@ class LoggerTemplateBuilder implements Builder {
 	 *
 	 * {@inheritDoc}
 	 *
-	 * @see \swf\lf4php\config\builder\Builder::initFromJson()
-	 * @return \swf\lf4php\config\builder\LoggerTemplateBuilder
+	 * @see \swf\slf4php\config\builder\Builder::initFromJson()
+	 * @return \swf\slf4php\config\builder\LoggerTemplateBuilder
 	 */
 	public function initFromJson($jsonObj, $envVars) {
 		if (isset($jsonObj->name)) {

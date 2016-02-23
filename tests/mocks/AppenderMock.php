@@ -1,8 +1,8 @@
 <?php
 
-namespace swf\lf4php\tests\mocks;
+namespace swf\slf4php\tests\mocks;
 
-use swf\lf4php\Appender;
+use swf\slf4php\Appender;
 
 /**
  * Testable implementation of Appender

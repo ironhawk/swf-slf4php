@@ -1,8 +1,8 @@
 <?php
 
-namespace swf\lf4php\examples\namespaceB;
+namespace swf\slf4php\examples\namespaceB;
 
-use swf\lf4php\examples\namespaceA\ClassA;
+use swf\slf4php\examples\namespaceA\ClassA;
 
 /**
  * This class extends ClassA - which means it would inherit both:

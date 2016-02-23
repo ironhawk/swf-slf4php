@@ -1,6 +1,6 @@
 <?php
 
-namespace swf\lf4php;
+namespace swf\slf4php;
 
 use Psr\Log\LoggerInterface;
 use swf\util\TextUtil;
@@ -9,7 +9,7 @@ use swf\util\TextUtil;
  * You should instantiate Logger classes with LoggerFactory only...
  *
  * @author ironhawk
- * @see \swf\lf4php\LoggerFactory
+ * @see \swf\slf4php\LoggerFactory
  */
 class Logger implements LoggerInterface {
 
@@ -27,7 +27,7 @@ class Logger implements LoggerInterface {
 	/**
 	 * You shouldn't instantiate this class directly! Use LoggerFactory instead!
 	 *
-	 * @see \swf\lf4php\LoggerFactory
+	 * @see \swf\slf4php\LoggerFactory
 	 */
 	public function __construct($name, $logLevel, array $appenders) {
 		$this->name = $name;

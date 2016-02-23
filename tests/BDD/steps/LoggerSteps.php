@@ -1,16 +1,16 @@
 <?php
 
-namespace swf\lf4php\tests\BDD\steps;
+namespace swf\slf4php\tests\BDD\steps;
 
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Gherkin\Node\TableNode;
-use swf\lf4php\Logger;
-use swf\lf4php\tests\mocks\AppenderMock;
+use swf\slf4php\Logger;
+use swf\slf4php\tests\mocks\AppenderMock;
 use swf\errors\Preconditions;
 use swf\testing\BDDUtil;
-use swf\lf4php\Appender;
-use swf\lf4php\config\builder\LogConfigBuilder;
+use swf\slf4php\Appender;
+use swf\slf4php\config\builder\LogConfigBuilder;
 
 /**
  * Defines steps for testing Loggers - Appenders interactions

@@ -1,10 +1,10 @@
 <?php
 
-namespace swf\lf4php;
+namespace swf\slf4php;
 
 use Psr\Log\LoggerInterface;
-use swf\lf4php\config\LogConfig;
-use swf\lf4php\config\LoggerTemplate;
+use swf\slf4php\config\LogConfig;
+use swf\slf4php\config\LoggerTemplate;
 
 
 /**
@@ -148,7 +148,7 @@ class LoggerFactory {
 	/**
 	 * Returns the special "null" logger instance
 	 *
-	 * @return \swf\lf4php\Logger
+	 * @return \swf\slf4php\Logger
 	 */
 	private static function getNullLogger() {
 		if (is_null(static::$nullLogger)) {

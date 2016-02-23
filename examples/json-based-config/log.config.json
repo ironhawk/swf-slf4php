@@ -4,24 +4,24 @@
 	
 		{
 			"name" : "MainLogFiles",
-			"builderClass" : "swf\\lf4php\\config\\builder\\monolog\\MonologProxyAppenderBuilder",
+			"builderClass" : "swf\\slf4php\\config\\builder\\monolog\\MonologProxyAppenderBuilder",
 			"handlers" : [
 				{
 					"bubble" : true,
-					"builderClass" : "swf\\lf4php\\config\\builder\\monolog\\MonologStreamHandlerBuilder",
+					"builderClass" : "swf\\slf4php\\config\\builder\\monolog\\MonologStreamHandlerBuilder",
 					"stream" : "${LOG_DIR}/application.log",
 					"formatter": {
-						"builderClass" : "swf\\lf4php\\config\\builder\\monolog\\MonologLineFormatterBuilder",
+						"builderClass" : "swf\\slf4php\\config\\builder\\monolog\\MonologLineFormatterBuilder",
 						"format" : "[%datetime%] %extra.loggerName%.%level_name%: %message% %context% %extra%\n\n"
 					}
 				},
 				{
 					"bubble" : true,
 					"level" : "ERROR",
-					"builderClass" : "swf\\lf4php\\config\\builder\\monolog\\MonologStreamHandlerBuilder",
+					"builderClass" : "swf\\slf4php\\config\\builder\\monolog\\MonologStreamHandlerBuilder",
 					"stream" : "${LOG_DIR}/error.log",
 					"formatter": {
-						"builderClass" : "swf\\lf4php\\config\\builder\\monolog\\MonologLineFormatterBuilder",
+						"builderClass" : "swf\\slf4php\\config\\builder\\monolog\\MonologLineFormatterBuilder",
 						"format" : "[%datetime%] %extra.loggerName%.%level_name%: %message% %context% %extra%\n\n"
 					}
 					
@@ -32,12 +32,12 @@
 
 	"loggers" : [
 		{
-			"name" : "swf.lf4php.examples.namespaceA",
+			"name" : "swf.slf4php.examples.namespaceA",
 			"level" : "DEBUG",
 			"appenders" : "MainLogFiles"
 		},
 		{
-			"name" : "swf.lf4php.examples.namespaceB",
+			"name" : "swf.slf4php.examples.namespaceB",
 			"level" : "ERROR",
 			"appenders" : "MainLogFiles"
 		},

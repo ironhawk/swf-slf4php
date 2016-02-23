@@ -1,6 +1,6 @@
 <?php
 
-namespace swf\lf4php;
+namespace swf\slf4php;
 
 use Psr\Log\LoggerInterface;
 

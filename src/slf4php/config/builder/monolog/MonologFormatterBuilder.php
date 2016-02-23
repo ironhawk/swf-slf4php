@@ -1,8 +1,8 @@
 <?php
 
-namespace swf\lf4php\config\builder\monolog;
+namespace swf\slf4php\config\builder\monolog;
 
-use swf\lf4php\config\builder\Builder;
+use swf\slf4php\config\builder\Builder;
 use Monolog\Formatter\FormatterInterface;
 
 abstract class MonologFormatterBuilder implements Builder {
@@ -12,7 +12,7 @@ abstract class MonologFormatterBuilder implements Builder {
 	 *
 	 * {@inheritDoc}
 	 *
-	 * @see \swf\lf4php\config\builder\Builder::build()
+	 * @see \swf\slf4php\config\builder\Builder::build()
 	 * @return \Monolog\Formatter\FormatterInterface
 	 */
 	public abstract function build();
@@ -21,8 +21,8 @@ abstract class MonologFormatterBuilder implements Builder {
 	 *
 	 * {@inheritDoc}
 	 *
-	 * @see \swf\lf4php\config\builder\Builder::initFromJson()
-	 * @return \swf\lf4php\config\builder\MonologFormatterBuilder
+	 * @see \swf\slf4php\config\builder\Builder::initFromJson()
+	 * @return \swf\slf4php\config\builder\MonologFormatterBuilder
 	 */
 	public function initFromJson($jsonObj, $envVars) {
 		// we have nothing to do here - yet

@@ -1,6 +1,6 @@
 <?php
 
-namespace swf\lf4php\config\builder;
+namespace swf\slf4php\config\builder;
 
 /**
  * Interface definition for builders we use to build up configuration

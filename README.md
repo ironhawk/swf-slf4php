@@ -1,10 +1,10 @@
 # What is this project?
 
-**lf4php** is **similar** to the [slf4j](http://www.slf4j.org/) (The Simple Logging Facade for Java) project.
+**slf4php** is **similar** to the [slf4j](http://www.slf4j.org/) (The Simple Logging Facade for Java) project.
 
-**lf4php** is not a logging implementation! **This is** more like **an abstraction layer** on the top of existing logging frameworks like [Monolog](https://github.com/Seldaek/monolog) - just like [slf4j](http://www.slf4j.org/)
+**slf4php** is not a logging implementation! **This is** more like **an abstraction layer** on the top of existing logging frameworks like [Monolog](https://github.com/Seldaek/monolog) - just like [slf4j](http://www.slf4j.org/)
 
-If you are not adding (configuring) any logging implementation no problem! **lf4php** will default itself to the "no operation" mechanism. In terms of using the facade in your code nothing will change. And you can configure the logging any time later!
+If you are not adding (configuring) any logging implementation no problem! **slf4php** will default itself to the "no operation" mechanism. In terms of using the facade in your code nothing will change. And you can configure the logging any time later!
 
 # The concept - in a nut shell
 
@@ -32,13 +32,13 @@ Take a quick look on the following JSON config and you will immediatelly underst
 	"appenders" : [
 		{
 			"name" : "logFile",
-			"builderClass" : "swf\\lf4php\\config\\builder\\monolog\\MonologProxyAppenderBuilder",
+			"builderClass" : "swf\\slf4php\\config\\builder\\monolog\\MonologProxyAppenderBuilder",
 			"handlers" : [
 				{
-					"builderClass" : "swf\\lf4php\\config\\builder\\monolog\\MonologStreamHandlerBuilder",
+					"builderClass" : "swf\\slf4php\\config\\builder\\monolog\\MonologStreamHandlerBuilder",
 					"stream" : "${LOG_DIR}/application.log",
 					"formatter": {
-						"builderClass" : "swf\\lf4php\\config\\builder\\monolog\\MonologLineFormatterBuilder",
+						"builderClass" : "swf\\slf4php\\config\\builder\\monolog\\MonologLineFormatterBuilder",
 						"format" : "[%datetime%] %extra.loggerName%.%level_name%: %message% %context% %extra%\n\n"
 					}
 				}
@@ -46,13 +46,13 @@ Take a quick look on the following JSON config and you will immediatelly underst
 		},
 		{
 			"name" : "console",
-			"builderClass" : "swf\\lf4php\\config\\builder\\monolog\\MonologProxyAppenderBuilder",
+			"builderClass" : "swf\\slf4php\\config\\builder\\monolog\\MonologProxyAppenderBuilder",
 			"handlers" : [
 				{
-					"builderClass" : "swf\\lf4php\\config\\builder\\monolog\\MonologStreamHandlerBuilder",
+					"builderClass" : "swf\\slf4php\\config\\builder\\monolog\\MonologStreamHandlerBuilder",
 					"stream" : "php://stdout",
 					"formatter": {
-						"builderClass" : "swf\\lf4php\\config\\builder\\monolog\\MonologLineFormatterBuilder",
+						"builderClass" : "swf\\slf4php\\config\\builder\\monolog\\MonologLineFormatterBuilder",
 						"format" : "[%datetime%] %extra.loggerName%.%level_name%: %message% %context% %extra%\n\n"
 					}
 				}
@@ -86,7 +86,7 @@ With the above simple config we have:
    * And created a WARNING level Logger using the log file Appender too. AND... You can notice that this one has no namespace definition... Which means that this is the *default* logger setup
 
 
-**VISIT OUR WIKI!** For more info about configuring the logging please visit the [Wiki page](http://gitlab.swf.technology:2443/public-projects/lf4php/wikis/home)! 
+**VISIT OUR WIKI!** For more info about configuring the logging please visit the [Wiki page](http://gitlab.swf.technology:2443/public-projects/slf4php/wikis/home)! 
 
 
 # Basic usage  
@@ -95,8 +95,8 @@ Assuming you have the above config saved in file named **log.config.json** you c
   
 ```php
 <?php
-use swf\lf4php\LoggerFactory;
-use swf\lf4php\config\builder\LogConfigBuilder;
+use swf\slf4php\LoggerFactory;
+use swf\slf4php\config\builder\LogConfigBuilder;
 use swf\util\JsonUtil;
 
 ....
@@ -167,7 +167,7 @@ You can define placeholders in you log message with adding `{}` into the log mes
 
 You can use as many placeholders as you would like to. The number of variables you pass to the method should match with the number of placeholders you used in the message! (If you pass less or more variables it is not a tragedy of course but your log message can look "strange" then)
 
-**IMPORTANT!** You shouldn't do ANY transformations on the objects you pass over! You should pass over the variable as it is and leave it up to **lf4php** to do the string transformation - if needed!
+**IMPORTANT!** You shouldn't do ANY transformations on the objects you pass over! You should pass over the variable as it is and leave it up to **slf4php** to do the string transformation - if needed!
 
 DO NOT DO THIS:
 
@@ -178,7 +178,7 @@ $jsonObj = json_decode($jsonString);
 $myLogger->debug("Parsed json object is: {}", [], print_r($jsonObj, true));
 ```
 
-If you pass over not only simple types (like boolean, int, string, etc) but objects and/or arrays **lf4php** will transform them into strings (when needed only) this way:
+If you pass over not only simple types (like boolean, int, string, etc) but objects and/or arrays **slf4php** will transform them into strings (when needed only) this way:
    * NULL variable will be "NULL" as string
    * if variable is an array then it will be converted to string with the `print_r()` method
    * if variable is an object then
@@ -229,14 +229,14 @@ Definition of **ClassA**:
 
 namespace your\namespace;
 
-use swf\lf4php\LoggerFactory;
+use swf\slf4php\LoggerFactory;
 
 class ClassA {
 
 	protected static $_LOG;
 
 	/**
-	 * @return \swf\lf4php\Logger
+	 * @return \swf\slf4php\Logger
 	 */
 	protected static function logger() {
 		if (is_null(static::$_LOG))
@@ -258,7 +258,7 @@ And in definition of subclasses of **ClassA**:
 // this can be on different namespace of course.. but this doesn't matter
 namespace different\namespace;
 
-use swf\lf4php\LoggerFactory;
+use swf\slf4php\LoggerFactory;
 use your\namespace\ClassA;
 
 class ClassASubclass extends ClassA {
@@ -279,4 +279,4 @@ This will work as expected! `ClassASubclass` inherits the protected static metho
 
 # Visit out Wiki page
 
-For more info / advanced topics please visit the [Wiki page](http://gitlab.swf.technology:2443/public-projects/lf4php/wikis/home)! 
+For more info / advanced topics please visit the [Wiki page](http://gitlab.swf.technology:2443/public-projects/slf4php/wikis/home)! 

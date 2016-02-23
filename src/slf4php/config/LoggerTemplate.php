@@ -1,6 +1,6 @@
 <?php
 
-namespace swf\lf4php\config;
+namespace swf\slf4php\config;
 
 /**
  * This class is used by LoggerFactory to quickly create an appropriate Logger instance

@@ -1,8 +1,8 @@
 <?php
 
-namespace swf\lf4php\examples\namespaceA;
+namespace swf\slf4php\examples\namespaceA;
 
-use swf\lf4php\LoggerFactory;
+use swf\slf4php\LoggerFactory;
 
 class ClassA {
 
@@ -12,7 +12,7 @@ class ClassA {
 
 	/**
 	 *
-	 * @return \swf\lf4php\Logger
+	 * @return \swf\slf4php\Logger
 	 */
 	protected static function logger() {
 		if (is_null(static::$_LOG))
