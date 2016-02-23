@@ -6,6 +6,12 @@
 
 If you are not adding (configuring) any logging implementation no problem! **slf4php** will default itself to the "no operation" mechanism. In terms of using the facade in your code nothing will change. And you can configure the logging any time later!
 
+# Supported logging implementations
+
+This first 1.0 version supports [Monolog](https://github.com/Seldaek/monolog) logging implementation out of the box by providing `MonologProxyAppender` class.
+
+Probably there will be more in upcoming versions.
+
 # The concept - in a nut shell
 
 We have the following key entities:
@@ -86,7 +92,7 @@ With the above simple config we have:
    * And created a WARNING level Logger using the log file Appender too. AND... You can notice that this one has no namespace definition... Which means that this is the *default* logger setup
 
 
-**VISIT OUR WIKI!** For more info about configuring the logging please visit the [Wiki page](http://gitlab.swf.technology:2443/public-projects/slf4php/wikis/home)! 
+> **VISIT OUR WIKI!** For more info about configuring the logging please visit the [Wiki page](http://gitlab.swf.technology:2443/public-projects/slf4php/wikis/home)! 
 
 
 # Basic usage  
