@@ -9,9 +9,15 @@
     	{
     		"name": "Attila Wind (ironhawk)",
     		"email": "attilaw@swf.technology",
+    		"homepage": "http://www.linkedin.com/in/attilaw",
     		"role": "Developer"
     	}
     ],
+    "support": {
+    	"source": "https://github.com/ironhawk/swf-slf4php",
+    	"issues": "https://github.com/ironhawk/swf-slf4php/issues",
+    	"wiki": "https://github.com/ironhawk/swf-slf4php/wiki"
+    },
     "require": {
         "php": ">= 5.3.0",
         "psr/log": "1.0.*",
