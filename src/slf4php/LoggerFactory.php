@@ -76,9 +76,23 @@ class LoggerFactory {
 	 * @var Logger
 	 */
 	private static $nullLogger;
+	
+	/**
+	 * Name of the logger class to instantiate
+	 * <p>
+	 * This class should extend swf\slf4php\Logger class - see contructor of that class to see how yours should
+	 * look like!
+	 * <p>
+	 * Sometimes it is handy being able to provide an own Logger. E.g. when you configure this logging facade
+	 * to be used in bigger systems like Drupal. 
+	 *  
+	 * @var String
+	 */
+	private static $loggerClassName;
 
-	public static function init(LogConfig $config) {
+	public static function init(LogConfig $config, $loggerClassName = "swf\slf4php\Logger") {
 		static::$config = $config;
+		static::$loggerClassName = $loggerClassName;
 	}
 
 	/**
@@ -113,7 +127,9 @@ class LoggerFactory {
 				$selectedLoggerTemplate->buildAndCacheAppenders(static::$config->getAppenders());
 				$appenders = $selectedLoggerTemplate->getAppenders();
 			}
-			return new Logger($fullyQualifiedClassName, $selectedLoggerTemplate->getLogLevel(), $appenders);
+			
+			$reflector = new \ReflectionClass(static::$loggerClassName);
+			return $reflector->newInstance($fullyQualifiedClassName, $selectedLoggerTemplate->getLogLevel(), $appenders);
 		}
 	}
 
@@ -154,7 +170,8 @@ class LoggerFactory {
 		if (is_null(static::$nullLogger)) {
 			// the level will be special: 1 above the highest CRITICAL level so everything will be dropped immediatelly
 			// ...
-			static::$nullLogger = new Logger("NULL", static::CRITICAL + 1, []);
+			$reflector = new \ReflectionClass(static::$loggerClassName);
+			static::$nullLogger = $reflector->newInstance("NULL", static::CRITICAL + 1, []);
 		}
 		return static::$nullLogger;
 	}
