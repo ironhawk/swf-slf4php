@@ -13,6 +13,22 @@ use swf\util\TextUtil;
  */
 class Logger implements LoggerInterface {
 
+	const LINE_FEED = "\n";
+	
+	const EMPTY_CONTEXT = array();
+	
+	static function CONTEXT_WITH_STACKTRACE() {
+		return array(
+				"stacktrace" => static::getCurrentStacktraceAsString(" | ")
+		);
+	}
+	
+	/**
+	 * If TRUE then automatically injects the stacktrace into the logging context for WARNING, ERROR, etc...
+	 * @var bool
+	 */
+	public static $addStacktraceToErrors = true;
+	
 	private $name;
 
 	private $logLevel;
@@ -76,7 +92,7 @@ class Logger implements LoggerInterface {
 	 *
 	 * @return null
 	 */
-	public function emergency($message, array $context = array()) {
+	public function emergency($message, array $context = self::EMPTY_CONTEXT) {
 		if ($this->logLevel > LoggerFactory::EMERGENCY)
 			return;
 		$message = $this->parseMessage(func_get_args());
@@ -97,11 +113,14 @@ class Logger implements LoggerInterface {
 	 *
 	 * @return null
 	 */
-	public function alert($message, array $context = array()) {
+	public function alert($message, array $context = self::EMPTY_CONTEXT) {
 		if ($this->logLevel > LoggerFactory::ALERT)
 			return;
 		$message = $this->parseMessage(func_get_args());
 		$context['loggerName'] = $this->name;
+		if(static::$addStacktraceToErrors && !array_key_exists('stacktrace', $context)) {
+			$context['stacktrace'] = static::getCurrentStacktraceAsString(" | ");
+		}
 		foreach ($this->appenders as $appender) {
 			$appender->alert($message, $context);
 		}
@@ -117,11 +136,14 @@ class Logger implements LoggerInterface {
 	 *
 	 * @return null
 	 */
-	public function critical($message, array $context = array()) {
+	public function critical($message, array $context = self::EMPTY_CONTEXT) {
 		if ($this->logLevel > LoggerFactory::CRITICAL)
 			return;
 		$message = $this->parseMessage(func_get_args());
 		$context['loggerName'] = $this->name;
+		if(static::$addStacktraceToErrors && !array_key_exists('stacktrace', $context)) {
+			$context['stacktrace'] = static::getCurrentStacktraceAsString(" | ");
+		}
 		foreach ($this->appenders as $appender) {
 			$appender->critical($message, $context);
 		}
@@ -136,11 +158,14 @@ class Logger implements LoggerInterface {
 	 *
 	 * @return null
 	 */
-	public function error($message, array $context = array()) {
+	public function error($message, array $context = self::EMPTY_CONTEXT) {
 		if ($this->logLevel > LoggerFactory::ERROR)
 			return;
 		$message = $this->parseMessage(func_get_args());
 		$context['loggerName'] = $this->name;
+		if(static::$addStacktraceToErrors && !array_key_exists('stacktrace', $context)) {
+			$context['stacktrace'] = static::getCurrentStacktraceAsString(" | ");
+		}
 		foreach ($this->appenders as $appender) {
 			$appender->error($message, $context);
 		}
@@ -157,11 +182,14 @@ class Logger implements LoggerInterface {
 	 *
 	 * @return null
 	 */
-	public function warning($message, array $context = array()) {
+	public function warning($message, array $context = self::EMPTY_CONTEXT) {
 		if ($this->logLevel > LoggerFactory::WARNING)
 			return;
 		$message = $this->parseMessage(func_get_args());
 		$context['loggerName'] = $this->name;
+		if(static::$addStacktraceToErrors && !array_key_exists('stacktrace', $context)) {
+			$context['stacktrace'] = static::getCurrentStacktraceAsString(" | ");
+		}
 		foreach ($this->appenders as $appender) {
 			$appender->warning($message, $context);
 		}
@@ -175,7 +203,7 @@ class Logger implements LoggerInterface {
 	 *
 	 * @return null
 	 */
-	public function notice($message, array $context = array()) {
+	public function notice($message, array $context = self::EMPTY_CONTEXT) {
 		if ($this->logLevel > LoggerFactory::NOTICE)
 			return;
 		$message = $this->parseMessage(func_get_args());
@@ -195,7 +223,7 @@ class Logger implements LoggerInterface {
 	 *
 	 * @return null
 	 */
-	public function info($message, array $context = array()) {
+	public function info($message, array $context = self::EMPTY_CONTEXT) {
 		if ($this->logLevel > LoggerFactory::INFO)
 			return;
 		$message = $this->parseMessage(func_get_args());
@@ -213,7 +241,7 @@ class Logger implements LoggerInterface {
 	 *
 	 * @return null
 	 */
-	public function debug($message, array $context = array()) {
+	public function debug($message, array $context = self::EMPTY_CONTEXT) {
 		if ($this->logLevel > LoggerFactory::DEBUG)
 			return;
 		$message = $this->parseMessage(func_get_args());
@@ -232,14 +260,79 @@ class Logger implements LoggerInterface {
 	 *
 	 * @return null
 	 */
-	public function log($level, $message, array $context = array()) {
+	public function log($level, $message, array $context = self::EMPTY_CONTEXT) {
 		if ($this->logLevel > $level)
 			return;
 		$message = $this->parseMessage(func_get_args());
 		$context['loggerName'] = $this->name;
+		if($level >= LoggerFactory::WARNING && static::$addStacktraceToErrors && !array_key_exists('stacktrace', $context)) {
+			$context['stacktrace'] = static::getCurrentStacktraceAsString(" | ");
+		}
 		foreach ($this->appenders as $appender) {
 			$appender->log($level, $message, $context);
 		}
 	}
+	
+	
+	
+	/**
+	 * get the current stacktrace
+	 *
+	 * @param string $lineSeparator
+	 * @return string stacktrace string
+	 */
+	static function getCurrentStacktraceAsString($lineSeparator = self::LINE_FEED)
+	{
+		$e = new \Exception('stacktrace generator exception');
+		return static::getExceptionStacktraceAsString($e, $lineSeparator, 1);
+	}
+	
+	/**
+	 * Returns formatted stacktrace as string
+	 *
+	 * @param Exception $exception
+	 * @param String $lineSeparator
+	 * @param int $startIndex starting by this index
+	 * @return string
+	 */
+	static function getExceptionStacktraceAsString($exception, $lineSeparator = self::LINE_FEED, $startIndex = 0) {
+	
+		if(is_null($exception))
+			return 'getExceptionStacktraceAsString(): hey! exception object was null!';
+	
+			$i = 0;
+			$str = "";
+			foreach ($exception->getTrace() as $key => $trace) {
+				if($i >= $startIndex)
+					$str.= static::getTraceAsString($trace, $i).$lineSeparator;
+					$i++;
+			}
+			return $str;
+	}
+	
+	private static function getTraceAsString($_trace, $_i) {
+		$str = "#$_i ";
+		if (array_key_exists("file",$_trace)) {
+			$filepath = $_trace["file"];
+			/*
+			if(defined('APP_ROOT_DIR')) {
+				$filepath = FileUtil::getRelativePath(APP_ROOT_DIR, $_trace["file"]);
+			}
+			*/
+					
+			$str.= $filepath;
+		}
+		if (array_key_exists("line",$_trace)) {
+			$str.= "(".$_trace["line"]."): ";
+		}
+		if (array_key_exists("class",$_trace) && array_key_exists("type",$_trace)) {
+			$str.= $_trace["class"].$_trace["type"];
+		}
+		if (array_key_exists("function",$_trace)) {
+			$str.= $_trace["function"]."()";
+		}
+		return $str;
+	}
+	
 
 }

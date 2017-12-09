@@ -88,7 +88,7 @@ class LoggerFactory {
 	 *  
 	 * @var String
 	 */
-	private static $loggerClassName;
+	private static $loggerClassName = "swf\slf4php\Logger";
 
 	public static function init(LogConfig $config, $loggerClassName = "swf\slf4php\Logger") {
 		static::$config = $config;

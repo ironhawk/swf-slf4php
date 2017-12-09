@@ -3,6 +3,7 @@
 namespace swf\slf4php\examples\namespaceA;
 
 use swf\slf4php\LoggerFactory;
+use swf\slf4php\Logger;
 
 class ClassA {
 
@@ -23,7 +24,8 @@ class ClassA {
 	public function __construct($name = null) {
 		$this->name = $name;
 		
-		static::logger()->info("{} is created", [], $this);
+		static::logger()->info("{} is created", Logger::EMPTY_CONTEXT, $this);
+		static::logger()->error("this is an error");
 	}
 
 	public function testLog() {

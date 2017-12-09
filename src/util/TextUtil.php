@@ -114,8 +114,13 @@ class TextUtil {
 	 * @return string
 	 */
 	protected static function varToString($var) {
-		if (is_null($var))
+		if (is_null($var)) {
 			return "NULL";
+		}
+		if (is_bool($var)) {
+			if($var) return "true";
+			return "false";
+		}
 		if (is_array($var)) {
 			return print_r($var, true);
 		}
